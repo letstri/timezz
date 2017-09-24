@@ -1,0 +1,30 @@
+{
+  "name": "timezz",
+  "version": "1.0.0",
+  "description": "Plugin for countdown and count forward",
+  "main": "jquery.timezz.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrooonS/TimezZ.git"
+  },
+  "keywords": [
+    "timezz",
+    "jquery",
+    "plugin",
+    "time",
+    "countdown",
+    "count",
+    "forward"
+  ],
+  "author": "BrooonS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BrooonS/TimezZ/issues"
+  },
+  "homepage": "https://github.com/BrooonS/TimezZ#readme",
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-minify": "^1.0.0"
+  }
+}
