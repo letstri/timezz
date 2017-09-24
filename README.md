@@ -21,7 +21,7 @@ With the help of this plugin you can easily put a timer on your site, it works b
 
 ## Config
 
-    $('#timer').timezz(
+    $('#timer').timezz({
       'date' : 'January 1, 2040 00:00:00',
       'days' : 'd',
       'hours' : 'h',
@@ -29,7 +29,7 @@ With the help of this plugin you can easily put a timer on your site, it works b
       'seconds' : 's',
       'tagNumber' : 'span',
       'tagLetter' : 'i'
-     );
+     });
      
 ===**`date`** indicate the date, default: `January 1, 2040 00:00:00`
 
