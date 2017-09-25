@@ -1,0 +1,27 @@
+{
+  "name": "timezz",
+  "description": "Plugin for countdown and count forward",
+  "main": "dist/jquery.timezz.js",
+  "authors": [
+    "BrooonS"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "timezz",
+    "jquery",
+    "plugin",
+    "time",
+    "countdown",
+    "count",
+    "forward"
+  ],
+  "homepage": "https://github.com/BrooonS/TimezZ",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
