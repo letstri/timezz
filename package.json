@@ -2,7 +2,7 @@
   "name": "timezz",
   "version": "1.0.0",
   "description": "Plugin for countdown and count forward",
-  "main": "jquery.timezz.js",
+  "main": "dist/jquery.timezz.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BrooonS/TimezZ.git"
