@@ -31,16 +31,16 @@ jQuery(function($) {
         var now = new Date().getTime(),
             distance = countDownDate - now;
 
-        var days = "<" + settings.tagNumber + ">" + Math.floor(Math.abs(distance / (1000 * 60 * 60 * 24))) + "</" + settings.tagNumber + ">",
-            hours = "<" + settings.tagNumber + ">" + Math.floor((Math.abs(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))) + "</" + settings.tagNumber + ">",
-            minutes = "<" + settings.tagNumber + ">" + Math.floor((Math.abs(distance % (1000 * 60 * 60)) / (1000 * 60))) + "</" + settings.tagNumber + ">",
-            seconds = "<" + settings.tagNumber + ">" + Math.floor((Math.abs(distance % (1000 * 60)) / 1000)) + "</" + settings.tagNumber + ">";
+        var days = "<" + settings.tagNumber + ">" + Math.floor(Math.abs(distance / (1000 * 60 * 60 * 24))),
+            hours = "<" + settings.tagNumber + ">" + Math.floor((Math.abs(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))),
+            minutes = "<" + settings.tagNumber + ">" + Math.floor((Math.abs(distance % (1000 * 60 * 60)) / (1000 * 60))),
+            seconds = "<" + settings.tagNumber + ">" + Math.floor((Math.abs(distance % (1000 * 60)) / 1000));
 
         ths.html(
-          days + "<" + settings.tagLetter + ">" + settings.days + "</" + settings.tagLetter + "> " +
-          hours + "<" + settings.tagLetter + ">" + settings.hours + "</" + settings.tagLetter + "> " +
-          minutes + "<" + settings.tagLetter + ">" + settings.minutes + "</" + settings.tagLetter + "> " +
-          seconds + "<" + settings.tagLetter + ">" + settings.seconds + "</" + settings.tagLetter + "> "
+          days + "<" + settings.tagLetter + ">" + settings.days + "</" + settings.tagLetter + "> " + "</" + settings.tagNumber + ">" +
+          hours + "<" + settings.tagLetter + ">" + settings.hours + "</" + settings.tagLetter + "> " + "</" + settings.tagNumber + ">" +
+          minutes + "<" + settings.tagLetter + ">" + settings.minutes + "</" + settings.tagLetter + "> " + "</" + settings.tagNumber + ">" +
+          seconds + "<" + settings.tagLetter + ">" + settings.seconds + "</" + settings.tagLetter + "> " + "</" + settings.tagNumber + ">"
         );
 
       }, 1000);
