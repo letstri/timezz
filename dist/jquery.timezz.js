@@ -1,12 +1,12 @@
 /*!
- * @jQuery TimezZ: Plugin for countdown and count forward
+ * @jQuery TimezZ v1.2.0: Plugin for countdown and count forward
  *
  * @Contribute: https://github.com/BrooonS/TimezZ
  *
  * @license: MIT license: http://opensource.org/licenses/MIT
  */
 
-jQuery(function($) {
+(function($) {
 
   $.fn.timezz = function( options ) {
 
@@ -24,23 +24,40 @@ jQuery(function($) {
 
       var ths = $(this);
 
+      // Time specified in the settings
       var countDownDate = new Date(settings.date).getTime();
 
       setInterval(function() {
 
+        // Open and Close tags
+        var tagNumberOpen  = "<" + settings.tagNumber + ">",
+            tagNumberClose = "</" + settings.tagNumber + ">",
+            tagLetterOpen  = "<" + settings.tagLetter + ">",
+            tagLetterClose = "</" + settings.tagLetter + "> ";
+
+        // Current time
         var now = new Date().getTime(),
             distance = countDownDate - now;
 
-        var days = "<" + settings.tagNumber + ">" + Math.floor(Math.abs(distance / (1000 * 60 * 60 * 24))),
-            hours = "<" + settings.tagNumber + ">" + Math.floor((Math.abs(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))),
-            minutes = "<" + settings.tagNumber + ">" + Math.floor((Math.abs(distance % (1000 * 60 * 60)) / (1000 * 60))),
-            seconds = "<" + settings.tagNumber + ">" + Math.floor((Math.abs(distance % (1000 * 60)) / 1000));
+        /**
+         * Mathematical calculation
+         * 0 - added zero before
+         * Math.floor - calculate
+         * Math.abs - absolute value of a number
+         * Hard mathematics
+         * slice() - removes excess number
+         */
+        var days = ("0" + Math.floor(Math.abs(distance / (1000 * 60 * 60 * 24)))).slice(-2),
+            hours = ("0" + Math.floor((Math.abs(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))).slice(-2),
+            minutes = ("0" + Math.floor((Math.abs(distance % (1000 * 60 * 60)) / (1000 * 60)))).slice(-2),
+            seconds = ("0" + Math.floor((Math.abs(distance % (1000 * 60)) / 1000))).slice(-2);
 
+        // Output
         ths.html(
-          days + "<" + settings.tagLetter + ">" + settings.days + "</" + settings.tagLetter + "> " + "</" + settings.tagNumber + ">" +
-          hours + "<" + settings.tagLetter + ">" + settings.hours + "</" + settings.tagLetter + "> " + "</" + settings.tagNumber + ">" +
-          minutes + "<" + settings.tagLetter + ">" + settings.minutes + "</" + settings.tagLetter + "> " + "</" + settings.tagNumber + ">" +
-          seconds + "<" + settings.tagLetter + ">" + settings.seconds + "</" + settings.tagLetter + "> " + "</" + settings.tagNumber + ">"
+          tagNumberOpen + days + tagLetterOpen + settings.days + tagLetterClose + tagNumberClose +
+          tagNumberOpen + hours + tagLetterOpen + settings.hours + tagLetterClose + tagNumberClose +
+          tagNumberOpen + minutes + tagLetterOpen + settings.minutes + tagLetterClose + tagNumberClose +
+          tagNumberOpen + seconds + tagLetterOpen + settings.seconds + tagLetterClose + tagNumberClose
         );
 
       }, 1000);
@@ -48,4 +65,4 @@ jQuery(function($) {
     });
 
   };
-});
+})(jQuery);
