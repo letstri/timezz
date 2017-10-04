@@ -1,6 +1,6 @@
 {
   "name": "timezz",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Plugin for countdown and count forward",
   "main": "dist/jquery.timezz.js",
   "repository": {
@@ -12,6 +12,7 @@
     "jquery",
     "plugin",
     "time",
+    "timer",
     "countdown",
     "count",
     "forward"
