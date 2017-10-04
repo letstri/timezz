@@ -1,5 +1,5 @@
 /*!
- * @jQuery TimezZ v1.2.0: Plugin for countdown and count forward
+ * @jQuery TimezZ v1.2.2: Plugin for countdown and count forward
  *
  * @Contribute: https://github.com/BrooonS/TimezZ
  *
