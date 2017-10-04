@@ -47,7 +47,7 @@
          * Hard mathematics
          * slice() - removes excess number
          */
-        var days = ("0" + Math.floor(Math.abs(distance / (1000 * 60 * 60 * 24)))).slice(-2),
+        var days = Math.floor(Math.abs(distance / (1000 * 60 * 60 * 24))),
             hours = ("0" + Math.floor((Math.abs(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))).slice(-2),
             minutes = ("0" + Math.floor((Math.abs(distance % (1000 * 60 * 60)) / (1000 * 60)))).slice(-2),
             seconds = ("0" + Math.floor((Math.abs(distance % (1000 * 60)) / 1000))).slice(-2);
