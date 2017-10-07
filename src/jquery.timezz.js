@@ -1,68 +1,79 @@
 /*!
- * @jQuery TimezZ v1.2.3: Plugin for countdown and count forward
+ * @jQuery TimezZ v1.3.0: Plugin for countdown and count forward
  *
  * @Contribute: https://github.com/BrooonS/TimezZ
  *
  * @license: MIT license: http://opensource.org/licenses/MIT
  */
 
-(function($) {
+($ => {
 
-  $.fn.timezz = function( options ) {
+  $.fn.timezz = function (options) {
 
-    var settings = $.extend({
-      'date' : 'January 1, 2040 00:00:00',
-      'days' : 'd',
-      'hours' : 'h',
-      'minutes' : 'm',
-      'seconds' : 's',
-      'tagNumber' : 'span',
-      'tagLetter' : 'i'
+    const settings = $.extend({
+      'date': 'January 1, 2040 00:00:00',
+      'days': 'd',
+      'hours': 'h',
+      'minutes': 'm',
+      'seconds': 's',
+      'tagNumber': 'span',
+      'tagLetter': 'i'
     }, options);
 
-    return this.each(function() {
+    return this.each(function () {
 
-      var ths = $(this);
+      const ths = $(this);
 
       // Time specified in the settings
-      var countDownDate = new Date(settings.date).getTime();
+      const countDownDate = new Date(settings.date).getTime();
 
-      setInterval(function() {
+      function timer() {
 
         // Open and Close tags
-        var tagNumberOpen  = "<" + settings.tagNumber + ">",
-            tagNumberClose = "</" + settings.tagNumber + ">",
-            tagLetterOpen  = "<" + settings.tagLetter + ">",
-            tagLetterClose = "</" + settings.tagLetter + "> ";
+        const tagNumberOpen = `<${settings.tagNumber}>`;
+        const tagNumberClose = `</${settings.tagNumber}>`;
+        const tagLetterOpen = `<${settings.tagLetter}>`;
+        const tagLetterClose = `</${settings.tagLetter}> `;
 
         // Current time
-        var now = new Date().getTime(),
-            distance = countDownDate - now;
+        const now = new Date().getTime();
+        // Distance
+        const distance = countDownDate - now;
+
+        // fixing zero before output
+        function fixNumber(number) {
+          return number >= 10 ? number : `0${number}`;
+        }
 
         /**
          * Mathematical calculation
-         * 0 - added zero before
+         *
          * Math.floor - calculate
          * Math.abs - absolute value of a number
          * Hard mathematics
-         * slice() - removes excess number
          */
-        var days = Math.floor(Math.abs(distance / (1000 * 60 * 60 * 24))),
-            hours = ("0" + Math.floor((Math.abs(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))).slice(-2),
-            minutes = ("0" + Math.floor((Math.abs(distance % (1000 * 60 * 60)) / (1000 * 60)))).slice(-2),
-            seconds = ("0" + Math.floor((Math.abs(distance % (1000 * 60)) / 1000))).slice(-2);
+        let days = fixNumber(Math.floor(Math.abs(distance / (1000 * 60 * 60 * 24))));
+        let hours = fixNumber(Math.floor(Math.abs(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+        let minutes = fixNumber(Math.floor(Math.abs(distance % (1000 * 60 * 60)) / (1000 * 60)));
+        let seconds = fixNumber(Math.floor(Math.abs(distance % (1000 * 60)) / 1000));
 
         // Output
         ths.html(
-          tagNumberOpen + days + tagLetterOpen + settings.days + tagLetterClose + tagNumberClose +
-          tagNumberOpen + hours + tagLetterOpen + settings.hours + tagLetterClose + tagNumberClose +
-          tagNumberOpen + minutes + tagLetterOpen + settings.minutes + tagLetterClose + tagNumberClose +
+          tagNumberOpen + days + tagLetterOpen + settings.days + tagLetterClose + tagNumberClose + 
+          tagNumberOpen + hours + tagLetterOpen + settings.hours + tagLetterClose + tagNumberClose + 
+          tagNumberOpen + minutes + tagLetterOpen + settings.minutes + tagLetterClose + tagNumberClose + 
           tagNumberOpen + seconds + tagLetterOpen + settings.seconds + tagLetterClose + tagNumberClose
         );
+      }
 
+      // output before calculate
+      ths.html(timer());
+
+      // calculate and output with constant updating
+      setInterval(() => {
+        timer();
       }, 1000);
 
     });
-
   };
 })(jQuery);
