@@ -1,5 +1,5 @@
 # TimezZ
-jQuery plugin for countdown and count forward
+Fast jQuery timer plugin for countdown and count forward
 
 **Description**
 
@@ -18,6 +18,19 @@ With the help of this plugin you can easily put a timer on your site, it works b
 **Initialization**
 
     $('#timer').timezz();
+
+**Example Styling**
+
+    #timer {
+      font-size: 70px;
+    }
+    #timer span {
+      color: #555;
+    }
+    #timer i {
+      color: #bbb;
+      font-size: 40px;
+    }
 
 ## Config
 
