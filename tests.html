@@ -6,9 +6,16 @@
     font-family: Helvitica;
   }
   #timer {
-    font-size: 60px;
+    font-size: 70px;
     text-align: center;
     margin-top: 200px;
+  }
+  #timer span {
+    color: #555;
+  }
+  #timer i {
+    color: #bbb;
+    font-size: 40px;
   }
 </style>
 
@@ -17,5 +24,10 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="src/jquery.timezz.js"></script>
 <script>
-  $('#timer').timezz();
+  $('#timer').timezz({
+    'days' : ' days,',
+    'hours' : ' hours,',
+    'minutes' : ' minutes,',
+    'seconds' : ' seconds'
+  });
 </script>
