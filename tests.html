@@ -3,23 +3,29 @@
 <title>TimezZ test page</title>
 <style>
   body {
-    font-family: Helvitica;
+    font-family: Arial;
   }
-  #timer {
+  #timer,
+  #timer2 {
     font-size: 70px;
     text-align: center;
-    margin-top: 200px;
-  }
-  #timer span {
+    margin-top: 100px;
     color: #555;
   }
   #timer i {
     color: #bbb;
     font-size: 40px;
   }
+
+  #timer2 span {
+    font-weight: normal;
+    text-transform: uppercase;
+    color: #bbb;
+  }
 </style>
 
 <div id="timer"></div>
+<div id="timer2"></div>
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="src/jquery.timezz.js"></script>
@@ -29,5 +35,10 @@
     'hours' : ' hours,',
     'minutes' : ' minutes,',
     'seconds' : ' seconds'
+  });
+  $('#timer2').timezz({
+    'date' : 'Jan 1, 2018',
+    'tagNumber' : 'b',
+    'tagLetter' : 'span'
   });
 </script>
