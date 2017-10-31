@@ -2,7 +2,6 @@
 const gulp     = require('gulp');
 const minify   = require('gulp-minify');
 const babel    = require('gulp-babel');
-const lebab    = require('gulp-lebab');
 const concat   = require('gulp-concat');
 const prettify = require('gulp-jsbeautifier');
 const del      = require('del');
@@ -10,7 +9,6 @@ const del      = require('del');
 // compilation
 gulp.task('scripts', () => {
   return gulp.src('src/jquery.timezz.js')
-    .pipe(lebab())
     .pipe(minify({
       ext: {
         min: '.min.js'
