@@ -10,41 +10,47 @@ With the help of this plugin you can easily put a timer on your site, it works b
 If you need support for older browsers such as IE9, use `jquery.timezz-es2015.js`
 
 **Connect**
-
-    <script src="/js/jquery.timezz.min.js"></script>
+```html
+<script src="/js/jquery.timezz.min.js"></script>
+```
 
 **HTML**
+```html
+<div id="timer"></div>
+```
 
-    <div id="timer"></div>
-    
 **Initialization**
-
-    $('#timer').timezz();
+```js
+$('#timer').timezz();
+```
 
 **Example Styling**
-
-    #timer {
-      font-size: 70px;
-    }
-    #timer span {
-      color: #555;
-    }
-    #timer i {
-      color: #bbb;
-      font-size: 40px;
-    }
+```css
+#timer {
+  font-size: 70px;
+}
+#timer span {
+  color: #555;
+}
+#timer i {
+  color: #bbb;
+  font-size: 40px;
+}
+```
 
 ## Config
 
-    $('#timer').timezz({
-      'date' : 'January 1, 2040 00:00:00',
-      'days' : 'd',
-      'hours' : 'h',
-      'minutes' : 'm',
-      'seconds' : 's',
-      'tagNumber' : 'span',
-      'tagLetter' : 'i'
-     });
+```js
+$('#timer').timezz({
+  'date' : 'January 1, 2040 00:00:00',
+  'days' : 'd',
+  'hours' : 'h',
+  'minutes' : 'm',
+  'seconds' : 's',
+  'tagNumber' : 'span',
+  'tagLetter' : 'i'
+ });
+```
 
 | Setting       |  Default                    | Description                          | Example        |
 | ------------- | --------------------------- | ------------------------------------ | -------------- |
