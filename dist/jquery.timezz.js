@@ -1,79 +1,78 @@
 /*!
- * @jQuery TimezZ v1.3.0: Plugin for countdown and count forward
+ * jQuery TimezZ v2.0.0: Plugin for countdown and count forward
  *
- * @Contribute: https://github.com/BrooonS/TimezZ
- *
- * @license: MIT license: http://opensource.org/licenses/MIT
+ * Contribute: https://github.com/BrooonS/TimezZ
+ * Released under the MIT license: http://opensource.org/licenses/MIT
  */
 
 ($ => {
 
   $.fn.timezz = function (options) {
 
-    const settings = $.extend({
-      'date': 'January 1, 2040 00:00:00',
+    const defaultOptions = {
+      'date': 'Jan 01, 2040 00:00:00',
       'days': 'd',
       'hours': 'h',
       'minutes': 'm',
       'seconds': 's',
       'tagNumber': 'span',
       'tagLetter': 'i'
-    }, options);
+    };
+
+    const settings = $.extend(defaultOptions, options);
 
     return this.each(function () {
 
       const ths = $(this);
 
-      // Time specified in the settings
-      const countDownDate = new Date(settings.date).getTime();
+      // create tags
+      const { tagNumber, tagLetter } = settings;
+
+      // time specified in the settings
+      const countDate = new Date(settings.date).getTime();
+
+      // time
+      const ONE_SECOND = 1000; // ms
+      const ONE_MINUTE = ONE_SECOND * 60;
+      const ONE_HOUR = ONE_MINUTE * 60;
+      const ONE_DAY = ONE_HOUR * 24;
+
+      // fixing zero before output
+      const fixNumber = number => number >= 10 ? number : `0${number}`;
+
+      // template for calculate
+      const calculate = math => fixNumber(Math.floor(Math.abs(math)));
 
       function timer() {
 
-        // Open and Close tags
-        const tagNumberOpen = `<${settings.tagNumber}>`;
-        const tagNumberClose = `</${settings.tagNumber}>`;
-        const tagLetterOpen = `<${settings.tagLetter}>`;
-        const tagLetterClose = `</${settings.tagLetter}> `;
-
-        // Current time
+        // current time
         const now = new Date().getTime();
-        // Distance
-        const distance = countDownDate - now;
+        // distance
+        const distance = countDate - now;
 
-        // fixing zero before output
-        function fixNumber(number) {
-          return number >= 10 ? number : `0${number}`;
-        }
+        // hard mathematics
+        let days = calculate(distance / ONE_DAY);
+        let hours = calculate(distance % ONE_DAY / ONE_HOUR);
+        let minutes = calculate(distance % ONE_HOUR / ONE_MINUTE);
+        let seconds = calculate(distance % ONE_MINUTE / ONE_SECOND);
 
-        /**
-         * Mathematical calculation
-         *
-         * Math.floor - calculate
-         * Math.abs - absolute value of a number
-         * Hard mathematics
-         */
-        let days = fixNumber(Math.floor(Math.abs(distance / (1000 * 60 * 60 * 24))));
-        let hours = fixNumber(Math.floor(Math.abs(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-        let minutes = fixNumber(Math.floor(Math.abs(distance % (1000 * 60 * 60)) / (1000 * 60)));
-        let seconds = fixNumber(Math.floor(Math.abs(distance % (1000 * 60)) / 1000));
-
-        // Output
+        // template for output
+        const output = (unit, unitConfig) => `<${tagNumber}>${unit}<${tagLetter}>${unitConfig}</${tagLetter}></${tagNumber}> `;
+                                             
+        // output
         ths.html(
-          tagNumberOpen + days + tagLetterOpen + settings.days + tagLetterClose + tagNumberClose + 
-          tagNumberOpen + hours + tagLetterOpen + settings.hours + tagLetterClose + tagNumberClose + 
-          tagNumberOpen + minutes + tagLetterOpen + settings.minutes + tagLetterClose + tagNumberClose + 
-          tagNumberOpen + seconds + tagLetterOpen + settings.seconds + tagLetterClose + tagNumberClose
+          output(days, settings.days) +
+          output(hours, settings.hours) +
+          output(minutes, settings.minutes) +
+          output(seconds, settings.seconds)
         );
       }
 
       // output before calculate
-      ths.html(timer());
+      timer();
 
       // calculate and output with constant updating
-      setInterval(() => {
-        timer();
-      }, 1000);
-
+      setInterval(timer, ONE_SECOND);
     });
   };
 })(jQuery);
