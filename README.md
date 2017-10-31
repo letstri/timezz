@@ -7,6 +7,8 @@ With the help of this plugin you can easily put a timer on your site, it works b
 
 ## Usage
 
+If you need support for older browsers such as IE9, use `jquery.timezz-es2015.js`
+
 **Connect**
 
     <script src="/js/jquery.timezz.min.js"></script>
