@@ -1,18 +1,53 @@
-var gulp   = require('gulp'),
-    minify = require('gulp-minify'),
-    del    = require('del');
+// plugins
+const gulp     = require('gulp');
+const minify   = require('gulp-minify');
+const babel    = require('gulp-babel');
+const lebab    = require('gulp-lebab');
+const concat   = require('gulp-concat');
+const prettify = require('gulp-jsbeautifier');
+const del      = require('del');
 
-gulp.task('build', ['clean'], function() {
+// compilation
+gulp.task('scripts', () => {
   return gulp.src('src/jquery.timezz.js')
+    .pipe(lebab())
     .pipe(minify({
       ext: {
         min: '.min.js'
       },
       preserveComments: 'some'
     }))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist'));
 });
 
-gulp.task('clean', function() {
-  return del.sync('dist')
+// compilation to es6
+gulp.task('es6', () => {
+  return gulp.src('src/jquery.timezz.js')
+    .pipe(concat('jquery.timezz-es2015.js'))
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(prettify({
+      js: {
+        indent_size: 2
+      }
+    }))
+    .pipe(minify({
+      ext: {
+        min: '.min.js'
+      },
+      preserveComments: 'some'
+    }))
+    .pipe(gulp.dest('dist'));
 });
+
+// main task
+gulp.task('default', ['build']);
+
+// clean «dist» before build
+gulp.task('clean', () => {
+  return del.sync('dist');
+});
+
+// building
+gulp.task('build', ['clean', 'scripts', 'es6']);
