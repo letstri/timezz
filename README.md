@@ -7,6 +7,8 @@ With the help of this plugin you can easily put a timer on your site, it works b
 
 ## Usage
 
+If you need support for older browsers such as IE9, use `jquery.timezz-es2015.js`
+
 **Connect**
 
     <script src="/js/jquery.timezz.min.js"></script>
@@ -43,34 +45,17 @@ With the help of this plugin you can easily put a timer on your site, it works b
       'tagNumber' : 'span',
       'tagLetter' : 'i'
      });
-     
-===**`date`** indicate the date, default: `January 1, 2040 00:00:00`
 
-Example: `Apr 15, 2018`
+| Setting       |  Default                    | Description                          | Example        |
+| ------------- | --------------------------- | ------------------------------------ | -------------- |
+| **date**      | `January 1, 2040 00:00:00`  | Indicate the date                    | `Apr 15, 2018` |
+| **days**      | `d`                         | How to name days                     | ` days`        |
+| **hours**     | `h`                         | How to name hours                    | ` hours`       |
+| **minutes**   | `m`                         | How to name minutes                  | ` min`         |
+| **seconds**   | `s`                         | How to name seconds                  | ` sec`         |
+| **tagNumber** | `span`                      | Tag in which will be wrapped numbers | `div` or `b`   |
+| **tagLetter** | `i`                         | Tag in which will be wrapped letters | `span` or `p`  |
 
-===**`days`** how to name days, default: `d`
-
-Example: `days`
-
-===**`hours`** how to name hours, default: `h`
-
-Example: `hours`
-
-===**`minutes`** how to name minutes, default: `m`
-
-Example: `min`
-
-===**`seconds`** how to name seconds, default: `s`
-
-Example: `sec`
-
-===**`tagNumber`** tag in which will be wrapped numbers, default: `span`
-
-Example: `div` or `b`
-
-===**`tagLetter`** tag in which will be wrapped letters, default: `i`
-
-Example: `span` or `p`
 
 ## Author
 
