@@ -1,3 +1,5 @@
+<p align="center"><img src="https://brooons.github.io/timezz/assets/img/timezz-github-logo.png" alt="TimezZ"></p>
+
 # TimezZ
 Fast jQuery timer plugin for countdown and count forward
 
