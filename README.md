@@ -1,15 +1,12 @@
 <p align="center"><img src="https://brooons.github.io/timezz/assets/img/timezz-github-logo.png" alt="TimezZ"></p>
 
 # TimezZ
-Fast jQuery timer plugin for countdown and count forward
 
-**Description**
-
-With the help of this plugin you can easily put a timer on your site, it works both ways.
+With this plugin you can easily put a timer on your site, it works both ways. You can use two version, one version is the version for modern browsers with the standards of the ES2017 and the version for old browsers with ES2015 standards. Using the config you can change the tags as letters and numbers, you can also change the text output next to the numbers.
 
 ## Usage
 
-If you need support for older browsers such as IE9, use `jquery.timezz-es2015.js`
+> If you need support for older browsers such as IE9, use `jquery.timezz-es2015.js`
 
 **Connect**
 ```html
