@@ -1,4 +1,4 @@
-<p align="center"><img src="https://brooons.github.io/timezz/assets/img/timezz-github-logo.png" alt="TimezZ"></p>
+<p align="center"><img src="https://brooons.github.io/timezz/img/timezz-github-logo.png" alt="TimezZ"></p>
 
 # TimezZ
 
