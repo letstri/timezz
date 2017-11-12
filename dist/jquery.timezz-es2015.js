@@ -1,7 +1,7 @@
 'use strict';
 
 /*!
- * jQuery TimezZ v2.0.0: Plugin for countdown and count forward
+ * jQuery TimezZ v2.1.0: Plugin for countdown and count forward
  *
  * Contribute: https://github.com/BrooonS/TimezZ
  * Released under the MIT license: http://opensource.org/licenses/MIT
@@ -18,7 +18,8 @@
       'minutes': 'm',
       'seconds': 's',
       'tagNumber': 'span',
-      'tagLetter': 'i'
+      'tagLetter': 'i',
+      'stop': false
     };
 
     var settings = $.extend(defaultOptions, options);
@@ -77,7 +78,7 @@
       timer();
 
       // calculate and output with constant updating
-      setInterval(timer, ONE_SECOND);
+      if (settings.stop == false) setInterval(timer, ONE_SECOND);
     });
   };
 })(jQuery);
