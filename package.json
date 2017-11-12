@@ -1,6 +1,6 @@
 {
   "name": "timezz",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Fast jQuery timer plugin for countdown and count forward",
   "main": "dist/jquery.timezz.js",
   "repository": {
