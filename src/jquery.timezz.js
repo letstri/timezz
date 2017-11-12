@@ -1,5 +1,5 @@
 /*!
- * jQuery TimezZ v2.0.0: Plugin for countdown and count forward
+ * jQuery TimezZ v2.1.0: Plugin for countdown and count forward
  *
  * Contribute: https://github.com/BrooonS/TimezZ
  * Released under the MIT license: http://opensource.org/licenses/MIT
@@ -10,13 +10,14 @@
   $.fn.timezz = function (options) {
 
     const defaultOptions = {
-      'date': 'Jan 01, 2040 00:00:00',
-      'days': 'd',
-      'hours': 'h',
-      'minutes': 'm',
-      'seconds': 's',
-      'tagNumber': 'span',
-      'tagLetter': 'i'
+      'date' : 'Jan 01, 2040 00:00:00',
+      'days' : 'd',
+      'hours' : 'h',
+      'minutes' : 'm',
+      'seconds' : 's',
+      'tagNumber' : 'span',
+      'tagLetter' : 'i',
+      'stop' : false
     };
 
     const settings = $.extend(defaultOptions, options);
@@ -65,14 +66,14 @@
           output(hours, settings.hours) +
           output(minutes, settings.minutes) +
           output(seconds, settings.seconds)
-        );
+        )
       }
 
       // output before calculate
-      timer();
+      timer()
 
       // calculate and output with constant updating
-      setInterval(timer, ONE_SECOND);
-    });
-  };
+      if (settings.stop == false) setInterval(timer, ONE_SECOND)
+    })
+  }
 })(jQuery);
