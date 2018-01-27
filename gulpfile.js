@@ -3,12 +3,11 @@ const gulp     = require('gulp');
 const minify   = require('gulp-minify');
 const babel    = require('gulp-babel');
 const concat   = require('gulp-concat');
-const prettify = require('gulp-jsbeautifier');
 const del      = require('del');
 
 // compilation
 gulp.task('scripts', () => {
-  return gulp.src('src/jquery.timezz.js')
+  return gulp.src('src/TimezZ.js')
     .pipe(minify({
       ext: {
         min: '.min.js'
@@ -20,15 +19,10 @@ gulp.task('scripts', () => {
 
 // compilation to es6
 gulp.task('es6', () => {
-  return gulp.src('src/jquery.timezz.js')
-    .pipe(concat('jquery.timezz-es2015.js'))
+  return gulp.src('src/TimezZ.js')
+    .pipe(concat('TimezZ-es6.js'))
     .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(prettify({
-      js: {
-        indent_size: 2
-      }
+      presets: ['es2015', 'stage-0']
     }))
     .pipe(minify({
       ext: {

@@ -8,32 +8,34 @@ Watch [our site](https://brooons.github.io/timezz/) for more information and rus
 
 ## Usage
 
-> If you need support for older browsers such as IE9, use `jquery.timezz-es2015.js`
+> If you need support for older browsers such as IE9, use `TimezZ-es6.js`
 
 **Connect**
 ```html
-<script src="/js/jquery.timezz.min.js"></script>
+<script src="/js/TimezZ.min.js"></script>
 ```
 
 **HTML**
 ```html
-<div id="timer"></div>
+<div class="timer j-timer"></div>
 ```
 
 **Initialization**
 ```js
-$('#timer').timezz();
+new TimezZ('.j-timer');
 ```
 
 **Example Styling**
 ```css
-#timer {
+.timer {
   font-size: 70px;
 }
-#timer span {
+
+.timer span {
   color: #555;
 }
-#timer i {
+
+.timer i {
   color: #bbb;
   font-size: 40px;
 }
@@ -42,28 +44,28 @@ $('#timer').timezz();
 ## Config
 
 ```js
-$('#timer').timezz({
-  'date' : 'January 1, 2040 00:00:00',
-  'days' : 'd',
-  'hours' : 'h',
-  'minutes' : 'm',
-  'seconds' : 's',
-  'tagNumber' : 'span',
-  'tagLetter' : 'i',
-  'stop' : false
+new TimezZ('.j-timer', {
+  date: 'January 1, 2040 00:00:00',
+  daysName: 'd',
+  hoursName: 'h',
+  minutesName: 'm',
+  secondsName: 's',
+  tagNumber: 'span',
+  tagLetter: 'i',
+  stop: false,
  });
 ```
 
-| Setting   |  Default                    | Description                          | Type      |
-| --------- | --------------------------- | ------------------------------------ | --------- |
-| date      | `January 1, 2040 00:00:00`  | Indicate the date                    | `string`  |
-| days      | `d`                         | How to name days                     | `string`  |
-| hours     | `h`                         | How to name hours                    | `string`  |
-| minutes   | `m`                         | How to name minutes                  | `string`  |
-| seconds   | `s`                         | How to name seconds                  | `string`  |
-| tagNumber | `span`                      | Tag in which will be wrapped numbers | `string`  |
-| tagLetter | `i`                         | Tag in which will be wrapped letters | `string`  |
-| stop      | `false`                     | Is this timer a working?             | `boolean` |
+| Setting     |  Default                    | Description                          | Type      |
+| ----------- | --------------------------- | ------------------------------------ | --------- |
+| date        | `January 1, 2040 00:00:00`  | Indicate the date                    | `string`  |
+| daysName    | `d`                         | How to name days                     | `string`  |
+| hoursName   | `h`                         | How to name hours                    | `string`  |
+| minutesName | `m`                         | How to name minutes                  | `string`  |
+| secondsName | `s`                         | How to name seconds                  | `string`  |
+| tagNumber   | `span`                      | Tag in which will be wrapped numbers | `string`  |
+| tagLetter   | `i`                         | Tag in which will be wrapped letters | `string`  |
+| stop        | `false`                     | Is this timer a working?             | `boolean` |
 
 
 ## Author

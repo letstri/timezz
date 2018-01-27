@@ -5,40 +5,42 @@
   body {
     font-family: Arial;
   }
-  #timer,
-  #timer2 {
+
+  .timer,
+  .timer2 {
     font-size: 70px;
     text-align: center;
     margin-top: 100px;
     color: #555;
   }
-  #timer i {
+  
+  .timer i {
     color: #bbb;
     font-size: 40px;
   }
 
-  #timer2 span {
+  .timer2 span {
     font-weight: normal;
     text-transform: uppercase;
     color: #bbb;
   }
 </style>
 
-<div id="timer"></div>
-<div id="timer2"></div>
+<div class="timer j-timer-first"></div>
+<div class="timer2 j-timer-second"></div>
 
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script src="src/jquery.timezz.js"></script>
+<script src="src/TimezZ.js"></script>
 <script>
-  $('#timer').timezz({
-    'days' : ' days,',
-    'hours' : ' hours,',
-    'minutes' : ' minutes,',
-    'seconds' : ' seconds'
+  new TimezZ('.j-timer-first', {
+    daysName: ' days,',
+    hoursName: ' hours,',
+    minutesName: ' minutes,',
+    secondsName: ' seconds',
   });
-  $('#timer2').timezz({
-    'date' : 'Jan 1, 2018',
-    'tagNumber' : 'b',
-    'tagLetter' : 'span'
+
+  new TimezZ('.j-timer-second', {
+    date: 'Jan 1, 2019',
+    tagNumber: 'b',
+    tagLetter: 'span',
   });
 </script>
