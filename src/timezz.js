@@ -1,17 +1,17 @@
 /*!
- * TimezZ v3.0.0: Plugin for countdown and count forward
+ * TimezZ v3.0.1: Plugin for countdown and count forward
  *
  * Contribute: https://github.com/BrooonS/TimezZ
  * Released under the MIT license: http://opensource.org/licenses/MIT
  */
 
+const ONE_SECOND = 1000;
+const ONE_MINUTE = ONE_SECOND * 60;
+const ONE_HOUR = ONE_MINUTE * 60;
+const ONE_DAY = ONE_HOUR * 24;
+
 class TimezZ {
   constructor(element, userSettings = {}) {
-    this.ONE_SECOND = 1000;
-    this.ONE_MINUTE = this.ONE_SECOND * 60;
-    this.ONE_HOUR = this.ONE_MINUTE * 60;
-    this.ONE_DAY = this.ONE_HOUR * 24;
-    
     this.element = document.querySelector(element);
     this.settings = {
       ...{
@@ -22,7 +22,7 @@ class TimezZ {
         secondsName: 's',
         numberTag: 'span',
         letterTag: 'i',
-        stop: false,
+        isStop: false,
       },
       ...userSettings,
     };
@@ -32,15 +32,16 @@ class TimezZ {
   
   timer() {
     const self = this;
-    const {date, daysName, hoursName, minutesName, secondsName, stop} = self.settings;
+    const { date, daysName, hoursName, minutesName, secondsName, isStop } = self.settings;
     const countDate = new Date(date).getTime();
     const currentTime = new Date().getTime();
     const distance = countDate - currentTime;
+
     // hard math
-    const countDays = self.calculateTemplate(distance / self.ONE_DAY);
-    const countHours = self.calculateTemplate(distance % self.ONE_DAY / self.ONE_HOUR);
-    const countMinutes = self.calculateTemplate(distance % self.ONE_HOUR / self.ONE_MINUTE);
-    const countSeconds = self.calculateTemplate(distance % self.ONE_MINUTE / self.ONE_SECOND);
+    const countDays = self.calculateTemplate(distance / ONE_DAY);
+    const countHours = self.calculateTemplate(distance % ONE_DAY / ONE_HOUR);
+    const countMinutes = self.calculateTemplate(distance % ONE_HOUR / ONE_MINUTE);
+    const countSeconds = self.calculateTemplate(distance % ONE_MINUTE / ONE_SECOND);
                                           
     self.element.innerHTML = 
       self.outputTemplate(countDays, daysName) +
@@ -49,8 +50,8 @@ class TimezZ {
       self.outputTemplate(countSeconds, secondsName)
     ;
 
-    if (stop === false) {
-      setTimeout(() => self.timer(), self.ONE_SECOND);
+    if (!isStop) {
+      setTimeout(() => self.timer(), ONE_SECOND);
     }
   }
 
@@ -59,12 +60,12 @@ class TimezZ {
   }
 
   calculateTemplate(math) {
-    return this.fixNumber(Math.floor(Math.abs(math)))
+    return this.fixNumber(Math.floor(Math.abs(math)));
   }
 
   outputTemplate(unit, unitConfig) {
-    const {tagLetter, tagNumber} = this.settings;
+    const { numberTag, letterTag } = this.settings;
 
-    return `<${tagNumber}>${unit}<${tagLetter}>${unitConfig}</${tagLetter}></${tagNumber}> `;
+    return `<${numberTag}>${unit}<${letterTag}>${unitConfig}</${letterTag}></${numberTag}> `;
   };
 }

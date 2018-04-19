@@ -2,17 +2,15 @@
 
 # TimezZ
 
-With this plugin you can easily put a timer on your site, it works both ways. You can use two version, one version is the version for modern browsers with the standards of the ES2017 and the version for old browsers with ES2015 standards. Using the config you can change the tags as letters and numbers, you can also change the text output next to the numbers.
+With this plugin you can easily put a timer on your site, it works both ways. Using the config you can change the tags as letters and numbers, you can also change the text output next to the numbers.
 
 Watch [our site](https://brooons.github.io/timezz/) for more information and russian guide.
 
 ## Usage
 
-> If you need support for older browsers such as IE9, use `TimezZ-es6.js`
-
 **Connect**
 ```html
-<script src="/js/TimezZ.min.js"></script>
+<script src="/js/timezz.min.js"></script>
 ```
 
 **HTML**
@@ -53,7 +51,7 @@ new TimezZ('.j-timer', {
   tagNumber: 'span',
   tagLetter: 'i',
   stop: false,
- });
+});
 ```
 
 | Setting     |  Default                    | Description                          | Type      |
@@ -65,7 +63,7 @@ new TimezZ('.j-timer', {
 | secondsName | `s`                         | How to name seconds                  | `string`  |
 | tagNumber   | `span`                      | Tag in which will be wrapped numbers | `string`  |
 | tagLetter   | `i`                         | Tag in which will be wrapped letters | `string`  |
-| stop        | `false`                     | Is this timer a working?             | `boolean` |
+| isStop      | `false`                     | Is this timer a working?             | `boolean` |
 
 
 ## Author

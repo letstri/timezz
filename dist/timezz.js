@@ -7,22 +7,22 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /*!
- * TimezZ v3.0.0: Plugin for countdown and count forward
+ * TimezZ v3.0.1: Plugin for countdown and count forward
  *
  * Contribute: https://github.com/BrooonS/TimezZ
  * Released under the MIT license: http://opensource.org/licenses/MIT
  */
+
+var ONE_SECOND = 1000;
+var ONE_MINUTE = ONE_SECOND * 60;
+var ONE_HOUR = ONE_MINUTE * 60;
+var ONE_DAY = ONE_HOUR * 24;
 
 var TimezZ = function () {
   function TimezZ(element) {
     var userSettings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, TimezZ);
-
-    this.ONE_SECOND = 1000;
-    this.ONE_MINUTE = this.ONE_SECOND * 60;
-    this.ONE_HOUR = this.ONE_MINUTE * 60;
-    this.ONE_DAY = this.ONE_HOUR * 24;
 
     this.element = document.querySelector(element);
     this.settings = _extends({
@@ -33,7 +33,7 @@ var TimezZ = function () {
       secondsName: 's',
       numberTag: 'span',
       letterTag: 'i',
-      stop: false
+      isStop: false
     }, userSettings);
 
     this.timer();
@@ -49,23 +49,24 @@ var TimezZ = function () {
           hoursName = _self$settings.hoursName,
           minutesName = _self$settings.minutesName,
           secondsName = _self$settings.secondsName,
-          stop = _self$settings.stop;
+          isStop = _self$settings.isStop;
 
       var countDate = new Date(date).getTime();
       var currentTime = new Date().getTime();
       var distance = countDate - currentTime;
+
       // hard math
-      var countDays = self.calculateTemplate(distance / self.ONE_DAY);
-      var countHours = self.calculateTemplate(distance % self.ONE_DAY / self.ONE_HOUR);
-      var countMinutes = self.calculateTemplate(distance % self.ONE_HOUR / self.ONE_MINUTE);
-      var countSeconds = self.calculateTemplate(distance % self.ONE_MINUTE / self.ONE_SECOND);
+      var countDays = self.calculateTemplate(distance / ONE_DAY);
+      var countHours = self.calculateTemplate(distance % ONE_DAY / ONE_HOUR);
+      var countMinutes = self.calculateTemplate(distance % ONE_HOUR / ONE_MINUTE);
+      var countSeconds = self.calculateTemplate(distance % ONE_MINUTE / ONE_SECOND);
 
       self.element.innerHTML = self.outputTemplate(countDays, daysName) + self.outputTemplate(countHours, hoursName) + self.outputTemplate(countMinutes, minutesName) + self.outputTemplate(countSeconds, secondsName);
 
-      if (stop === false) {
+      if (!isStop) {
         setTimeout(function () {
           return self.timer();
-        }, self.ONE_SECOND);
+        }, ONE_SECOND);
       }
     }
   }, {
@@ -82,11 +83,11 @@ var TimezZ = function () {
     key: 'outputTemplate',
     value: function outputTemplate(unit, unitConfig) {
       var _settings = this.settings,
-          tagLetter = _settings.tagLetter,
-          tagNumber = _settings.tagNumber;
+          numberTag = _settings.numberTag,
+          letterTag = _settings.letterTag;
 
 
-      return '<' + tagNumber + '>' + unit + '<' + tagLetter + '>' + unitConfig + '</' + tagLetter + '></' + tagNumber + '> ';
+      return '<' + numberTag + '>' + unit + '<' + letterTag + '>' + unitConfig + '</' + letterTag + '></' + numberTag + '> ';
     }
   }]);
 
