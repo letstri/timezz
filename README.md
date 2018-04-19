@@ -8,11 +8,11 @@ Watch [our site](https://brooons.github.io/timezz/) for more information and rus
 
 ## Usage
 
-> If you need support for older browsers such as IE9, use `TimezZ-es6.js`
+> If you need support for older browsers such as IE9, use `timezz-es6.js`
 
 **Connect**
 ```html
-<script src="/js/TimezZ.min.js"></script>
+<script src="/js/timezz.min.js"></script>
 ```
 
 **HTML**
@@ -53,7 +53,7 @@ new TimezZ('.j-timer', {
   tagNumber: 'span',
   tagLetter: 'i',
   stop: false,
- });
+});
 ```
 
 | Setting     |  Default                    | Description                          | Type      |
@@ -65,7 +65,7 @@ new TimezZ('.j-timer', {
 | secondsName | `s`                         | How to name seconds                  | `string`  |
 | tagNumber   | `span`                      | Tag in which will be wrapped numbers | `string`  |
 | tagLetter   | `i`                         | Tag in which will be wrapped letters | `string`  |
-| stop        | `false`                     | Is this timer a working?             | `boolean` |
+| isStop      | `false`                     | Is this timer a working?             | `boolean` |
 
 
 ## Author

@@ -1,8 +1,8 @@
 {
   "name": "timezz",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Fast timer plugin for countdown and count forward",
-  "main": "dist/TimezZ.js",
+  "main": "dist/timezz.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BrooonS/TimezZ.git"
@@ -24,12 +24,13 @@
   "homepage": "https://github.com/BrooonS/TimezZ#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-concat": "^2.6.1",
-    "gulp-minify": "^1.0.0"
+    "gulp-minify": "^2.1.0"
   }
 }
