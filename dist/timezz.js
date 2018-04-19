@@ -83,11 +83,11 @@ var TimezZ = function () {
     key: 'outputTemplate',
     value: function outputTemplate(unit, unitConfig) {
       var _settings = this.settings,
-          tagLetter = _settings.tagLetter,
-          tagNumber = _settings.tagNumber;
+          numberTag = _settings.numberTag,
+          letterTag = _settings.letterTag;
 
 
-      return '<' + tagNumber + '>' + unit + '<' + tagLetter + '>' + unitConfig + '</' + tagLetter + '></' + tagNumber + '> ';
+      return '<' + numberTag + '>' + unit + '<' + letterTag + '>' + unitConfig + '</' + letterTag + '></' + numberTag + '> ';
     }
   }]);
 

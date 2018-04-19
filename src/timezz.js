@@ -64,8 +64,8 @@ class TimezZ {
   }
 
   outputTemplate(unit, unitConfig) {
-    const { tagLetter, tagNumber } = this.settings;
+    const { numberTag, letterTag } = this.settings;
 
-    return `<${tagNumber}>${unit}<${tagLetter}>${unitConfig}</${tagLetter}></${tagNumber}> `;
+    return `<${numberTag}>${unit}<${letterTag}>${unitConfig}</${letterTag}></${numberTag}> `;
   };
 }

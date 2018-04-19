@@ -20,10 +20,15 @@ gulp.task('compile', () => {
     .pipe(gulp.dest('dist'));
 });
 
-// main task
+// Main task
 gulp.task('default', ['build']);
 
-// clean «dist» before build
+// Watch task
+gulp.task('watch', () => {
+  gulp.watch('src/timezz.js', ['build']);
+});
+
+// Clean 'dist' before build
 gulp.task('clean', () => del.sync('dist'));
 
 // building
