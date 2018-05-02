@@ -7,7 +7,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /*!
- * TimezZ v3.2.0: Plugin for countdown and count forward
+ * TimezZ v4.0.0: Plugin for countdown and count forward
  *
  * Contribute: https://github.com/BrooonS/TimezZ
  * Released under the MIT license: http://opensource.org/licenses/MIT
