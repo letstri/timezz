@@ -1,35 +1,59 @@
-// Plugins
+/**
+ * Plugins
+ */
+// main plugins
 const gulp = require('gulp');
-const minify = require('gulp-minify');
-const babel = require('gulp-babel');
-const concat = require('gulp-concat');
 const del = require('del');
+const notify = require('gulp-notify');
+const eslint = require('gulp-eslint');
+// JS plugins
+const minifyJS = require('gulp-minify');
+const babel = require('gulp-babel');
 
-// Compilation
-gulp.task('compile', () => {
-  return gulp.src('src/timezz.js')
+/**
+ * Config
+ */
+const paths = {
+  dist: 'dist',
+  src: {
+    js: 'src/**/*.js',
+  },
+};
+
+/**
+ * Functions
+ */
+gulp.task('lint', () => {
+  return gulp.src(paths.src.js)
+    .pipe(eslint())
+    .pipe(eslint.format());
+});
+
+gulp.task('scripts', ['lint'], () => {
+  return gulp.src(paths.src.js)
+    .pipe(eslint())
+    .pipe(eslint.format())
     .pipe(babel({
-      presets: ['es2015', 'stage-0'],
-    }))
-    .pipe(minify({
+      presets: ['es2015'],
+    })
+      .on('error', notify.onError({
+        message: '<%= error.message %>',
+        title: 'Babel Error!',
+      })))
+    .pipe(minifyJS({
       ext: {
-        min: '.min.js'
+        min: '.min.js',
       },
       preserveComments: 'some',
     }))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest(paths.dist));
 });
 
-// Main task
-gulp.task('default', ['build']);
-
-// Watch task
-gulp.task('watch', () => {
-  gulp.watch('src/timezz.js', ['build']);
+// Default task
+gulp.task('default', ['scripts'], () => {
+  gulp.watch(paths.src.js, ['lint', 'scripts']);
 });
 
-// Clean 'dist' before build
-gulp.task('clean', () => del.sync('dist'));
-
-// building
-gulp.task('build', ['clean', 'compile']);
+gulp.task('del', () => {
+  return del.sync(paths.dist);
+});

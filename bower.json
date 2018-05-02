@@ -18,10 +18,13 @@
   "homepage": "https://github.com/BrooonS/TimezZ",
   "private": false,
   "ignore": [
-    "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "src",
+    "test.html",
+    ".gitignore",
+    "package.json",
+    "gulpfile.js",
+    ".eslintrc",
+    ".babelrc"
   ]
 }
