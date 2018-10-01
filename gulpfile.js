@@ -6,6 +6,7 @@ const gulp = require('gulp');
 const del = require('del');
 const notify = require('gulp-notify');
 const eslint = require('gulp-eslint');
+
 // JS plugins
 const minifyJS = require('gulp-minify');
 const babel = require('gulp-babel');
@@ -33,9 +34,7 @@ gulp.task('scripts', ['lint'], () => {
   return gulp.src(paths.src.js)
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(babel({
-      presets: ['es2015'],
-    })
+    .pipe(babel()
       .on('error', notify.onError({
         message: '<%= error.message %>',
         title: 'Babel Error!',
@@ -44,7 +43,7 @@ gulp.task('scripts', ['lint'], () => {
       ext: {
         min: '.min.js',
       },
-      preserveComments: 'some',
+      noSource: true,
     }))
     .pipe(gulp.dest(paths.dist));
 });
