@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/timezz.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./timezz.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -198,10 +198,10 @@ module.exports = _objectSpread;
 
 /***/ }),
 
-/***/ "./src/timezz.js":
-/*!***********************!*\
-  !*** ./src/timezz.js ***!
-  \***********************/
+/***/ "./timezz.js":
+/*!*******************!*\
+  !*** ./timezz.js ***!
+  \*******************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -237,10 +237,6 @@ function () {
 
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, TimezZ);
 
-    if (selector === undefined) {
-      throw new Error('Selector isn\'t passed.');
-    }
-
     this.element = document.querySelector(selector);
     this.settings = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({
       date: 'Jan 01, 2040 00:00:00',
@@ -249,27 +245,18 @@ function () {
       minutesName: 'm',
       secondsName: 's',
       isStopped: false,
+      canContinue: false,
       template: '<span>NUMBER<i>LETTER</i></span> ',
-      beforeCreate: function beforeCreate() {}
+      beforeCreate: function beforeCreate() {},
+      finished: function finished() {}
     }, userSettings);
+    this.validate();
     this.initTimer();
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(TimezZ, [{
     key: "initTimer",
     value: function initTimer() {
-      var _this$settings = this.settings,
-          date = _this$settings.date,
-          daysName = _this$settings.daysName,
-          hoursName = _this$settings.hoursName,
-          isStopped = _this$settings.isStopped,
-          minutesName = _this$settings.minutesName,
-          secondsName = _this$settings.secondsName,
-          beforeCreate = _this$settings.beforeCreate;
-      var countDate = new Date(date).getTime();
-      var currentTime = new Date().getTime();
-      var distance = countDate - currentTime;
-
       var calculateTemplate = function calculateTemplate(math) {
         var fixNumber = function fixNumber(number) {
           return number >= 10 ? number : "0".concat(number);
@@ -277,26 +264,31 @@ function () {
 
         return fixNumber(Math.floor(Math.abs(math)));
       };
+
+      var countDate = new Date(this.settings.date).getTime();
+      var currentTime = new Date().getTime();
+      var distance = countDate - currentTime;
+      var canContinue = this.settings.canContinue || distance > 0;
       /**
        * Hard math.
        */
-
 
       var countDays = calculateTemplate(distance / ONE_DAY);
       var countHours = calculateTemplate(distance % ONE_DAY / ONE_HOUR);
       var countMinutes = calculateTemplate(distance % ONE_HOUR / ONE_MINUTE);
       var countSeconds = calculateTemplate(distance % ONE_MINUTE / ONE_SECOND);
-      /**
-       * User callback.
-       */
 
-      if (typeof beforeCreate === 'function') {
-        beforeCreate();
+      if (typeof this.settings.beforeCreate === 'function') {
+        this.settings.beforeCreate();
       }
 
-      this.element.innerHTML = this.outputTemplate(countDays, daysName) + this.outputTemplate(countHours, hoursName) + this.outputTemplate(countMinutes, minutesName) + this.outputTemplate(countSeconds, secondsName);
+      if (typeof this.settings.finished === 'function' && !canContinue) {
+        this.settings.finished();
+      }
 
-      if (!isStopped) {
+      this.element.innerHTML = this.outputTemplate(canContinue ? countDays : 0, this.settings.daysName) + this.outputTemplate(canContinue ? countHours : 0, this.settings.hoursName) + this.outputTemplate(canContinue ? countMinutes : 0, this.settings.minutesName) + this.outputTemplate(canContinue ? countSeconds : 0, this.settings.secondsName);
+
+      if (!this.settings.isStopped && canContinue) {
         setTimeout(this.initTimer.bind(this), ONE_SECOND);
       }
     }
@@ -304,6 +296,17 @@ function () {
     key: "outputTemplate",
     value: function outputTemplate(number, letter) {
       return this.settings.template.replace(/NUMBER/g, number).replace(/LETTER/g, letter);
+    }
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (this.element === null) {
+        console.error('[TimezZ]: Selector isn\'t passed. Check documentation for more info. https://github.com/BrooonS/timezz');
+      }
+
+      if (Number.isNaN(new Date(this.settings.date).getTime())) {
+        console.warn('[TimezZ]: Date isn\'t valid. Check documentation for more info. https://github.com/BrooonS/timezz');
+      }
     }
   }]);
 

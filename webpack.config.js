@@ -2,7 +2,7 @@ const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = env => ({
-  entry: './src/timezz.js',
+  entry: './timezz.js',
   mode: env,
   devtool: 'none',
   output: {
