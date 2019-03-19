@@ -300,6 +300,7 @@ function () {
   }, {
     key: "validate",
     value: function validate() {
+      /* eslint-disable no-console */
       if (this.element === null) {
         console.error('[TimezZ]: Selector isn\'t passed. Check documentation for more info. https://github.com/BrooonS/timezz');
       }
@@ -307,6 +308,8 @@ function () {
       if (Number.isNaN(new Date(this.settings.date).getTime())) {
         console.warn('[TimezZ]: Date isn\'t valid. Check documentation for more info. https://github.com/BrooonS/timezz');
       }
+      /* eslint-enable no-console */
+
     }
   }]);
 

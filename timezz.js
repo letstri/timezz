@@ -78,6 +78,7 @@ export default class TimezZ {
   }
 
   validate() {
+    /* eslint-disable no-console */
     if (this.element === null) {
       console.error('[TimezZ]: Selector isn\'t passed. Check documentation for more info. https://github.com/BrooonS/timezz');
     }
@@ -85,5 +86,6 @@ export default class TimezZ {
     if (Number.isNaN(new Date(this.settings.date).getTime())) {
       console.warn('[TimezZ]: Date isn\'t valid. Check documentation for more info. https://github.com/BrooonS/timezz');
     }
+    /* eslint-enable no-console */
   }
 }
