@@ -81,15 +81,15 @@ new TimezZ('.j-timer', {
 
 The date to or from which need count.
 
-- type: `string` or `Date`
-- default: `null`
+  - type: `string` or `Date`
+  - default: `null`
 
 #### text
 
 How to name days, hours, minutes and seconds.
 
-- type: `object`
-- default:
+  - type: `object`
+  - default:
 
 ```JS
 {
@@ -104,29 +104,29 @@ How to name days, hours, minutes and seconds.
 
 The timer is stopped at start.
 
-- type: `boolean`
-- default: `false`
+  - type: `boolean`
+  - default: `false`
 
 #### canContinue
 
 When the timer finishes counting, whether to turn it off or continue counting.
 
-- type: `boolean`
-- default: `false`
+  - type: `boolean`
+  - default: `false`
 
 #### template
 
 Template to display tags, `NUMBER` and `LETTER` will be replace in number and letter in counting.
 
-- type: `string`
-- default: `<span>NUMBER<i>LETTER</i></span> `
+  - type: `string`
+  - default: `<span>NUMBER<i>LETTER</i></span> `
 
 #### beforeCreate
 
 Callback which be completed before the timer will be created.
 
-- type: `function`
-- default:
+  - type: `function`
+  - default:
 
 ```js
 function() {}
@@ -136,8 +136,8 @@ function() {}
 
 Callback which be completed before timer will be destroyed.
 
-- type: `function`
-- default:
+  - type: `function`
+  - default:
 
 ```js
 function() {}
@@ -147,8 +147,8 @@ function() {}
 
 Callback which be completed when the timer will be finished counting. Does not apply to `canContinue: true`.
 
-- type: `function`
-- default:
+  - type: `function`
+  - default:
 
 ```js
 function() {}
