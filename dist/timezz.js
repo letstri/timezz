@@ -198,6 +198,17 @@ module.exports = _objectSpread;
 
 /***/ }),
 
+/***/ "./package.json":
+/*!**********************!*\
+  !*** ./package.json ***!
+  \**********************/
+/*! exports provided: name, version, description, main, scripts, repository, keywords, author, license, bugs, homepage, devDependencies, default */
+/***/ (function(module) {
+
+module.exports = {"name":"timezz","version":"5.0.0","description":"TimezZ - is a simple timer plugin for countdown and count forward.","main":"dist/timezz.js","scripts":{"start":"webpack --env development --watch","prod":"webpack --env production","dev":"webpack --env development","build":"npm run prod && npm run dev","docs-server":"docsify serve ./docs"},"repository":{"type":"git","url":"git+https://github.com/BrooonS/timezz.git"},"keywords":["webpack","js","javascript","library","es6","commonjs","timezz","plugin","time","timer","countdown","count","forward"],"author":"Valery Strelets","license":"MIT","bugs":{"url":"https://github.com/BrooonS/timezz/issues"},"homepage":"https://github.com/BrooonS/timezz#readme","devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-proposal-object-rest-spread":"^7.0.0","@babel/plugin-transform-object-assign":"^7.0.0","@babel/plugin-transform-runtime":"^7.1.0","@babel/preset-env":"^7.1.0","@babel/runtime":"^7.1.2","babel-eslint":"^10.0.1","babel-loader":"^8.0.4","eslint":"^5.6.1","eslint-config-airbnb":"^17.1.0","eslint-loader":"^2.1.1","eslint-plugin-import":"^2.14.0","eslint-plugin-jsx-a11y":"^6.1.2","eslint-plugin-react":"^7.11.1","uglifyjs-webpack-plugin":"^2.0.1","webpack":"^4.23.1","webpack-cli":"^3.1.2"}};
+
+/***/ }),
+
 /***/ "./timezz.js":
 /*!*******************!*\
   !*** ./timezz.js ***!
@@ -214,6 +225,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _package__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./package */ "./package.json");
+var _package__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./package */ "./package.json", 1);
 
 
 
@@ -224,6 +237,7 @@ __webpack_require__.r(__webpack_exports__);
  * @see https://github.com/BrooonS/TimezZ
  * @license https://github.com/BrooonS/timezz/blob/master/LICENSE
  */
+
 
 var ONE_SECOND = 1000;
 var ONE_MINUTE = ONE_SECOND * 60;
@@ -238,6 +252,7 @@ function () {
 
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, TimezZ);
 
+    this.VERSION = _package__WEBPACK_IMPORTED_MODULE_3__["version"];
     this.element = document.querySelector(selector);
     this.settings = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({
       date: 'Dec 02, 2013 00:00:00',
