@@ -217,11 +217,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/*!
- * TimezZ v5.0.0: Plugin for countdown and count forward
+/**
+ * TimezZ - is a simple timer plugin for countdown and count forward.
  *
- * Contribute: https://github.com/BrooonS/TimezZ
- * Released under the MIT license: http://opensource.org/licenses/MIT
+ * @author Valery Strelets
+ * @see https://github.com/BrooonS/TimezZ
+ * @license https://github.com/BrooonS/timezz/blob/master/LICENSE
  */
 
 var ONE_SECOND = 1000;
@@ -239,7 +240,7 @@ function () {
 
     this.element = document.querySelector(selector);
     this.settings = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({
-      date: 'Jan 01, 2040 00:00:00',
+      date: 'Dec 02, 2013 00:00:00',
       daysName: 'd',
       hoursName: 'h',
       minutesName: 'm',
@@ -248,6 +249,7 @@ function () {
       canContinue: false,
       template: '<span>NUMBER<i>LETTER</i></span> ',
       beforeCreate: function beforeCreate() {},
+      beforeDestroy: function beforeDestroy() {},
       finished: function finished() {}
     }, userSettings);
     this.validate();
@@ -289,7 +291,7 @@ function () {
       this.element.innerHTML = this.outputTemplate(canContinue ? countDays : 0, this.settings.daysName) + this.outputTemplate(canContinue ? countHours : 0, this.settings.hoursName) + this.outputTemplate(canContinue ? countMinutes : 0, this.settings.minutesName) + this.outputTemplate(canContinue ? countSeconds : 0, this.settings.secondsName);
 
       if (!this.settings.isStopped && canContinue) {
-        setTimeout(this.initTimer.bind(this), ONE_SECOND);
+        this.timeout = setTimeout(this.initTimer.bind(this), ONE_SECOND);
       }
     }
   }, {
@@ -310,6 +312,17 @@ function () {
       }
       /* eslint-enable no-console */
 
+    }
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      if (typeof this.settings.beforeDestroy === 'function') {
+        this.settings.beforeDestroy();
+      }
+
+      clearTimeout(this.timeout);
+      this.element.innerHTML = null;
+      this.settings = {};
     }
   }]);
 

@@ -1,9 +1,12 @@
-/*!
- * TimezZ v5.0.0: Plugin for countdown and count forward
+/**
+ * TimezZ - is a simple timer plugin for countdown and count forward.
  *
- * Contribute: https://github.com/BrooonS/TimezZ
- * Released under the MIT license: http://opensource.org/licenses/MIT
+ * @author Valery Strelets
+ * @see https://github.com/BrooonS/TimezZ
+ * @license https://github.com/BrooonS/timezz/blob/master/LICENSE
  */
+
+import { version } from './package';
 
 const ONE_SECOND = 1000;
 const ONE_MINUTE = ONE_SECOND * 60;
@@ -12,9 +15,10 @@ const ONE_DAY = ONE_HOUR * 24;
 
 export default class TimezZ {
   constructor(selector, userSettings = {}) {
+    this.VERSION = version;
     this.element = document.querySelector(selector);
     this.settings = {
-      date: 'Jan 01, 2040 00:00:00',
+      date: 'Dec 02, 2013 00:00:00',
       daysName: 'd',
       hoursName: 'h',
       minutesName: 'm',
@@ -23,6 +27,7 @@ export default class TimezZ {
       canContinue: false,
       template: '<span>NUMBER<i>LETTER</i></span> ',
       beforeCreate() {},
+      beforeDestroy() {},
       finished() {},
       ...userSettings,
     };
@@ -67,7 +72,7 @@ export default class TimezZ {
     );
 
     if (!this.settings.isStopped && canContinue) {
-      setTimeout(this.initTimer.bind(this), ONE_SECOND);
+      this.timeout = setTimeout(this.initTimer.bind(this), ONE_SECOND);
     }
   }
 
@@ -87,5 +92,15 @@ export default class TimezZ {
       console.warn('[TimezZ]: Date isn\'t valid. Check documentation for more info. https://github.com/BrooonS/timezz');
     }
     /* eslint-enable no-console */
+  }
+
+  destroy() {
+    if (typeof this.settings.beforeDestroy === 'function') {
+      this.settings.beforeDestroy();
+    }
+
+    clearTimeout(this.timeout);
+    this.element.innerHTML = null;
+    this.settings = {};
   }
 }
