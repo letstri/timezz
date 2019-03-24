@@ -75,19 +75,19 @@ new TimezZ('.j-timer', {
 });
 ```
 
-| Param         | type                | Default                             | Description |
-|---------------|---------------------|-------------------------------------|---|
-| date          | `string` or `Date`  | `January 1, 2040 00:00:00`          | the date to or from which need count |
-| daysName      | `string`            | `d`                                 | How to name days |
-| hoursName     | `string`            | `h`                                 | How to name hours |
-| minutesName   | `string`            | `m`                                 | How to name minutes |
-| secondsName   | `string`            | `s`                                 | How to name seconds |
-| secondsName   | `string`            | `s`                                 | How to name seconds |
-| isStopped     | `boolean`           | `false`                             | The timer is stopped at start |
-| template      | `string`            | `<span>NUMBER<i>LETTER</i></span> ` | Template to display tags, `NUMBER` and `LETTER` will be replace in number and letter in counting |
-| beforeCreate  | `function`          | `null`                                | Callback which be started when the timer will be created |
-| beforeDestroy | `function`          | `null`                                | Callback which be started before timer destroy |
-| finished      | `function`          | `null`                                | Callback which be started when the timer will be finished counting |
+| Param | type | Default | Description |
+|---|---|---|---|
+| date | `string` or `Date`  | `January 1, 2040 00:00:00` | the date to or from which need count |
+| daysName | `string` | `d` | How to name days |
+| hoursName | `string` | `h` | How to name hours |
+| minutesName | `string` | `m` | How to name minutes |
+| secondsName | `string` | `s` | How to name seconds |
+| secondsName | `string` | `s` | How to name seconds |
+| isStopped | `boolean` | `false` | The timer is stopped at start |
+| template | `string` | `<span>NUMBER<i>LETTER</i></span> ` | Template to display tags, `NUMBER` and `LETTER` will be replace in number and letter in counting |
+| beforeCreate | `function` | `null` | Callback which be started when the timer will be created |
+| beforeDestroy | `function` | `null` | Callback which be started before timer destroy |
+| finished | `function` | `null` | Callback which be started when the timer will be finished counting |
 
 
 ## API
