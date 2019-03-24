@@ -255,18 +255,21 @@ function () {
     this.VERSION = _package__WEBPACK_IMPORTED_MODULE_3__["version"];
     this.element = document.querySelector(selector);
     this.settings = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({
-      date: 'Dec 02, 2013 00:00:00',
-      daysName: 'd',
-      hoursName: 'h',
-      minutesName: 'm',
-      secondsName: 's',
+      date: null,
       isStopped: false,
       canContinue: false,
       template: '<span>NUMBER<i>LETTER</i></span> ',
       beforeCreate: function beforeCreate() {},
       beforeDestroy: function beforeDestroy() {},
       finished: function finished() {}
-    }, userSettings);
+    }, userSettings, {
+      text: _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({
+        days: 'd',
+        hours: 'h',
+        minutes: 'm',
+        seconds: 's'
+      }, userSettings.text)
+    });
     this.validate();
     this.initTimer();
   }
@@ -303,7 +306,7 @@ function () {
         this.settings.finished();
       }
 
-      this.element.innerHTML = this.outputTemplate(canContinue ? countDays : 0, this.settings.daysName) + this.outputTemplate(canContinue ? countHours : 0, this.settings.hoursName) + this.outputTemplate(canContinue ? countMinutes : 0, this.settings.minutesName) + this.outputTemplate(canContinue ? countSeconds : 0, this.settings.secondsName);
+      this.element.innerHTML = this.outputTemplate(canContinue ? countDays : 0, 'days') + this.outputTemplate(canContinue ? countHours : 0, 'hours') + this.outputTemplate(canContinue ? countMinutes : 0, 'minutes') + this.outputTemplate(canContinue ? countSeconds : 0, 'seconds');
 
       if (!this.settings.isStopped && canContinue) {
         this.timeout = setTimeout(this.initTimer.bind(this), ONE_SECOND);
@@ -312,7 +315,7 @@ function () {
   }, {
     key: "outputTemplate",
     value: function outputTemplate(number, letter) {
-      return this.settings.template.replace(/NUMBER/g, number).replace(/LETTER/g, letter);
+      return this.settings.template.replace(/NUMBER/g, number).replace(/LETTER/g, this.settings.text[letter]);
     }
   }, {
     key: "validate",
@@ -338,6 +341,7 @@ function () {
       clearTimeout(this.timeout);
       this.element.innerHTML = null;
       this.settings = {};
+      this.element = null;
     }
   }]);
 
