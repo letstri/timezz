@@ -1,21 +1,41 @@
-<p align="center"><img src="https://brooons.github.io/timezz/img/timezz-github-logo.png" alt="TimezZ"></p>
-
 # TimezZ
+[![npm version](https://badge.fury.io/js/timezz.svg)](https://brooons.github.io/timezz/)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5294d2df6b70499eb27b25a289ce59b1)](https://www.codacy.com/app/BrooonS/timezz?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BrooonS/timezz&amp;utm_campaign=Badge_Grade)
+[![](https://data.jsdelivr.com/v1/package/npm/timezz/badge)](https://www.jsdelivr.com/package/npm/timezz)
 
-With this plugin you can easily put a timer on your site, it works both ways. Using the config you can change the tags as letters and numbers, you can also change the text output next to the numbers.
+<a class="github-button" href="https://github.com/BrooonS/timezz" data-icon="octicon-star" data-show-count="true" aria-label="Star BrooonS/timezz on GitHub">Star</a>
+<a class="github-button" href="https://github.com/BrooonS/timezz/subscription" data-icon="octicon-eye" data-show-count="true" aria-label="Watch BrooonS/timezz on GitHub">Watch</a>
 
-Watch [our site](https://brooons.github.io/timezz/) for more information and russian guide.
+[Docs](https://brooons.github.io/timezz/) | [Licence](https://github.com/BrooonS/timezz/blob/master/LICENSE)
 
-## Usage
+> With this plugin you can easily include the timer on your site, his works both ways.
 
-**Connect**
-```html
-<script src="/js/timezz.min.js"></script>
+## Example
+
+<iframe src="https://codesandbox.io/embed/w638mz6q68?autoresize=1&fontsize=14&hidenavigation=1" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+## Quick start
+
+Install with [npm](https://www.npmjs.com/package/timezz).
+
+```sh
+npm i timezz
 ```
 
-**HTML**
+or download and install with `script`.
+
 ```html
-<div class="timer j-timer"></div>
+<script src="timezz.min.js"></script>
+```
+
+or cdn
+
+```html
+<!-- Latest -->
+<script src="https://cdn.jsdelivr.net/npm/timezz/dist/timezz.min.js"></script>
+
+<!-- With version -->
+<script src="https://cdn.jsdelivr.net/npm/timezz@5.0.0/dist/timezz.min.js"></script>
 ```
 
 **Initialization**
@@ -48,27 +68,49 @@ new TimezZ('.j-timer', {
   hoursName: 'h',
   minutesName: 'm',
   secondsName: 's',
-  isStop: false,
+  isStopped: false,
   template: '<span>NUMBER<i>LETTER</i></span> ',
   beforeCreate() {},
+  finished() {},
 });
 ```
 
-| Setting      |  Default                            | Description                            | Type       |
-| ------------ | ----------------------------------- | -------------------------------------- | ---------- |
-| date         | `January 1, 2040 00:00:00`          | Indicate the date                      | `string`   |
-| daysName     | `d`                                 | How to name days                       | `string`   |
-| hoursName    | `h`                                 | How to name hours                      | `string`   |
-| minutesName  | `m`                                 | How to name minutes                    | `string`   |
-| secondsName  | `s`                                 | How to name seconds                    | `string`   |
-| isStop       | `false`                             | Is this timer a working?               | `boolean`  |
-| template     | `<span>NUMBER<i>LETTER</i></span> ` | You can add any template to your timer | `string`   |
-| beforeCreate |                                     | Callback                               | `function` |
+| Param         | type                | Default                             | Description |
+|---------------|---------------------|-------------------------------------|---|
+| date          | `string` or `Date`  | `January 1, 2040 00:00:00`          | the date to or from which need count |
+| daysName      | `string`            | `d`                                 | How to name days |
+| hoursName     | `string`            | `h`                                 | How to name hours |
+| minutesName   | `string`            | `m`                                 | How to name minutes |
+| secondsName   | `string`            | `s`                                 | How to name seconds |
+| secondsName   | `string`            | `s`                                 | How to name seconds |
+| isStopped     | `boolean`           | `false`                             | The timer is stopped at start |
+| template      | `string`            | `<span>NUMBER<i>LETTER</i></span> ` | Template to display tags, `NUMBER` and `LETTER` will be replace in number and letter in counting |
+| beforeCreate  | `function`          | `null`                                | Callback which be started when the timer will be created |
+| beforeDestroy | `function`          | `null`                                | Callback which be started before timer destroy |
+| finished      | `function`          | `null`                                | Callback which be started when the timer will be finished counting |
 
 
-## Author
+## API
 
-**@BrooonS**
+### destroy
 
-## Licence
-MIT [licence](https://github.com/BrooonS/TimezZ/blob/master/LICENSE)
+```js
+const timer = new TimezZ('.j-timer', {
+  beforeDestroy() {
+    alert('destroyed');
+  },
+});
+
+timer.destroy();
+```
+
+### Version
+
+```js
+const timer = new TimezZ('.j-timer');
+
+timer.version();
+// => 5.0.0
+```
+
+&copy; Valery Strelets
