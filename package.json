@@ -1,13 +1,26 @@
 {
   "name": "timezz",
-  "version": "4.0.1",
-  "description": "Fast timer plugin for countdown and count forward",
-  "main": "dist/timezz.min.js",
+  "version": "5.0.0",
+  "description": "TimezZ - is a simple timer plugin for countdown and count forward.",
+  "main": "dist/timezz.js",
+  "scripts": {
+    "start": "webpack --env development --watch",
+    "prod": "webpack --env production",
+    "dev": "webpack --env development",
+    "build": "npm run prod && npm run dev",
+    "docs-server": "docsify serve ./docs"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BrooonS/TimezZ.git"
+    "url": "git+https://github.com/BrooonS/timezz.git"
   },
   "keywords": [
+    "webpack",
+    "js",
+    "javascript",
+    "library",
+    "es6",
+    "commonjs",
     "timezz",
     "plugin",
     "time",
@@ -16,27 +29,29 @@
     "count",
     "forward"
   ],
-  "author": "BrooonS",
+  "author": "Valery Strelets",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/BrooonS/TimezZ/issues"
+    "url": "https://github.com/BrooonS/timezz/issues"
   },
-  "homepage": "https://github.com/BrooonS/TimezZ#readme",
+  "homepage": "https://github.com/BrooonS/timezz#readme",
   "devDependencies": {
     "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-object-assign": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
+    "@babel/runtime": "^7.1.2",
     "babel-eslint": "^10.0.1",
-    "del": "^3.0.0",
+    "babel-loader": "^8.0.4",
     "eslint": "^5.6.1",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-loader": "^2.1.1",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^8.0.0",
-    "gulp-eslint": "^5.0.0",
-    "gulp-minify": "^3.1.0",
-    "gulp-notify": "^3.2.0"
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2"
   }
 }

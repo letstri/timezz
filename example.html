@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<title>TimezZ test page</title>
+<style>
+body {
+  font-family: Arial;
+}
+
+.timer,
+.timer2 {
+  font-size: 60px;
+  text-align: center;
+  margin-top: 100px;
+  color: #555;
+}
+
+.timer i {
+  color: #bbb;
+  font-size: 40px;
+}
+
+.timer2 span {
+  font-weight: normal;
+  text-transform: uppercase;
+  color: #bbb;
+}
+</style>
+
+<div class="timer j-first-timer"></div>
+<div class="timer2 j-second-timer"></div>
+
+<script src="dist/timezz.js"></script>
+<script>
+const timer = new TimezZ('.j-first-timer', {
+  date: 'Jan 1, 2019',
+  daysName: ' days',
+  hoursName: ' hours',
+  minutesName: ' minutes',
+  secondsName: ' seconds',
+  canContinue: true,
+  template: '<span>NUMBER</span><i>LETTER</i> ',
+});
+
+const timer2 = new TimezZ('.j-second-timer', {
+  date: 'Jan 1, 2018',
+
+  finished() {
+    alert('finished');
+  },
+
+  beforeDestroy() {
+    alert('destroyed');
+  },
+});
+
+setTimeout(() => {
+  timer2.destroy();
+}, 5000);
+</script>
