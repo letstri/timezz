@@ -4,10 +4,11 @@
   "description": "TimezZ - is a simple timer plugin for countdown and count forward.",
   "main": "dist/timezz.js",
   "scripts": {
-    "start": "webpack --env development --config webpack.config.js --watch",
-    "prod": "webpack --env production --config webpack.config.js",
-    "dev": "webpack --env development --config webpack.config.js",
-    "build": "npm run prod && npm run dev"
+    "start": "webpack --env development --watch",
+    "prod": "webpack --env production",
+    "dev": "webpack --env development",
+    "build": "npm run prod && npm run dev",
+    "docs-server": "docsify serve ./docs"
   },
   "repository": {
     "type": "git",
