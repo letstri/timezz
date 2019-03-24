@@ -8,7 +8,7 @@ body {
 
 .timer,
 .timer2 {
-  font-size: 70px;
+  font-size: 60px;
   text-align: center;
   margin-top: 100px;
   color: #555;
@@ -31,7 +31,7 @@ body {
 
 <script src="dist/timezz.js"></script>
 <script>
-new TimezZ('.j-first-timer', {
+const timer = new TimezZ('.j-first-timer', {
   date: 'Jan 1, 2019',
   daysName: ' days',
   hoursName: ' hours',
@@ -41,11 +41,19 @@ new TimezZ('.j-first-timer', {
   template: '<span>NUMBER</span><i>LETTER</i> ',
 });
 
-new TimezZ('.j-second-timer', {
+const timer2 = new TimezZ('.j-second-timer', {
   date: 'Jan 1, 2018',
 
   finished() {
     alert('finished');
   },
+
+  beforeDestroy() {
+    alert('destroyed');
+  },
 });
+
+setTimeout(() => {
+  timer2.destroy();
+}, 5000);
 </script>
