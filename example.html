@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
-<title>TimezZ test page</title>
+<title>TimezZ example page</title>
 <style>
 body {
   font-family: Arial;
 }
 
 .timer,
-.timer2 {
+.timer2,
+.timer3 {
   font-size: 60px;
   text-align: center;
   margin-top: 100px;
@@ -24,29 +25,49 @@ body {
   text-transform: uppercase;
   color: #bbb;
 }
+
+.timer3 {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 500px;
+  margin: 100px auto 20px;
+}
+
+.timer3 div {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
 </style>
 
 <div class="timer j-first-timer"></div>
 <div class="timer2 j-second-timer"></div>
+<div class="timer3 j-third-timer"></div>
 
 <script src="dist/timezz.js"></script>
 <script>
 const timer = new TimezZ('.j-first-timer', {
-  date: 'Jan 1, 2019',
-  daysName: ' days',
-  hoursName: ' hours',
-  minutesName: ' minutes',
-  secondsName: ' seconds',
+  date: 'Dec 02, 2013 00:00:00',
+  text: {
+    days: ' days',
+    hours: ' hours',
+    minutes: ' minutes',
+    seconds: ' seconds',
+  },
   canContinue: true,
   template: '<span>NUMBER</span><i>LETTER</i> ',
 });
 
 const timer2 = new TimezZ('.j-second-timer', {
-  date: 'Jan 1, 2018',
+  date: 'May 27, 1996',
 
   finished() {
     alert('finished');
   },
+});
+
+const timer3 = new TimezZ('.j-third-timer', {
+  date: 'Jan 01, 2025',
+  template: '<div>NUMBER<span>LETTER</span></div>',
 
   beforeDestroy() {
     alert('destroyed');
@@ -54,6 +75,6 @@ const timer2 = new TimezZ('.j-second-timer', {
 });
 
 setTimeout(() => {
-  timer2.destroy();
-}, 5000);
+  timer3.destroy();
+}, 10000);
 </script>

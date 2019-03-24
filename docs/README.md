@@ -12,7 +12,7 @@
 
 ## Example
 
-<iframe src="https://codesandbox.io/embed/w638mz6q68?autoresize=1&fontsize=14&hidenavigation=1" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/w638mz6q68?autoresize=1&fontsize=14&hidenavigation=1&view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 ## Quick start
 
@@ -63,32 +63,100 @@ new TimezZ('.j-timer');
 
 ```js
 new TimezZ('.j-timer', {
-  date: 'January 1, 2040 00:00:00',
-  daysName: 'd',
-  hoursName: 'h',
-  minutesName: 'm',
-  secondsName: 's',
+  date: 'Dec 02, 2013 00:00:00',
   isStopped: false,
+  canContinue: false,
   template: '<span>NUMBER<i>LETTER</i></span> ',
+  text: {
+    days: 'd',
+    hours: 'h',
+    minutes: 'm',
+    seconds: 's',
+  },
   beforeCreate() {},
+  beforeDestroy() {},
   finished() {},
 });
 ```
 
-| Param | type | Default | Description |
-|---|---|---|---|
-| date | `string` or `Date`  | `January 1, 2040 00:00:00` | the date to or from which need count |
-| daysName | `string` | `d` | How to name days |
-| hoursName | `string` | `h` | How to name hours |
-| minutesName | `string` | `m` | How to name minutes |
-| secondsName | `string` | `s` | How to name seconds |
-| secondsName | `string` | `s` | How to name seconds |
-| isStopped | `boolean` | `false` | The timer is stopped at start |
-| template | `string` | `<span>NUMBER<i>LETTER</i></span> ` | Template to display tags, `NUMBER` and `LETTER` will be replace in number and letter in counting |
-| beforeCreate | `function` | `null` | Callback which be started when the timer will be created |
-| beforeDestroy | `function` | `null` | Callback which be started before timer destroy |
-| finished | `function` | `null` | Callback which be started when the timer will be finished counting |
+### Params
 
+#### date
+
+The date to or from which need count.
+
+- type: `string` or `Date`
+- default: `null`
+
+#### text
+
+How to name days, hours, minutes and seconds.
+
+- type: `object`
+- default:
+
+```JS
+{
+  days: 'd',
+  hours: 'h',
+  minutes: 'm',
+  seconds: 's',
+}
+```
+
+#### isStopped
+
+The timer is stopped at start.
+
+- type: `boolean`
+- default: `false`
+
+#### canContinue
+
+When the timer finishes counting, whether to turn it off or continue counting.
+
+- type: `boolean`
+- default: `false`
+
+#### template
+
+Template to display tags, `NUMBER` and `LETTER` will be replace in number and letter in counting.
+
+- type: `string`
+- default: `<span>NUMBER<i>LETTER</i></span> `
+
+#### beforeCreate
+
+Callback which be completed before the timer will be created.
+
+- type: `function`
+- default:
+
+```js
+function() {}
+```
+
+#### beforeDestroy
+
+Callback which be completed before timer will be destroyed.
+
+- type: `function`
+- default:
+
+```js
+function() {}
+```
+
+#### finished
+
+Callback which be completed when the timer will be finished counting. Does not apply to `canContinue: true`.
+
+- type: `function`
+- default:
+
+```js
+function() {}
+```
 
 ## API
 
