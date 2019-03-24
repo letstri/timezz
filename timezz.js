@@ -18,11 +18,7 @@ export default class TimezZ {
     this.VERSION = version;
     this.element = document.querySelector(selector);
     this.settings = {
-      date: 'Dec 02, 2013 00:00:00',
-      daysName: 'd',
-      hoursName: 'h',
-      minutesName: 'm',
-      secondsName: 's',
+      date: null,
       isStopped: false,
       canContinue: false,
       template: '<span>NUMBER<i>LETTER</i></span> ',
@@ -30,6 +26,13 @@ export default class TimezZ {
       beforeDestroy() {},
       finished() {},
       ...userSettings,
+      text: {
+        days: 'd',
+        hours: 'h',
+        minutes: 'm',
+        seconds: 's',
+        ...userSettings.text,
+      },
     };
 
     this.validate();
@@ -65,10 +68,10 @@ export default class TimezZ {
     }
 
     this.element.innerHTML = (
-      this.outputTemplate(canContinue ? countDays : 0, this.settings.daysName)
-      + this.outputTemplate(canContinue ? countHours : 0, this.settings.hoursName)
-      + this.outputTemplate(canContinue ? countMinutes : 0, this.settings.minutesName)
-      + this.outputTemplate(canContinue ? countSeconds : 0, this.settings.secondsName)
+      this.outputTemplate(canContinue ? countDays : 0, 'days')
+      + this.outputTemplate(canContinue ? countHours : 0, 'hours')
+      + this.outputTemplate(canContinue ? countMinutes : 0, 'minutes')
+      + this.outputTemplate(canContinue ? countSeconds : 0, 'seconds')
     );
 
     if (!this.settings.isStopped && canContinue) {
@@ -79,7 +82,7 @@ export default class TimezZ {
   outputTemplate(number, letter) {
     return this.settings.template
       .replace(/NUMBER/g, number)
-      .replace(/LETTER/g, letter);
+      .replace(/LETTER/g, this.settings.text[letter]);
   }
 
   validate() {
@@ -102,5 +105,6 @@ export default class TimezZ {
     clearTimeout(this.timeout);
     this.element.innerHTML = null;
     this.settings = {};
+    this.element = null;
   }
 }
