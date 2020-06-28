@@ -22,6 +22,10 @@ export default class TimezZ {
       isStopped: false,
       canContinue: false,
       template: '<span>NUMBER<i>LETTER</i></span> ',
+      hideDays: false,
+      hideHours: false,
+      hideMinutes: false,
+      hideSeconds: false,
       beforeCreate() {},
       beforeDestroy() {},
       finished() {},
@@ -51,13 +55,28 @@ export default class TimezZ {
     const distance = countDate - currentTime;
     const canContinue = this.settings.canContinue || distance > 0;
 
-    /**
-     * Hard math.
-     */
-    const countDays = calculateTemplate(distance / ONE_DAY);
-    const countHours = calculateTemplate((distance % ONE_DAY) / ONE_HOUR);
-    const countMinutes = calculateTemplate((distance % ONE_HOUR) / ONE_MINUTE);
-    const countSeconds = calculateTemplate((distance % ONE_MINUTE) / ONE_SECOND);
+    let innerHTMLContent = '';
+
+    if (!this.settings.hideDays) {
+      const countDays = calculateTemplate(distance / ONE_DAY);
+      innerHTMLContent += this.outputTemplate(canContinue ? countDays : 0, 'days');
+    }
+
+    if (!this.settings.hideHours) {
+      const countHours = calculateTemplate((distance % ONE_DAY) / ONE_HOUR);
+      innerHTMLContent += this.outputTemplate(canContinue ? countHours : 0, 'hours');
+    }
+
+    if (!this.settings.hideMinutes) {
+      const countMinutes = calculateTemplate((distance % ONE_HOUR) / ONE_MINUTE);
+      innerHTMLContent += this.outputTemplate(canContinue ? countMinutes : 0, 'minutes');
+    }
+
+    if (!this.settings.hideSeconds) {
+      const countSeconds = calculateTemplate((distance % ONE_MINUTE) / ONE_SECOND);
+      innerHTMLContent += this.outputTemplate(canContinue ? countSeconds : 0, 'seconds');
+    }
+
 
     if (typeof this.settings.beforeCreate === 'function') {
       this.settings.beforeCreate();
@@ -67,12 +86,7 @@ export default class TimezZ {
       this.settings.finished();
     }
 
-    this.element.innerHTML = (
-      this.outputTemplate(canContinue ? countDays : 0, 'days')
-      + this.outputTemplate(canContinue ? countHours : 0, 'hours')
-      + this.outputTemplate(canContinue ? countMinutes : 0, 'minutes')
-      + this.outputTemplate(canContinue ? countSeconds : 0, 'seconds')
-    );
+    this.element.innerHTML = innerHTMLContent;
 
     if (!this.settings.isStopped && canContinue) {
       this.timeout = setTimeout(this.initTimer.bind(this), ONE_SECOND);

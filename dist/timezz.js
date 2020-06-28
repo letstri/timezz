@@ -205,7 +205,7 @@ module.exports = _objectSpread;
 /*! exports provided: name, version, description, main, scripts, repository, keywords, author, license, bugs, homepage, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"timezz","version":"5.0.0","description":"TimezZ - is a simple timer plugin for countdown and count forward.","main":"dist/timezz.js","scripts":{"start":"webpack --env development --watch","prod":"webpack --env production","dev":"webpack --env development","build":"npm run prod && npm run dev","docs-server":"docsify serve ./docs"},"repository":{"type":"git","url":"git+https://github.com/BrooonS/timezz.git"},"keywords":["webpack","js","javascript","library","es6","commonjs","timezz","plugin","time","timer","countdown","count","forward"],"author":"Valery Strelets","license":"MIT","bugs":{"url":"https://github.com/BrooonS/timezz/issues"},"homepage":"https://github.com/BrooonS/timezz#readme","devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-proposal-object-rest-spread":"^7.0.0","@babel/plugin-transform-object-assign":"^7.0.0","@babel/plugin-transform-runtime":"^7.1.0","@babel/preset-env":"^7.1.0","@babel/runtime":"^7.1.2","babel-eslint":"^10.0.1","babel-loader":"^8.0.4","eslint":"^5.6.1","eslint-config-airbnb":"^17.1.0","eslint-loader":"^2.1.1","eslint-plugin-import":"^2.14.0","eslint-plugin-jsx-a11y":"^6.1.2","eslint-plugin-react":"^7.11.1","uglifyjs-webpack-plugin":"^2.0.1","webpack":"^4.23.1","webpack-cli":"^3.1.2"}};
+module.exports = JSON.parse("{\"name\":\"timezz\",\"version\":\"5.0.0\",\"description\":\"TimezZ - is a simple timer plugin for countdown and count forward.\",\"main\":\"dist/timezz.js\",\"scripts\":{\"start\":\"webpack --env development --watch\",\"prod\":\"webpack --env production\",\"dev\":\"webpack --env development\",\"build\":\"npm run prod && npm run dev\",\"docs-server\":\"docsify serve ./docs\"},\"repository\":{\"type\":\"git\",\"url\":\"git+https://github.com/BrooonS/timezz.git\"},\"keywords\":[\"webpack\",\"js\",\"javascript\",\"library\",\"es6\",\"commonjs\",\"timezz\",\"plugin\",\"time\",\"timer\",\"countdown\",\"count\",\"forward\"],\"author\":\"Valery Strelets\",\"license\":\"MIT\",\"bugs\":{\"url\":\"https://github.com/BrooonS/timezz/issues\"},\"homepage\":\"https://github.com/BrooonS/timezz#readme\",\"devDependencies\":{\"@babel/core\":\"^7.1.2\",\"@babel/plugin-proposal-object-rest-spread\":\"^7.0.0\",\"@babel/plugin-transform-object-assign\":\"^7.0.0\",\"@babel/plugin-transform-runtime\":\"^7.1.0\",\"@babel/preset-env\":\"^7.1.0\",\"@babel/runtime\":\"^7.1.2\",\"babel-eslint\":\"^10.0.1\",\"babel-loader\":\"^8.0.4\",\"eslint\":\"^5.6.1\",\"eslint-config-airbnb\":\"^17.1.0\",\"eslint-loader\":\"^2.1.1\",\"eslint-plugin-import\":\"^2.14.0\",\"eslint-plugin-jsx-a11y\":\"^6.1.2\",\"eslint-plugin-react\":\"^7.11.1\",\"uglifyjs-webpack-plugin\":\"^2.0.1\",\"webpack\":\"^4.43.0\",\"webpack-cli\":\"^3.3.12\"}}");
 
 /***/ }),
 
@@ -259,6 +259,10 @@ function () {
       isStopped: false,
       canContinue: false,
       template: '<span>NUMBER<i>LETTER</i></span> ',
+      hideDays: false,
+      hideHours: false,
+      hideMinutes: false,
+      hideSeconds: false,
       beforeCreate: function beforeCreate() {},
       beforeDestroy: function beforeDestroy() {},
       finished: function finished() {}
@@ -289,14 +293,27 @@ function () {
       var currentTime = new Date().getTime();
       var distance = countDate - currentTime;
       var canContinue = this.settings.canContinue || distance > 0;
-      /**
-       * Hard math.
-       */
+      var innerHTMLContent = '';
 
-      var countDays = calculateTemplate(distance / ONE_DAY);
-      var countHours = calculateTemplate(distance % ONE_DAY / ONE_HOUR);
-      var countMinutes = calculateTemplate(distance % ONE_HOUR / ONE_MINUTE);
-      var countSeconds = calculateTemplate(distance % ONE_MINUTE / ONE_SECOND);
+      if (!this.settings.hideDays) {
+        var countDays = calculateTemplate(distance / ONE_DAY);
+        innerHTMLContent += this.outputTemplate(canContinue ? countDays : 0, 'days');
+      }
+
+      if (!this.settings.hideHours) {
+        var countHours = calculateTemplate(distance % ONE_DAY / ONE_HOUR);
+        innerHTMLContent += this.outputTemplate(canContinue ? countHours : 0, 'hours');
+      }
+
+      if (!this.settings.hideMinutes) {
+        var countMinutes = calculateTemplate(distance % ONE_HOUR / ONE_MINUTE);
+        innerHTMLContent += this.outputTemplate(canContinue ? countMinutes : 0, 'minutes');
+      }
+
+      if (!this.settings.hideSeconds) {
+        var countSeconds = calculateTemplate(distance % ONE_MINUTE / ONE_SECOND);
+        innerHTMLContent += this.outputTemplate(canContinue ? countSeconds : 0, 'seconds');
+      }
 
       if (typeof this.settings.beforeCreate === 'function') {
         this.settings.beforeCreate();
@@ -306,7 +323,7 @@ function () {
         this.settings.finished();
       }
 
-      this.element.innerHTML = this.outputTemplate(canContinue ? countDays : 0, 'days') + this.outputTemplate(canContinue ? countHours : 0, 'hours') + this.outputTemplate(canContinue ? countMinutes : 0, 'minutes') + this.outputTemplate(canContinue ? countSeconds : 0, 'seconds');
+      this.element.innerHTML = innerHTMLContent;
 
       if (!this.settings.isStopped && canContinue) {
         this.timeout = setTimeout(this.initTimer.bind(this), ONE_SECOND);
