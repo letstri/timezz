@@ -1,7 +1,6 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-module.exports = env => ({
+module.exports = (env) => ({
   entry: './timezz.js',
   mode: env,
   devtool: 'none',
@@ -13,15 +12,6 @@ module.exports = env => ({
     libraryTarget: 'umd',
     umdNamedDefine: true,
     globalObject: 'typeof self === \'undefined\' ? this : self',
-  },
-  optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          keep_classnames: true,
-        },
-      }),
-    ],
   },
   module: {
     rules: [

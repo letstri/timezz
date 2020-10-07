@@ -96,29 +96,50 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/classCallCheck.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/classCallCheck.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./package.json":
+/*!**********************!*\
+  !*** ./package.json ***!
+  \**********************/
+/*! exports provided: name, version, description, main, scripts, repository, keywords, author, license, bugs, homepage, dependencies, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"name\":\"timezz\",\"version\":\"6.0.0\",\"description\":\"TimezZ - with this plugin you can easily make a stopwatch or timer.\",\"main\":\"dist/timezz.js\",\"scripts\":{\"dev\":\"webpack --env development --watch\",\"build\":\"webpack --env production && webpack --env development\",\"docs-server\":\"docsify serve ./docs\"},\"repository\":{\"type\":\"git\",\"url\":\"git+https://github.com/BrooonS/timezz.git\"},\"keywords\":[\"webpack\",\"js\",\"javascript\",\"library\",\"es6\",\"commonjs\",\"timezz\",\"plugin\",\"time\",\"timer\",\"countdown\",\"count\",\"forward\",\"repeat\"],\"author\":\"Valery Strelets\",\"license\":\"MIT\",\"bugs\":{\"url\":\"https://github.com/BrooonS/timezz/issues\"},\"homepage\":\"https://github.com/BrooonS/timezz#readme\",\"dependencies\":{\"@babel/core\":\"7.11.6\",\"@babel/plugin-proposal-class-properties\":\"7.10.4\",\"@babel/preset-env\":\"7.11.5\",\"babel-eslint\":\"10.1.0\",\"babel-loader\":\"8.1.0\",\"eslint\":\"7.10.0\",\"eslint-config-airbnb\":\"18.2.0\",\"eslint-loader\":\"4.0.2\",\"eslint-plugin-import\":\"2.22.1\",\"eslint-plugin-jsx-a11y\":\"6.3.1\",\"eslint-plugin-react\":\"7.21.3\",\"react\":\"16.13.1\",\"webpack\":\"4.44.2\",\"webpack-cli\":\"3.3.12\"}}");
+
+/***/ }),
+
+/***/ "./timezz.js":
+/*!*******************!*\
+  !*** ./timezz.js ***!
+  \*******************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TimezZ; });
+/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./package.json */ "./package.json");
+var _package_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./package.json */ "./package.json", 1);
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
   }
 }
-
-module.exports = _classCallCheck;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/createClass.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/createClass.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
 
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -136,17 +157,6 @@ function _createClass(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
-module.exports = _createClass;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/defineProperty.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/defineProperty.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -161,77 +171,8 @@ function _defineProperty(obj, key, value) {
 
   return obj;
 }
-
-module.exports = _defineProperty;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/objectSpread.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/objectSpread.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var defineProperty = __webpack_require__(/*! ./defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      defineProperty(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
-
-module.exports = _objectSpread;
-
-/***/ }),
-
-/***/ "./package.json":
-/*!**********************!*\
-  !*** ./package.json ***!
-  \**********************/
-/*! exports provided: name, version, description, main, scripts, repository, keywords, author, license, bugs, homepage, devDependencies, default */
-/***/ (function(module) {
-
-module.exports = {"name":"timezz","version":"5.0.0","description":"TimezZ - is a simple timer plugin for countdown and count forward.","main":"dist/timezz.js","scripts":{"start":"webpack --env development --watch","prod":"webpack --env production","dev":"webpack --env development","build":"npm run prod && npm run dev","docs-server":"docsify serve ./docs"},"repository":{"type":"git","url":"git+https://github.com/BrooonS/timezz.git"},"keywords":["webpack","js","javascript","library","es6","commonjs","timezz","plugin","time","timer","countdown","count","forward"],"author":"Valery Strelets","license":"MIT","bugs":{"url":"https://github.com/BrooonS/timezz/issues"},"homepage":"https://github.com/BrooonS/timezz#readme","devDependencies":{"@babel/core":"^7.1.2","@babel/plugin-proposal-object-rest-spread":"^7.0.0","@babel/plugin-transform-object-assign":"^7.0.0","@babel/plugin-transform-runtime":"^7.1.0","@babel/preset-env":"^7.1.0","@babel/runtime":"^7.1.2","babel-eslint":"^10.0.1","babel-loader":"^8.0.4","eslint":"^5.6.1","eslint-config-airbnb":"^17.1.0","eslint-loader":"^2.1.1","eslint-plugin-import":"^2.14.0","eslint-plugin-jsx-a11y":"^6.1.2","eslint-plugin-react":"^7.11.1","uglifyjs-webpack-plugin":"^2.0.1","webpack":"^4.23.1","webpack-cli":"^3.1.2"}};
-
-/***/ }),
-
-/***/ "./timezz.js":
-/*!*******************!*\
-  !*** ./timezz.js ***!
-  \*******************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TimezZ; });
-/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _package__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./package */ "./package.json");
-var _package__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./package */ "./package.json", 1);
-
-
-
 /**
- * TimezZ - is a simple timer plugin for countdown and count forward.
+ * TimezZ - with this plugin you can easily make a stopwatch or timer.
  *
  * @author Valery Strelets
  * @see https://github.com/BrooonS/TimezZ
@@ -239,47 +180,63 @@ var _package__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_req
  */
 
 
+
 var ONE_SECOND = 1000;
 var ONE_MINUTE = ONE_SECOND * 60;
 var ONE_HOUR = ONE_MINUTE * 60;
 var ONE_DAY = ONE_HOUR * 24;
 
-var TimezZ =
-/*#__PURE__*/
-function () {
-  function TimezZ(selector) {
-    var userSettings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+var TimezZ = /*#__PURE__*/function () {
+  function TimezZ(selector, userSettings) {
+    var _this$settings;
 
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, TimezZ);
+    _classCallCheck(this, TimezZ);
 
-    this.VERSION = _package__WEBPACK_IMPORTED_MODULE_3__["version"];
-    this.element = document.querySelector(selector);
-    this.settings = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({
-      date: null,
-      isStopped: false,
-      canContinue: false,
-      template: '<span>NUMBER<i>LETTER</i></span> ',
-      beforeCreate: function beforeCreate() {},
-      beforeDestroy: function beforeDestroy() {},
-      finished: function finished() {}
-    }, userSettings, {
-      text: _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({
-        days: 'd',
-        hours: 'h',
-        minutes: 'm',
-        seconds: 's'
-      }, userSettings.text)
+    _defineProperty(this, "validateDate", function (date) {
+      if (Number.isNaN(new Date(date).getTime())) {
+        throw new Error('[TimezZ]: Date isn\'t valid. Check documentation for more info. https://github.com/BrooonS/timezz');
+      }
     });
-    this.validate();
+
+    _defineProperty(this, "validateElements", function (elements) {
+      if (elements.length === 0) {
+        throw new Error('[TimezZ]: Selector elements not found. Check documentation for more info. https://github.com/BrooonS/timezz');
+      }
+    });
+
+    this.VERSION = _package_json__WEBPACK_IMPORTED_MODULE_0__["version"];
+    this.elements = Array.from(document.querySelectorAll(selector));
+    this.validateDate(userSettings.date);
+    this.validateElements(this.elements);
+    this.settings = {
+      date: userSettings.date,
+      isStopped: userSettings.isStopped || false,
+      canContinue: false,
+      template: userSettings.template || '<span>NUMBER<i>LETTER</i></span> ',
+      beforeCreate: userSettings.beforeCreate || function () {},
+      beforeDestroy: userSettings.beforeDestroy || function () {},
+      update: userSettings.update || function () {}
+    };
+
+    if (typeof ((_this$settings = this.settings) === null || _this$settings === void 0 ? void 0 : _this$settings.beforeCreate) === 'function') {
+      this.settings.beforeCreate();
+    }
+
     this.initTimer();
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(TimezZ, [{
+  _createClass(TimezZ, [{
     key: "initTimer",
     value: function initTimer() {
+      var _this = this;
+
+      if (this.settings === null) {
+        return;
+      }
+
       var calculateTemplate = function calculateTemplate(math) {
         var fixNumber = function fixNumber(number) {
-          return number >= 10 ? number : "0".concat(number);
+          return number >= 10 ? "".concat(number) : "0".concat(number);
         };
 
         return fixNumber(Math.floor(Math.abs(math)));
@@ -289,59 +246,63 @@ function () {
       var currentTime = new Date().getTime();
       var distance = countDate - currentTime;
       var canContinue = this.settings.canContinue || distance > 0;
-      /**
-       * Hard math.
-       */
-
       var countDays = calculateTemplate(distance / ONE_DAY);
       var countHours = calculateTemplate(distance % ONE_DAY / ONE_HOUR);
       var countMinutes = calculateTemplate(distance % ONE_HOUR / ONE_MINUTE);
       var countSeconds = calculateTemplate(distance % ONE_MINUTE / ONE_SECOND);
-
-      if (typeof this.settings.beforeCreate === 'function') {
-        this.settings.beforeCreate();
-      }
-
-      if (typeof this.settings.finished === 'function' && !canContinue) {
-        this.settings.finished();
-      }
-
-      this.element.innerHTML = this.outputTemplate(canContinue ? countDays : 0, 'days') + this.outputTemplate(canContinue ? countHours : 0, 'hours') + this.outputTemplate(canContinue ? countMinutes : 0, 'minutes') + this.outputTemplate(canContinue ? countSeconds : 0, 'seconds');
+      this.elements.forEach(function (element, index) {
+        _this.elements[index].innerHTML = _this.formatHTML(canContinue ? countDays : '0', 'days') + _this.formatHTML(canContinue ? countHours : '0', 'hours') + _this.formatHTML(canContinue ? countMinutes : '0', 'minutes') + _this.formatHTML(canContinue ? countSeconds : '0', 'seconds');
+      });
 
       if (!this.settings.isStopped && canContinue) {
         this.timeout = setTimeout(this.initTimer.bind(this), ONE_SECOND);
       }
     }
   }, {
-    key: "outputTemplate",
-    value: function outputTemplate(number, letter) {
-      return this.settings.template.replace(/NUMBER/g, number).replace(/LETTER/g, this.settings.text[letter]);
-    }
-  }, {
-    key: "validate",
-    value: function validate() {
-      /* eslint-disable no-console */
-      if (this.element === null) {
-        console.error('[TimezZ]: Selector isn\'t passed. Check documentation for more info. https://github.com/BrooonS/timezz');
+    key: "formatHTML",
+    value: function formatHTML(number, letter) {
+      var _this2 = this;
+
+      var replace = function replace(string) {
+        return string.replace(/NUMBER/g, number).replace(/LETTER/g, letter);
+      };
+
+      if (!this.settings) {
+        return '';
       }
 
-      if (Number.isNaN(new Date(this.settings.date).getTime())) {
-        console.warn('[TimezZ]: Date isn\'t valid. Check documentation for more info. https://github.com/BrooonS/timezz');
+      if (typeof this.settings.template === 'string') {
+        return replace(this.settings.template);
       }
-      /* eslint-enable no-console */
 
+      if (_typeof(this.settings.template) === 'object') {
+        return Object.keys(this.settings.template).reduce(function (acc, key) {
+          var _this2$settings;
+
+          return acc + replace((_this2$settings = _this2.settings) === null || _this2$settings === void 0 ? void 0 : _this2$settings.template[key]);
+        }, '');
+      }
+
+      return '';
     }
   }, {
     key: "destroy",
     value: function destroy() {
-      if (typeof this.settings.beforeDestroy === 'function') {
+      var _this3 = this;
+
+      if (this.settings && typeof this.settings.beforeDestroy === 'function') {
         this.settings.beforeDestroy();
       }
 
-      clearTimeout(this.timeout);
-      this.element.innerHTML = null;
-      this.settings = {};
-      this.element = null;
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+
+      this.elements.forEach(function (element, index) {
+        _this3.elements[index].innerHTML = '';
+      });
+      this.settings = null;
+      this.elements = [];
     }
   }]);
 
