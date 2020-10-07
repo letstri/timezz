@@ -26,9 +26,9 @@ export default class TimezZ {
       isStopped: userSettings.isStopped || false,
       canContinue: userSettings.canContinue || false,
       template: userSettings.template || '<span>NUMBER<i>LETTER</i></span> ',
-      beforeCreate: userSettings.beforeCreate || (() => {}),
-      beforeDestroy: userSettings.beforeDestroy || (() => {}),
-      update: userSettings.update || (() => {}),
+      beforeCreate: userSettings.beforeCreate || null,
+      beforeDestroy: userSettings.beforeDestroy || null,
+      update: userSettings.update || null,
     };
 
     if (typeof this.settings?.beforeCreate === 'function') {
@@ -54,6 +54,10 @@ export default class TimezZ {
     const countHours = calculateTemplate((distance % ONE_DAY) / ONE_HOUR);
     const countMinutes = calculateTemplate((distance % ONE_HOUR) / ONE_MINUTE);
     const countSeconds = calculateTemplate((distance % ONE_MINUTE) / ONE_SECOND);
+
+    if (typeof this.settings.update === 'function') {
+      this.settings.update({ distance });
+    }
 
     this.elements.forEach((element, index) => {
       this.elements[index].innerHTML = (
