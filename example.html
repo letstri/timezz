@@ -47,14 +47,14 @@ body {
 <script>
 const timer = new TimezZ('.j-first-timer', {
   date: 'Dec 02, 2013 00:00:00',
-  text: {
-    days: ' days',
-    hours: ' hours',
-    minutes: ' minutes',
-    seconds: ' seconds',
-  },
   canContinue: true,
-  template: '<span>NUMBER</span><i>LETTER</i> ',
+  update(e) {
+    console.log(e);
+  },
+  template: {
+    days: '<div><span>{NUMBER}</span><i>{LETTER}</i></div>',
+    seconds: '',
+  },
 });
 
 const timer2 = new TimezZ('.j-second-timer', {
@@ -63,7 +63,7 @@ const timer2 = new TimezZ('.j-second-timer', {
 
 const timer3 = new TimezZ('.j-third-timer', {
   date: 'Jan 01, 2025',
-  template: '<div>NUMBER<span>LETTER</span></div>',
+  template: '<div>{NUMBER}<span>{LETTER}</span></div>',
 
   beforeDestroy() {
     alert('destroyed');
@@ -71,6 +71,6 @@ const timer3 = new TimezZ('.j-third-timer', {
 });
 
 setTimeout(() => {
-  timer3.destroy();
+  // timer3.destroy();
 }, 10000);
 </script>

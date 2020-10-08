@@ -1,0 +1,14 @@
+{
+  "name": "@timezz/types",
+  "version": "6.0.0",
+  "description": "TimezZ types",
+  "repository": "timezz/timezz.js",
+  "license": "MIT",
+  "types": "index",
+  "files": [
+    "**/*.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

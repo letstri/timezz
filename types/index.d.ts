@@ -7,6 +7,14 @@ export interface Template {
   seconds: string;
 }
 
+export interface UpdateEvent {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  distance: number;
+}
+
 export interface Config {
   date: string | Date | number;
   isStopped?: boolean;
@@ -14,7 +22,7 @@ export interface Config {
   template?: string | Template;
   beforeCreate?: () => void;
   beforeDestroy?: () => void;
-  update?: () => void;
+  update?: (event: UpdateEvent) => void;
 }
 
 declare namespace timezz {

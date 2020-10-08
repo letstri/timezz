@@ -8,10 +8,14 @@
 
 import { version } from './package.json';
 
+const TIMEZZ = `[TimezZ v${version}]`;
+
 const ONE_SECOND = 1000;
 const ONE_MINUTE = ONE_SECOND * 60;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
+
+const DEFAULT_TEMPLATE = '<span>{NUMBER}<i>{LETTER}</i></span> ';
 
 export default class TimezZ {
   constructor(selector, userSettings = {}) {
@@ -25,7 +29,7 @@ export default class TimezZ {
       date: userSettings.date,
       isStopped: userSettings.isStopped || false,
       canContinue: userSettings.canContinue || false,
-      template: userSettings.template || '<span>NUMBER<i>LETTER</i></span> ',
+      template: userSettings.template || DEFAULT_TEMPLATE,
       beforeCreate: userSettings.beforeCreate || null,
       beforeDestroy: userSettings.beforeDestroy || null,
       update: userSettings.update || null,
@@ -38,25 +42,31 @@ export default class TimezZ {
     this.initTimer();
   }
 
+  fixNumber = (math) => {
+    const fixZero = (number) => (number >= 10 ? `${number}` : `0${number}`);
+
+    return fixZero(Math.floor(Math.abs(math)));
+  }
+
   initTimer() {
-    const calculateTemplate = (math) => {
-      const fixNumber = (number) => (number >= 10 ? `${number}` : `0${number}`);
-
-      return fixNumber(Math.floor(Math.abs(math)));
-    };
-
     const countDate = new Date(this.settings.date).getTime();
     const currentTime = new Date().getTime();
     const distance = countDate - currentTime;
     const canContinue = this.settings.canContinue || distance > 0;
 
-    const countDays = calculateTemplate(distance / ONE_DAY);
-    const countHours = calculateTemplate((distance % ONE_DAY) / ONE_HOUR);
-    const countMinutes = calculateTemplate((distance % ONE_HOUR) / ONE_MINUTE);
-    const countSeconds = calculateTemplate((distance % ONE_MINUTE) / ONE_SECOND);
+    const countDays = this.fixNumber(distance / ONE_DAY);
+    const countHours = this.fixNumber((distance % ONE_DAY) / ONE_HOUR);
+    const countMinutes = this.fixNumber((distance % ONE_HOUR) / ONE_MINUTE);
+    const countSeconds = this.fixNumber((distance % ONE_MINUTE) / ONE_SECOND);
 
     if (typeof this.settings.update === 'function') {
-      this.settings.update({ distance });
+      this.settings.update({
+        days: +countDays,
+        hours: +countHours,
+        minutes: +countMinutes,
+        seconds: +countSeconds,
+        distance: Math.abs(distance),
+      });
     }
 
     this.elements.forEach((element, index) => {
@@ -75,34 +85,31 @@ export default class TimezZ {
 
   formatHTML(number, letter) {
     const replace = (string) => string
-      .replace(/NUMBER/g, number)
-      .replace(/LETTER/g, letter);
+      .replace(/{NUMBER}/g, number)
+      .replace(/{LETTER}/g, letter);
 
     if (!this.settings) {
       return '';
     }
 
-    if (typeof this.settings.template === 'string') {
-      return replace(this.settings.template);
-    }
-
     if (typeof this.settings.template === 'object') {
-      return Object.keys(this.settings.template)
-        .reduce((acc, key) => acc + replace(this.settings?.template[key]), '');
+      return replace(this.settings?.template[letter] === undefined
+        ? DEFAULT_TEMPLATE
+        : this.settings?.template[letter]);
     }
 
-    return '';
+    return replace(this.settings.template);
   }
 
   validateDate = (date) => {
     if (Number.isNaN(new Date(date).getTime())) {
-      throw new Error('[TimezZ]: Date isn\'t valid. Check documentation for more info. https://github.com/BrooonS/timezz');
+      throw new Error(`${TIMEZZ}: Date isn't valid. Check documentation for more info. https://github.com/BrooonS/timezz`);
     }
   }
 
   validateElements = (elements) => {
     if (elements.length === 0) {
-      throw new Error('[TimezZ]: Selector elements not found. Check documentation for more info. https://github.com/BrooonS/timezz');
+      throw new Error(`${TIMEZZ}: Selector elements not found. Check documentation for more info. https://github.com/BrooonS/timezz`);
     }
   }
 
