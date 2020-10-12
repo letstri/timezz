@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define("TimezZ", [], factory);
+		define("timezz", [], factory);
 	else if(typeof exports === 'object')
-		exports["TimezZ"] = factory();
+		exports["timezz"] = factory();
 	else
-		root["TimezZ"] = factory();
+		root["timezz"] = factory();
 })(typeof self === 'undefined' ? this : self, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -96,17 +96,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "./package.json":
-/*!**********************!*\
-  !*** ./package.json ***!
-  \**********************/
-/*! exports provided: name, version, description, main, scripts, repository, keywords, author, license, bugs, homepage, dependencies, default */
-/***/ (function(module) {
-
-module.exports = JSON.parse("{\"name\":\"timezz\",\"version\":\"6.0.0-beta.1\",\"description\":\"TimezZ - with this plugin you can easily make a stopwatch or timer.\",\"main\":\"dist/timezz.js\",\"scripts\":{\"dev\":\"webpack --env development --watch\",\"build\":\"webpack --env production && webpack --env development\",\"docs-server\":\"docsify serve ./docs\"},\"repository\":{\"type\":\"git\",\"url\":\"git+https://github.com/BrooonS/timezz.git\"},\"keywords\":[\"webpack\",\"js\",\"javascript\",\"library\",\"es6\",\"commonjs\",\"timezz\",\"plugin\",\"time\",\"timer\",\"countdown\",\"count\",\"forward\",\"repeat\"],\"author\":\"Valery Strelets\",\"license\":\"MIT\",\"bugs\":{\"url\":\"https://github.com/BrooonS/timezz/issues\"},\"homepage\":\"https://github.com/BrooonS/timezz#readme\",\"dependencies\":{\"@babel/core\":\"7.11.6\",\"@babel/plugin-proposal-class-properties\":\"7.10.4\",\"@babel/preset-env\":\"7.11.5\",\"babel-eslint\":\"10.1.0\",\"babel-loader\":\"8.1.0\",\"eslint\":\"7.10.0\",\"eslint-config-airbnb\":\"18.2.0\",\"eslint-loader\":\"4.0.2\",\"eslint-plugin-import\":\"2.22.1\",\"eslint-plugin-jsx-a11y\":\"6.3.1\",\"eslint-plugin-react\":\"7.21.3\",\"react\":\"16.13.1\",\"webpack\":\"4.44.2\",\"webpack-cli\":\"3.3.12\"}}");
-
-/***/ }),
-
 /***/ "./timezz.js":
 /*!*******************!*\
   !*** ./timezz.js ***!
@@ -116,9 +105,6 @@ module.exports = JSON.parse("{\"name\":\"timezz\",\"version\":\"6.0.0-beta.1\",\
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TimezZ; });
-/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./package.json */ "./package.json");
-var _package_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./package.json */ "./package.json", 1);
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -180,21 +166,21 @@ function _defineProperty(obj, key, value) {
  */
 
 
-
-var TIMEZZ = "[TimezZ v".concat(_package_json__WEBPACK_IMPORTED_MODULE_0__["version"], "]");
+var TIMEZZ = '[TimezZ]';
 var ONE_SECOND = 1000;
 var ONE_MINUTE = ONE_SECOND * 60;
 var ONE_HOUR = ONE_MINUTE * 60;
 var ONE_DAY = ONE_HOUR * 24;
-var DEFAULT_TEMPLATE = '<span>{NUMBER}<i>{LETTER}</i></span> ';
+var DEFAULT_TEMPLATE = '<span>{NUMBER}<i>{TEXT}</i></span> ';
 
-var TimezZ = /*#__PURE__*/function () {
-  function TimezZ(selector) {
-    var _this$settings;
+var Timezz = /*#__PURE__*/function () {
+  function Timezz() {
+    var _userSettings$texts$d, _userSettings$texts, _userSettings$texts$h, _userSettings$texts2, _userSettings$texts$m, _userSettings$texts3, _userSettings$texts$s, _userSettings$texts4;
 
+    var elements = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var userSettings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-    _classCallCheck(this, TimezZ);
+    _classCallCheck(this, Timezz);
 
     _defineProperty(this, "fixNumber", function (math) {
       var fixZero = function fixZero(number) {
@@ -204,24 +190,15 @@ var TimezZ = /*#__PURE__*/function () {
       return fixZero(Math.floor(Math.abs(math)));
     });
 
-    _defineProperty(this, "validateDate", function (date) {
-      if (Number.isNaN(new Date(date).getTime())) {
-        throw new Error("".concat(TIMEZZ, ": Date isn't valid. Check documentation for more info. https://github.com/BrooonS/timezz"));
-      }
-    });
-
-    _defineProperty(this, "validateElements", function (elements) {
-      if (elements.length === 0) {
-        throw new Error("".concat(TIMEZZ, ": Selector elements not found. Check documentation for more info. https://github.com/BrooonS/timezz"));
-      }
-    });
-
-    this.VERSION = _package_json__WEBPACK_IMPORTED_MODULE_0__["version"];
-    this.elements = Array.from(document.querySelectorAll(selector));
-    this.validateDate(userSettings.date);
-    this.validateElements(this.elements);
+    this.elements = elements;
     this.settings = {
       date: userSettings.date,
+      texts: {
+        days: (_userSettings$texts$d = (_userSettings$texts = userSettings.texts) === null || _userSettings$texts === void 0 ? void 0 : _userSettings$texts.days) !== null && _userSettings$texts$d !== void 0 ? _userSettings$texts$d : 'days',
+        hours: (_userSettings$texts$h = (_userSettings$texts2 = userSettings.texts) === null || _userSettings$texts2 === void 0 ? void 0 : _userSettings$texts2.hours) !== null && _userSettings$texts$h !== void 0 ? _userSettings$texts$h : 'hours',
+        minutes: (_userSettings$texts$m = (_userSettings$texts3 = userSettings.texts) === null || _userSettings$texts3 === void 0 ? void 0 : _userSettings$texts3.minutes) !== null && _userSettings$texts$m !== void 0 ? _userSettings$texts$m : 'minutes',
+        seconds: (_userSettings$texts$s = (_userSettings$texts4 = userSettings.texts) === null || _userSettings$texts4 === void 0 ? void 0 : _userSettings$texts4.seconds) !== null && _userSettings$texts$s !== void 0 ? _userSettings$texts$s : 'seconds'
+      },
       isStopped: userSettings.isStopped || false,
       canContinue: userSettings.canContinue || false,
       template: userSettings.template || DEFAULT_TEMPLATE,
@@ -230,14 +207,14 @@ var TimezZ = /*#__PURE__*/function () {
       update: userSettings.update || null
     };
 
-    if (typeof ((_this$settings = this.settings) === null || _this$settings === void 0 ? void 0 : _this$settings.beforeCreate) === 'function') {
-      this.settings.beforeCreate();
+    if (typeof this.settings.beforeCreate === 'function') {
+      this.settings.beforeCreate(this.settings);
     }
 
     this.initTimer();
   }
 
-  _createClass(TimezZ, [{
+  _createClass(Timezz, [{
     key: "initTimer",
     value: function initTimer() {
       var _this = this;
@@ -271,19 +248,17 @@ var TimezZ = /*#__PURE__*/function () {
     }
   }, {
     key: "formatHTML",
-    value: function formatHTML(number, letter) {
+    value: function formatHTML(number, text) {
+      var _this2 = this;
+
       var replace = function replace(string) {
-        return string.replace(/{NUMBER}/g, number).replace(/{LETTER}/g, letter);
+        return string.replace(/{NUMBER}/g, number).replace(/{TEXT}/g, _this2.settings.texts[text]);
       };
 
-      if (!this.settings) {
-        return '';
-      }
-
       if (_typeof(this.settings.template) === 'object') {
-        var _this$settings2, _this$settings3;
+        var _this$settings$templa;
 
-        return replace(((_this$settings2 = this.settings) === null || _this$settings2 === void 0 ? void 0 : _this$settings2.template[letter]) === undefined ? DEFAULT_TEMPLATE : (_this$settings3 = this.settings) === null || _this$settings3 === void 0 ? void 0 : _this$settings3.template[letter]);
+        return replace((_this$settings$templa = this.settings.template[text]) !== null && _this$settings$templa !== void 0 ? _this$settings$templa : DEFAULT_TEMPLATE);
       }
 
       return replace(this.settings.template);
@@ -291,9 +266,9 @@ var TimezZ = /*#__PURE__*/function () {
   }, {
     key: "destroy",
     value: function destroy() {
-      var _this2 = this;
+      var _this3 = this;
 
-      if (this.settings && typeof this.settings.beforeDestroy === 'function') {
+      if (typeof this.settings.beforeDestroy === 'function') {
         this.settings.beforeDestroy();
       }
 
@@ -302,17 +277,32 @@ var TimezZ = /*#__PURE__*/function () {
       }
 
       this.elements.forEach(function (element, index) {
-        _this2.elements[index].innerHTML = '';
+        _this3.elements[index].innerHTML = '';
       });
       this.settings = null;
       this.elements = [];
     }
   }]);
 
-  return TimezZ;
+  return Timezz;
 }();
 
+var timezz = function timezz(selector, userSettings) {
+  var elements = Array.from(document.querySelectorAll(selector));
 
+  if (Number.isNaN(new Date(userSettings.date).getTime())) {
+    throw new Error("".concat(TIMEZZ, ": Date isn't valid. Check documentation for more info. https://github.com/BrooonS/timezz"));
+  }
+
+  if (elements.length === 0) {
+    throw new Error("".concat(TIMEZZ, ": Selector elements not found. Check documentation for more info. https://github.com/BrooonS/timezz"));
+  }
+
+  return new Timezz(elements, userSettings);
+};
+
+timezz.prototype = Timezz.prototype;
+/* harmony default export */ __webpack_exports__["default"] = (timezz);
 
 /***/ })
 

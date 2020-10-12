@@ -7,7 +7,7 @@ module.exports = (env) => ({
   output: {
     filename: env === 'development' ? 'timezz.js' : 'timezz.min.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'TimezZ',
+    library: 'timezz',
     libraryExport: 'default',
     libraryTarget: 'umd',
     umdNamedDefine: true,

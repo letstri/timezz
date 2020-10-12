@@ -1,8 +1,10 @@
 {
   "name": "timezz",
-  "version": "6.0.0-beta.2",
+  "version": "6.0.0-beta.8",
   "description": "TimezZ - with this plugin you can easily make a stopwatch or timer.",
-  "main": "dist/timezz.js",
+  "main": "timezz.min.js",
+  "types": "index.d.ts",
+  "module": "timezz.min.js",
   "scripts": {
     "dev": "webpack --env development --watch",
     "build": "webpack --env production && webpack --env development",
@@ -34,7 +36,7 @@
     "url": "https://github.com/BrooonS/timezz/issues"
   },
   "homepage": "https://github.com/BrooonS/timezz#readme",
-  "dependencies": {
+  "devDependencies": {
     "@babel/core": "7.11.6",
     "@babel/plugin-proposal-class-properties": "7.10.4",
     "@babel/preset-env": "7.11.5",

@@ -6,27 +6,26 @@
  * @license https://github.com/BrooonS/timezz/blob/master/LICENSE
  */
 
-import { version } from './package.json';
-
-const TIMEZZ = `[TimezZ v${version}]`;
+const TIMEZZ = '[TimezZ]';
 
 const ONE_SECOND = 1000;
 const ONE_MINUTE = ONE_SECOND * 60;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
 
-const DEFAULT_TEMPLATE = '<span>{NUMBER}<i>{LETTER}</i></span> ';
+const DEFAULT_TEMPLATE = '<span>{NUMBER}<i>{TEXT}</i></span> ';
 
-export default class TimezZ {
-  constructor(selector, userSettings = {}) {
-    this.VERSION = version;
-    this.elements = Array.from(document.querySelectorAll(selector));
-
-    this.validateDate(userSettings.date);
-    this.validateElements(this.elements);
-
+class Timezz {
+  constructor(elements = [], userSettings = {}) {
+    this.elements = elements;
     this.settings = {
       date: userSettings.date,
+      texts: {
+        days: userSettings.texts?.days ?? 'days',
+        hours: userSettings.texts?.hours ?? 'hours',
+        minutes: userSettings.texts?.minutes ?? 'minutes',
+        seconds: userSettings.texts?.seconds ?? 'seconds',
+      },
       isStopped: userSettings.isStopped || false,
       canContinue: userSettings.canContinue || false,
       template: userSettings.template || DEFAULT_TEMPLATE,
@@ -35,8 +34,8 @@ export default class TimezZ {
       update: userSettings.update || null,
     };
 
-    if (typeof this.settings?.beforeCreate === 'function') {
-      this.settings.beforeCreate();
+    if (typeof this.settings.beforeCreate === 'function') {
+      this.settings.beforeCreate(this.settings);
     }
 
     this.initTimer();
@@ -83,38 +82,20 @@ export default class TimezZ {
     }
   }
 
-  formatHTML(number, letter) {
+  formatHTML(number, text) {
     const replace = (string) => string
       .replace(/{NUMBER}/g, number)
-      .replace(/{LETTER}/g, letter);
-
-    if (!this.settings) {
-      return '';
-    }
+      .replace(/{TEXT}/g, this.settings.texts[text]);
 
     if (typeof this.settings.template === 'object') {
-      return replace(this.settings?.template[letter] === undefined
-        ? DEFAULT_TEMPLATE
-        : this.settings?.template[letter]);
+      return replace(this.settings.template[text] ?? DEFAULT_TEMPLATE);
     }
 
     return replace(this.settings.template);
   }
 
-  validateDate = (date) => {
-    if (Number.isNaN(new Date(date).getTime())) {
-      throw new Error(`${TIMEZZ}: Date isn't valid. Check documentation for more info. https://github.com/BrooonS/timezz`);
-    }
-  }
-
-  validateElements = (elements) => {
-    if (elements.length === 0) {
-      throw new Error(`${TIMEZZ}: Selector elements not found. Check documentation for more info. https://github.com/BrooonS/timezz`);
-    }
-  }
-
   destroy() {
-    if (this.settings && typeof this.settings.beforeDestroy === 'function') {
+    if (typeof this.settings.beforeDestroy === 'function') {
       this.settings.beforeDestroy();
     }
 
@@ -128,3 +109,21 @@ export default class TimezZ {
     this.elements = [];
   }
 }
+
+const timezz = (selector, userSettings) => {
+  const elements = Array.from(document.querySelectorAll(selector));
+
+  if (Number.isNaN(new Date(userSettings.date).getTime())) {
+    throw new Error(`${TIMEZZ}: Date isn't valid. Check documentation for more info. https://github.com/BrooonS/timezz`);
+  }
+
+  if (elements.length === 0) {
+    throw new Error(`${TIMEZZ}: Selector elements not found. Check documentation for more info. https://github.com/BrooonS/timezz`);
+  }
+
+  return new Timezz(elements, userSettings);
+};
+
+timezz.prototype = Timezz.prototype;
+
+export default timezz;

@@ -45,25 +45,31 @@ body {
 
 <script src="dist/timezz.js"></script>
 <script>
-const timer = new TimezZ('.j-first-timer', {
+const timer = timezz('.j-first-timer', {
   date: 'Dec 02, 2013 00:00:00',
   canContinue: true,
   update(e) {
-    console.log(e);
+    // console.log(e);
   },
   template: {
-    days: '<div><span>{NUMBER}</span><i>{LETTER}</i></div>',
+    days: '<div><span>{NUMBER}</span><i>{TEXT}</i></div>',
     seconds: '',
   },
 });
 
-const timer2 = new TimezZ('.j-second-timer', {
+console.log(timer);
+
+const timer2 = timezz('.j-second-timer', {
   date: 'May 27, 1996',
 });
 
-const timer3 = new TimezZ('.j-third-timer', {
+const timer3 = timezz('.j-third-timer', {
   date: 'Jan 01, 2025',
-  template: '<div>{NUMBER}<span>{LETTER}</span></div>',
+  template: '<div>{NUMBER}<span>{TEXT}</span></div>',
+  texts: {
+    days: 'd',
+    hours: 'h',
+  },
 
   beforeDestroy() {
     alert('destroyed');
