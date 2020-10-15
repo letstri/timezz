@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = (env) => ({
-  entry: './timezz.js',
+  entry: './dist/timezz.js',
   mode: env,
   devtool: 'none',
   output: {

@@ -1,13 +1,14 @@
 {
   "name": "timezz",
-  "version": "6.0.0-beta.8",
+  "version": "6.0.0-beta.11",
   "description": "TimezZ - with this plugin you can easily make a stopwatch or timer.",
-  "main": "timezz.min.js",
-  "types": "index.d.ts",
-  "module": "timezz.min.js",
+  "main": "dist/timezz.min.js",
+  "types": "dist/timezz.d.ts",
+  "module": "dist/timezz.min.js",
+  "prepublish": "tsc",
   "scripts": {
-    "dev": "webpack --env development --watch",
-    "build": "webpack --env production && webpack --env development",
+    "dev": "npm run build && webpack --env development --watch",
+    "build": "tsc && webpack --env production && webpack --env development",
     "docs-server": "docsify serve ./docs"
   },
   "repository": {
@@ -49,6 +50,7 @@
     "eslint-plugin-jsx-a11y": "6.3.1",
     "eslint-plugin-react": "7.21.3",
     "react": "16.13.1",
+    "typescript": "^4.0.3",
     "webpack": "4.44.2",
     "webpack-cli": "3.3.12"
   }

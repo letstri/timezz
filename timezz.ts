@@ -15,8 +15,58 @@ const ONE_DAY = ONE_HOUR * 24;
 
 const DEFAULT_TEMPLATE = '<span>{NUMBER}<i>{TEXT}</i></span> ';
 
+interface IUserSettings {
+  date: Date | string | number;
+  texts?: {
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+  };
+  isStopped?: boolean;
+  canContinue?: boolean;
+  template?: string;
+  beforeCreate?: ((settings: ISettings) => void) | null;
+  beforeDestroy?: (() => void) | null;
+  update?: ((event: {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    distance: number;
+  }) => void) | null;
+}
+
+interface ISettings {
+  date: Date | string | number;
+  texts: {
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+  };
+  isStopped: boolean;
+  canContinue: boolean;
+  template: string;
+  beforeCreate: (settings: ISettings) => void;
+  beforeDestroy: () => void;
+  update: (event: {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    distance: number;
+  }) => void;
+}
+
 class Timezz {
-  constructor(elements = [], userSettings = {}) {
+  elements!: Array<Element>;
+
+  settings!: ISettings;
+
+  timeout!: number;
+
+  constructor(elements: Array<Element> = [], userSettings: IUserSettings) {
     this.elements = elements;
     this.settings = {
       date: userSettings.date,
@@ -29,9 +79,9 @@ class Timezz {
       isStopped: userSettings.isStopped || false,
       canContinue: userSettings.canContinue || false,
       template: userSettings.template || DEFAULT_TEMPLATE,
-      beforeCreate: userSettings.beforeCreate || null,
-      beforeDestroy: userSettings.beforeDestroy || null,
-      update: userSettings.update || null,
+      beforeCreate: userSettings.beforeCreate || (() => {}),
+      beforeDestroy: userSettings.beforeDestroy || (() => {}),
+      update: userSettings.update || (() => {}),
     };
 
     if (typeof this.settings.beforeCreate === 'function') {
@@ -41,8 +91,8 @@ class Timezz {
     this.initTimer();
   }
 
-  fixNumber = (math) => {
-    const fixZero = (number) => (number >= 10 ? `${number}` : `0${number}`);
+  fixNumber = (math: number) => {
+    const fixZero = (number: number) => (number >= 10 ? `${number}` : `0${number}`);
 
     return fixZero(Math.floor(Math.abs(math)));
   }
@@ -82,8 +132,8 @@ class Timezz {
     }
   }
 
-  formatHTML(number, text) {
-    const replace = (string) => string
+  formatHTML(number: string, text: keyof ISettings['texts']) {
+    const replace = (string: string) => string
       .replace(/{NUMBER}/g, number)
       .replace(/{TEXT}/g, this.settings.texts[text]);
 
@@ -105,12 +155,11 @@ class Timezz {
     this.elements.forEach((element, index) => {
       this.elements[index].innerHTML = '';
     });
-    this.settings = null;
     this.elements = [];
   }
 }
 
-const timezz = (selector, userSettings) => {
+const timezz = (selector: string, userSettings: IUserSettings) => {
   const elements = Array.from(document.querySelectorAll(selector));
 
   if (Number.isNaN(new Date(userSettings.date).getTime())) {

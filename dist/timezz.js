@@ -91,20 +91,28 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./timezz.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./dist/timezz.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./timezz.js":
-/*!*******************!*\
-  !*** ./timezz.js ***!
-  \*******************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "./dist/timezz.js":
+/*!************************!*\
+  !*** ./dist/timezz.js ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
+
+/**
+ * TimezZ - with this plugin you can easily make a stopwatch or timer.
+ *
+ * @author Valery Strelets
+ * @see https://github.com/BrooonS/TimezZ
+ * @license https://github.com/BrooonS/timezz/blob/master/LICENSE
+ */
+
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -143,29 +151,9 @@ function _createClass(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-/**
- * TimezZ - with this plugin you can easily make a stopwatch or timer.
- *
- * @author Valery Strelets
- * @see https://github.com/BrooonS/TimezZ
- * @license https://github.com/BrooonS/timezz/blob/master/LICENSE
- */
-
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var TIMEZZ = '[TimezZ]';
 var ONE_SECOND = 1000;
 var ONE_MINUTE = ONE_SECOND * 60;
@@ -178,17 +166,17 @@ var Timezz = /*#__PURE__*/function () {
     var _userSettings$texts$d, _userSettings$texts, _userSettings$texts$h, _userSettings$texts2, _userSettings$texts$m, _userSettings$texts3, _userSettings$texts$s, _userSettings$texts4;
 
     var elements = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var userSettings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var userSettings = arguments.length > 1 ? arguments[1] : undefined;
 
     _classCallCheck(this, Timezz);
 
-    _defineProperty(this, "fixNumber", function (math) {
+    this.fixNumber = function (math) {
       var fixZero = function fixZero(number) {
         return number >= 10 ? "".concat(number) : "0".concat(number);
       };
 
       return fixZero(Math.floor(Math.abs(math)));
-    });
+    };
 
     this.elements = elements;
     this.settings = {
@@ -202,9 +190,9 @@ var Timezz = /*#__PURE__*/function () {
       isStopped: userSettings.isStopped || false,
       canContinue: userSettings.canContinue || false,
       template: userSettings.template || DEFAULT_TEMPLATE,
-      beforeCreate: userSettings.beforeCreate || null,
-      beforeDestroy: userSettings.beforeDestroy || null,
-      update: userSettings.update || null
+      beforeCreate: userSettings.beforeCreate || function () {},
+      beforeDestroy: userSettings.beforeDestroy || function () {},
+      update: userSettings.update || function () {}
     };
 
     if (typeof this.settings.beforeCreate === 'function') {
@@ -279,7 +267,6 @@ var Timezz = /*#__PURE__*/function () {
       this.elements.forEach(function (element, index) {
         _this3.elements[index].innerHTML = '';
       });
-      this.settings = null;
       this.elements = [];
     }
   }]);
@@ -302,7 +289,7 @@ var timezz = function timezz(selector, userSettings) {
 };
 
 timezz.prototype = Timezz.prototype;
-/* harmony default export */ __webpack_exports__["default"] = (timezz);
+exports["default"] = timezz;
 
 /***/ })
 
