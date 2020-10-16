@@ -160,9 +160,9 @@ var Timezz = /*#__PURE__*/function () {
       isStopped: userSettings.isStopped || false,
       canContinue: userSettings.canContinue || false,
       template: userSettings.template || DEFAULT_TEMPLATE,
-      beforeCreate: userSettings.beforeCreate || function () {},
-      beforeDestroy: userSettings.beforeDestroy || function () {},
-      update: userSettings.update || function () {}
+      beforeCreate: userSettings.beforeCreate,
+      beforeDestroy: userSettings.beforeDestroy,
+      update: userSettings.update
     };
 
     if (typeof this.settings.beforeCreate === 'function') {

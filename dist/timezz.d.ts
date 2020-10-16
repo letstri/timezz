@@ -11,27 +11,6 @@ interface ITemplate {
     minutes: string;
     seconds: string;
 }
-interface IUserSettings {
-    date: Date | string | number;
-    texts?: {
-        days: string;
-        hours: string;
-        minutes: string;
-        seconds: string;
-    };
-    isStopped?: boolean;
-    canContinue?: boolean;
-    template?: string | ITemplate;
-    beforeCreate?: ((settings: ISettings) => void) | null;
-    beforeDestroy?: (() => void) | null;
-    update?: ((event: {
-        days: number;
-        hours: number;
-        minutes: number;
-        seconds: number;
-        distance: number;
-    }) => void) | null;
-}
 interface ISettings {
     date: Date | string | number;
     texts: {
@@ -43,9 +22,30 @@ interface ISettings {
     isStopped: boolean;
     canContinue: boolean;
     template: string | ITemplate;
-    beforeCreate: (settings: ISettings) => void;
-    beforeDestroy: () => void;
-    update: (event: {
+    beforeCreate?: (settings: ISettings) => void;
+    beforeDestroy?: () => void;
+    update?: (event: {
+        days: number;
+        hours: number;
+        minutes: number;
+        seconds: number;
+        distance: number;
+    }) => void;
+}
+interface IUserSettings {
+    date: Date | string | number;
+    texts?: {
+        days: string;
+        hours: string;
+        minutes: string;
+        seconds: string;
+    };
+    isStopped?: boolean;
+    canContinue?: boolean;
+    template?: string | ITemplate;
+    beforeCreate?: (settings: ISettings) => void;
+    beforeDestroy?: () => void;
+    update?: (event: {
         days: number;
         hours: number;
         minutes: number;
