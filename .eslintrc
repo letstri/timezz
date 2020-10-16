@@ -1,7 +1,10 @@
 {
   "root": true,
-  "parser": "babel-eslint",
-  "extends": "airbnb",
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "airbnb"
+  ],
   "rules": {
     "linebreak-style": 0
   },

@@ -5,6 +5,12 @@
  * @see https://github.com/BrooonS/TimezZ
  * @license https://github.com/BrooonS/timezz/blob/master/LICENSE
  */
+interface ITemplate {
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+}
 interface IUserSettings {
     date: Date | string | number;
     texts?: {
@@ -15,7 +21,7 @@ interface IUserSettings {
     };
     isStopped?: boolean;
     canContinue?: boolean;
-    template?: string;
+    template?: string | ITemplate;
     beforeCreate?: ((settings: ISettings) => void) | null;
     beforeDestroy?: (() => void) | null;
     update?: ((event: {
@@ -36,7 +42,7 @@ interface ISettings {
     };
     isStopped: boolean;
     canContinue: boolean;
-    template: string;
+    template: string | ITemplate;
     beforeCreate: (settings: ISettings) => void;
     beforeDestroy: () => void;
     update: (event: {

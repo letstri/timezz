@@ -15,26 +15,11 @@ const ONE_DAY = ONE_HOUR * 24;
 
 const DEFAULT_TEMPLATE = '<span>{NUMBER}<i>{TEXT}</i></span> ';
 
-interface IUserSettings {
-  date: Date | string | number;
-  texts?: {
-    days: string;
-    hours: string;
-    minutes: string;
-    seconds: string;
-  };
-  isStopped?: boolean;
-  canContinue?: boolean;
-  template?: string;
-  beforeCreate?: ((settings: ISettings) => void) | null;
-  beforeDestroy?: (() => void) | null;
-  update?: ((event: {
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-    distance: number;
-  }) => void) | null;
+interface ITemplate {
+  days: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
 }
 
 interface ISettings {
@@ -47,10 +32,32 @@ interface ISettings {
   };
   isStopped: boolean;
   canContinue: boolean;
-  template: string;
-  beforeCreate: (settings: ISettings) => void;
-  beforeDestroy: () => void;
-  update: (event: {
+  template: string | ITemplate;
+  beforeCreate?: (settings: ISettings) => void;
+  beforeDestroy?: () => void;
+  update?: (event: {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    distance: number;
+  }) => void;
+}
+
+interface IUserSettings {
+  date: Date | string | number;
+  texts?: {
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+  };
+  isStopped?: boolean;
+  canContinue?: boolean;
+  template?: string | ITemplate;
+  beforeCreate?: (settings: ISettings) => void;
+  beforeDestroy?: () => void;
+  update?: (event: {
     days: number;
     hours: number;
     minutes: number;
@@ -79,9 +86,9 @@ class Timezz {
       isStopped: userSettings.isStopped || false,
       canContinue: userSettings.canContinue || false,
       template: userSettings.template || DEFAULT_TEMPLATE,
-      beforeCreate: userSettings.beforeCreate || (() => {}),
-      beforeDestroy: userSettings.beforeDestroy || (() => {}),
-      update: userSettings.update || (() => {}),
+      beforeCreate: userSettings.beforeCreate,
+      beforeDestroy: userSettings.beforeDestroy,
+      update: userSettings.update,
     };
 
     if (typeof this.settings.beforeCreate === 'function') {
@@ -159,7 +166,7 @@ class Timezz {
   }
 }
 
-const timezz = (selector: string, userSettings: IUserSettings) => {
+const timezz = (selector: string, userSettings: IUserSettings): Timezz => {
   const elements = Array.from(document.querySelectorAll(selector));
 
   if (Number.isNaN(new Date(userSettings.date).getTime())) {

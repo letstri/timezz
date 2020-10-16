@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = (env) => ({
-  entry: './dist/timezz.js',
+  entry: './timezz.ts',
   mode: env,
   devtool: 'none',
   output: {
@@ -16,14 +16,14 @@ module.exports = (env) => ({
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: ['babel-loader', 'ts-loader'],
       },
       {
-        test: /\.js$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: ['babel-loader', 'eslint-loader'],
+        loader: 'eslint-loader',
       },
     ],
   },

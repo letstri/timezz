@@ -5,10 +5,10 @@
   "main": "dist/timezz.min.js",
   "types": "dist/timezz.d.ts",
   "module": "dist/timezz.min.js",
-  "prepublish": "tsc",
+  "prepublish": "npm run build",
   "scripts": {
-    "dev": "npm run build && webpack --env development --watch",
-    "build": "tsc && webpack --env production && webpack --env development",
+    "dev": "webpack --env development --watch",
+    "build": "webpack --env production && webpack --env development",
     "docs-server": "docsify serve ./docs"
   },
   "repository": {
@@ -39,8 +39,9 @@
   "homepage": "https://github.com/BrooonS/timezz#readme",
   "devDependencies": {
     "@babel/core": "7.11.6",
-    "@babel/plugin-proposal-class-properties": "7.10.4",
     "@babel/preset-env": "7.11.5",
+    "@typescript-eslint/eslint-plugin": "4.4.1",
+    "@typescript-eslint/parser": "4.4.1",
     "babel-eslint": "10.1.0",
     "babel-loader": "8.1.0",
     "eslint": "7.10.0",
@@ -50,7 +51,8 @@
     "eslint-plugin-jsx-a11y": "6.3.1",
     "eslint-plugin-react": "7.21.3",
     "react": "16.13.1",
-    "typescript": "^4.0.3",
+    "ts-loader": "8.0.5",
+    "typescript": "4.0.3",
     "webpack": "4.44.2",
     "webpack-cli": "3.3.12"
   }
