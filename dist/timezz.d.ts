@@ -1,66 +1,40 @@
-/**
- * TimezZ - with this plugin you can easily make a stopwatch or timer.
- *
- * @author Valery Strelets
- * @see https://github.com/BrooonS/TimezZ
- * @license https://github.com/BrooonS/timezz/blob/master/LICENSE
- */
+interface IUpdateEvent {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    distance: number;
+}
 interface ITemplate {
-    days: string;
-    hours: string;
-    minutes: string;
-    seconds: string;
+    days?: string | ((event: IUpdateEvent) => string);
+    hours?: string | ((event: IUpdateEvent) => string);
+    minutes?: string | ((event: IUpdateEvent) => string);
+    seconds?: string | ((event: IUpdateEvent) => string);
 }
 interface ISettings {
     date: Date | string | number;
-    texts: {
-        days: string;
-        hours: string;
-        minutes: string;
-        seconds: string;
-    };
-    isStopped: boolean;
+    stop: boolean;
     canContinue: boolean;
-    template: string | ITemplate;
-    beforeCreate?: (settings: ISettings) => void;
-    beforeDestroy?: () => void;
-    update?: (event: {
-        days: number;
-        hours: number;
-        minutes: number;
-        seconds: number;
-        distance: number;
-    }) => void;
+    template: string | ITemplate | ((event: IUpdateEvent) => string);
 }
 interface IUserSettings {
     date: Date | string | number;
-    texts?: {
-        days: string;
-        hours: string;
-        minutes: string;
-        seconds: string;
-    };
-    isStopped?: boolean;
+    stop?: boolean;
     canContinue?: boolean;
-    template?: string | ITemplate;
-    beforeCreate?: (settings: ISettings) => void;
-    beforeDestroy?: () => void;
-    update?: (event: {
-        days: number;
-        hours: number;
-        minutes: number;
-        seconds: number;
-        distance: number;
-    }) => void;
+    template?: string | ITemplate | ((event: IUpdateEvent) => string);
 }
 declare class Timezz {
     elements: Array<Element>;
     settings: ISettings;
-    timeout: number;
+    timeout: any;
+    beforeCreate?: (settings: ISettings) => void;
+    beforeDestroy?: () => void;
+    update?: (event: IUpdateEvent) => void;
     constructor(elements: Element[] | undefined, userSettings: IUserSettings);
+    checkFields: (settings: IUserSettings) => void;
     fixNumber: (math: number) => string;
     initTimer(): void;
-    formatHTML(number: string, text: keyof ISettings['texts']): string;
+    formatHTML(number: string | number, text: keyof ITemplate, event: IUpdateEvent): string;
     destroy(): void;
 }
 declare const timezz: {

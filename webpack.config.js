@@ -1,11 +1,11 @@
 const path = require('path');
 
-module.exports = (env) => ({
+module.exports = ({ development }) => ({
   entry: './timezz.ts',
-  mode: env,
-  devtool: 'none',
+  devtool: false,
+  mode: development ? 'development' : 'production',
   output: {
-    filename: env === 'development' ? 'timezz.js' : 'timezz.min.js',
+    filename: development ? 'timezz.js' : 'timezz.min.js',
     path: path.resolve(__dirname, 'dist'),
     library: 'timezz',
     libraryExport: 'default',
@@ -18,7 +18,7 @@ module.exports = (env) => ({
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: ['babel-loader', 'ts-loader'],
+        use: ['babel-loader', 'ts-loader'],
       },
       {
         test: /\.tsx?$/,

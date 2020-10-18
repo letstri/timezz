@@ -10,7 +10,11 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "@typescript-eslint/dot-notation": "off",
+    "@typescript-eslint/no-implied-eval": "off",
+    "@typescript-eslint/no-throw-literal": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   },
   "globals": {
     "window": true,

@@ -48,12 +48,8 @@ body {
 const timer = timezz('.j-first-timer', {
   date: 'Dec 02, 2013 00:00:00',
   canContinue: true,
-  update(e) {
-    // console.log(e);
-  },
   template: {
-    days: '<div><span>{NUMBER}</span><i>{TEXT}</i></div>',
-    seconds: '',
+    seconds: (d) => `<div><span>[NUMBER]</span><i>second${d.days > 1 ? 's' : ''}</i></div>`,
   },
 });
 
@@ -61,16 +57,15 @@ console.log(timer);
 
 const timer2 = timezz('.j-second-timer', {
   date: 'May 27, 1996',
+  canContinue: true,
+  template() {
+    return '<div>[number]</div>';
+  }
 });
 
 const timer3 = timezz('.j-third-timer', {
   date: 'Jan 01, 2025',
-  template: '<div>{NUMBER}<span>{TEXT}</span></div>',
-  texts: {
-    days: 'd',
-    hours: 'h',
-  },
-
+  template: '<div>[NUMBER]<span>[TEXT]</span></div>',
   beforeDestroy() {
     alert('destroyed');
   },
