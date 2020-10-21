@@ -25,8 +25,6 @@ return /******/ (() => { // webpackBootstrap
 
 
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -41,7 +39,7 @@ var ONE_SECOND = 1000;
 var ONE_MINUTE = ONE_SECOND * 60;
 var ONE_HOUR = ONE_MINUTE * 60;
 var ONE_DAY = ONE_HOUR * 24;
-var DEFAULT_TEMPLATE = '<span>[NUMBER] <i>[TEXT]</i></span> ';
+var values = ['days', 'hours', 'minutes', 'seconds'];
 
 var Timezz = /*#__PURE__*/function () {
   function Timezz(elements, userSettings) {
@@ -53,7 +51,7 @@ var Timezz = /*#__PURE__*/function () {
       var warn = function warn(field, types) {
         if (settings[field] !== undefined && types.length) {
           // eslint-disable-next-line no-console
-          console.warn("".concat(TIMEZZ, ":"), "Parameter '".concat(field, "' should be ").concat(types.length > 1 ? 'one of the types' : 'the type', ": ").concat(types.join(', '), "."), _this.elements);
+          console.warn("".concat(TIMEZZ, ":"), "Parameter '".concat(field, "' should be ").concat(types.length > 1 ? 'one of the types' : 'the type', ": ").concat(types.join(', '), "."), _this.elements.length > 1 ? _this.elements : _this.elements[0]);
         }
       };
 
@@ -69,108 +67,111 @@ var Timezz = /*#__PURE__*/function () {
         warn('canContinue', ['boolean']);
       }
 
-      if (typeof settings.template !== 'string' && _typeof(settings.template) !== 'object' && typeof settings.template !== 'function') {
-        warn('template', ['string', 'function', "{\n        days?: string | function,\n        hours?: string | function,\n        minutes?: string | function,\n        seconds?: string | function,\n      }"]);
+      if (typeof settings.beforeCreate !== 'function') {
+        warn('beforeCreate', ['function']);
+      }
+
+      if (typeof settings.beforeDestroy !== 'function') {
+        warn('beforeDestroy', ['function']);
+      }
+
+      if (typeof settings.update !== 'function') {
+        warn('update', ['function']);
       }
     };
 
-    this.fixNumber = function (math) {
-      var fixZero = function fixZero(number) {
-        return number >= 10 ? "".concat(number) : "0".concat(number);
-      };
+    this.fixZero = function (number) {
+      return number >= 10 ? "".concat(number) : "0".concat(number);
+    };
 
-      return fixZero(Math.floor(Math.abs(math)));
+    this.fixNumber = function (math) {
+      return Math.floor(Math.abs(math));
     };
 
     this.elements = elements;
     this.checkFields(userSettings);
-    this.settings = {
-      date: userSettings.date,
-      stop: userSettings.stop || false,
-      canContinue: userSettings.canContinue || false
-    };
+    this.date = userSettings.date;
+    this.stop = userSettings.stop || false;
+    this.canContinue = userSettings.canContinue || false;
+    this.beforeCreate = userSettings.beforeCreate;
+    this.beforeDestroy = userSettings.beforeDestroy;
+    this.update = userSettings.update;
 
     if (typeof this.beforeCreate === 'function') {
-      this.beforeCreate(this.settings);
+      this.beforeCreate();
     }
 
-    this.initTimer();
+    this.init();
   }
 
   _createClass(Timezz, [{
-    key: "initTimer",
-    value: function initTimer() {
-      var _this2 = this;
-
-      var countDate = new Date(this.settings.date).getTime();
+    key: "init",
+    value: function init() {
+      var countDate = new Date(this.date).getTime();
       var currentTime = new Date().getTime();
       var distance = countDate - currentTime;
-      var canContinue = this.settings.canContinue || distance > 0;
+      var canContinue = this.canContinue || distance > 0;
       var countDays = this.fixNumber(distance / ONE_DAY);
       var countHours = this.fixNumber(distance % ONE_DAY / ONE_HOUR);
       var countMinutes = this.fixNumber(distance % ONE_HOUR / ONE_MINUTE);
       var countSeconds = this.fixNumber(distance % ONE_MINUTE / ONE_SECOND);
-      var updateEvent = {
-        days: Number(countDays),
-        hours: Number(countHours),
-        minutes: Number(countMinutes),
-        seconds: Number(countSeconds),
+      var info = {
+        days: countDays,
+        hours: countHours,
+        minutes: countMinutes,
+        seconds: countSeconds,
         distance: Math.abs(distance)
       };
-      this.elements.forEach(function (element, index) {
-        _this2.elements[index].innerHTML = _this2.formatHTML(canContinue ? countDays : 0, 'days', updateEvent) + _this2.formatHTML(canContinue ? countHours : 0, 'hours', updateEvent) + _this2.formatHTML(canContinue ? countMinutes : 0, 'minutes', updateEvent) + _this2.formatHTML(canContinue ? countSeconds : 0, 'seconds', updateEvent);
-      });
 
-      if (typeof this.update === 'function') {
-        this.update(updateEvent);
+      if (canContinue && !this.stop) {
+        this.setHTML(info);
       }
 
-      if (!this.timeout && !this.settings.stop && canContinue) {
-        this.timeout = setTimeout(this.initTimer.bind(this), ONE_SECOND);
+      if (typeof this.update === 'function') {
+        this.update(info);
+      }
+
+      if (!this.timeout) {
+        this.timeout = setInterval(this.init.bind(this), ONE_SECOND);
       }
     }
   }, {
-    key: "formatHTML",
-    value: function formatHTML(number, text, event) {
-      var replace = function replace(string) {
-        return String(string).replace(/\[NUMBER]/gi, number.toString()).replace(/\[TEXT]/gi, text);
-      };
+    key: "setHTML",
+    value: function setHTML(updateInfo) {
+      var _this2 = this;
 
-      if (_typeof(this.settings.template) === 'object') {
-        var _this$settings$templa2;
+      this.elements.forEach(function (element) {
+        values.forEach(function (value) {
+          var block = element.querySelector("[data-".concat(value, "]"));
 
-        if (typeof this.settings.template[text] === 'function') {
-          var _this$settings$templa;
+          var number = _this2.fixZero(updateInfo[value]);
 
-          return replace((_this$settings$templa = this.settings.template[text](event)) !== null && _this$settings$templa !== void 0 ? _this$settings$templa : DEFAULT_TEMPLATE);
-        }
-
-        return replace((_this$settings$templa2 = this.settings.template[text]) !== null && _this$settings$templa2 !== void 0 ? _this$settings$templa2 : DEFAULT_TEMPLATE);
-      }
-
-      if (typeof this.settings.template === 'function') {
-        return replace(this.settings.template(event));
-      }
-
-      return replace(this.settings.template);
+          if (block && block.innerHTML !== number) {
+            block.innerHTML = number;
+          }
+        });
+      });
     }
   }, {
     key: "destroy",
     value: function destroy() {
-      var _this3 = this;
-
       if (typeof this.beforeDestroy === 'function') {
         this.beforeDestroy();
       }
 
       if (this.timeout) {
-        clearTimeout(this.timeout);
+        clearInterval(this.timeout);
       }
 
-      this.elements.forEach(function (element, index) {
-        _this3.elements[index].innerHTML = '';
+      this.elements.forEach(function (element) {
+        values.forEach(function (value) {
+          var block = element.querySelector("[data-".concat(value, "]"));
+
+          if (block) {
+            block.innerHTML = '<!-- -->';
+          }
+        });
       });
-      this.elements = [];
     }
   }]);
 
@@ -189,11 +190,8 @@ var timezz = function timezz(elements, userSettings) {
       items = Array.from(elements);
     } else if (elements instanceof HTMLElement) {
       items = [elements];
-    } else {
-      throw new Error();
     }
-  } catch (e) {
-    throw new Error("".concat(TIMEZZ, ": Elements not found. Check documentation for more info. https://github.com/BrooonS/timezz"));
+  } catch (e) {//
   }
 
   if (Number.isNaN(new Date(userSettings.date).getTime())) {

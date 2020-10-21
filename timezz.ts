@@ -1,3 +1,23 @@
+interface IValues {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+interface IUpdateEvent extends IValues {
+  distance: number;
+}
+
+interface IUserSettings {
+  date: Date | string | number;
+  stop?: boolean;
+  canContinue?: boolean;
+  beforeCreate?: () => void;
+  beforeDestroy?: () => void;
+  update?: (event: IUpdateEvent) => void;
+}
+
 const TIMEZZ = '[TimezZ]';
 
 const ONE_SECOND = 1000;
@@ -5,41 +25,18 @@ const ONE_MINUTE = ONE_SECOND * 60;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
 
-const DEFAULT_TEMPLATE = '<span>[NUMBER] <i>[TEXT]</i></span> ';
-
-interface IUpdateEvent {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  distance: number;
-}
-
-interface ITemplate {
-  days?: string | ((event: IUpdateEvent) => string);
-  hours?: string | ((event: IUpdateEvent) => string);
-  minutes?: string | ((event: IUpdateEvent) => string);
-  seconds?: string | ((event: IUpdateEvent) => string);
-}
-
-interface ISettings {
-  date: Date | string | number;
-  stop: boolean;
-  canContinue: boolean;
-  template: string | ITemplate | ((event: IUpdateEvent) => string);
-}
-
-interface IUserSettings {
-  date: Date | string | number;
-  stop?: boolean;
-  canContinue?: boolean;
-  template?: string | ITemplate | ((event: IUpdateEvent) => string);
-}
+const values: Array<keyof IValues> = ['days', 'hours', 'minutes', 'seconds'];
 
 class Timezz {
   private timeout!: any;
 
-  beforeCreate?: (settings: ISettings) => void;
+  private stop!: boolean;
+
+  private canContinue!: boolean;
+
+  public date!: Date | string | number;
+
+  beforeCreate?: () => void;
 
   beforeDestroy?: () => void;
 
@@ -47,22 +44,22 @@ class Timezz {
 
   elements!: Array<Element>;
 
-  settings!: ISettings;
-
   constructor(elements: Array<Element>, userSettings: IUserSettings) {
     this.elements = elements;
     this.checkFields(userSettings);
-    this.settings = {
-      date: userSettings.date,
-      stop: userSettings.stop || false,
-      canContinue: userSettings.canContinue || false,
-    };
+
+    this.date = userSettings.date;
+    this.stop = userSettings.stop || false;
+    this.canContinue = userSettings.canContinue || false;
+    this.beforeCreate = userSettings.beforeCreate;
+    this.beforeDestroy = userSettings.beforeDestroy;
+    this.update = userSettings.update;
 
     if (typeof this.beforeCreate === 'function') {
-      this.beforeCreate(this.settings);
+      this.beforeCreate();
     }
 
-    this.initTimer();
+    this.init();
   }
 
   private checkFields = (settings: IUserSettings) => {
@@ -72,7 +69,7 @@ class Timezz {
         console.warn(
           `${TIMEZZ}:`,
           `Parameter '${field}' should be ${types.length > 1 ? 'one of the types' : 'the type'}: ${types.join(', ')}.`,
-          this.elements,
+          this.elements.length > 1 ? this.elements : this.elements[0],
         );
       }
     };
@@ -93,81 +90,66 @@ class Timezz {
       warn('canContinue', ['boolean']);
     }
 
-    if (
-      typeof settings.template !== 'string'
-      && typeof settings.template !== 'object'
-      && typeof settings.template !== 'function'
-    ) {
-      warn('template', ['string', 'function', `{
-        days?: string | function,
-        hours?: string | function,
-        minutes?: string | function,
-        seconds?: string | function,
-      }`]);
+    if (typeof settings.beforeCreate !== 'function') {
+      warn('beforeCreate', ['function']);
+    }
+
+    if (typeof settings.beforeDestroy !== 'function') {
+      warn('beforeDestroy', ['function']);
+    }
+
+    if (typeof settings.update !== 'function') {
+      warn('update', ['function']);
     }
   };
 
-  private fixNumber = (math: number) => {
-    const fixZero = (number: number) => (number >= 10 ? `${number}` : `0${number}`);
-
-    return fixZero(Math.floor(Math.abs(math)));
-  };
-
-  private initTimer() {
-    const countDate = new Date(this.settings.date).getTime();
+  public init() {
+    const countDate = new Date(this.date).getTime();
     const currentTime = new Date().getTime();
     const distance = countDate - currentTime;
-    const canContinue = this.settings.canContinue || distance > 0;
+    const canContinue = this.canContinue || distance > 0;
 
     const countDays = this.fixNumber(distance / ONE_DAY);
     const countHours = this.fixNumber((distance % ONE_DAY) / ONE_HOUR);
     const countMinutes = this.fixNumber((distance % ONE_HOUR) / ONE_MINUTE);
     const countSeconds = this.fixNumber((distance % ONE_MINUTE) / ONE_SECOND);
 
-    const updateEvent = {
-      days: Number(countDays),
-      hours: Number(countHours),
-      minutes: Number(countMinutes),
-      seconds: Number(countSeconds),
+    const info = {
+      days: countDays,
+      hours: countHours,
+      minutes: countMinutes,
+      seconds: countSeconds,
       distance: Math.abs(distance),
     };
 
-    this.elements.forEach((element, index) => {
-      this.elements[index].innerHTML = (
-        this.formatHTML(canContinue ? countDays : 0, 'days', updateEvent)
-        + this.formatHTML(canContinue ? countHours : 0, 'hours', updateEvent)
-        + this.formatHTML(canContinue ? countMinutes : 0, 'minutes', updateEvent)
-        + this.formatHTML(canContinue ? countSeconds : 0, 'seconds', updateEvent)
-      );
-    });
-
-    if (typeof this.update === 'function') {
-      this.update(updateEvent);
+    if (canContinue && !this.stop) {
+      this.setHTML(info);
     }
 
-    if (!this.timeout && !this.settings.stop && canContinue) {
-      this.timeout = setTimeout(this.initTimer.bind(this), ONE_SECOND);
+    if (typeof this.update === 'function') {
+      this.update(info);
+    }
+
+    if (!this.timeout) {
+      this.timeout = setInterval(this.init.bind(this), ONE_SECOND);
     }
   }
 
-  private formatHTML(number: string | number, text: keyof ITemplate, event: IUpdateEvent) {
-    const replace = (string: string) => String(string)
-      .replace(/\[NUMBER]/gi, number.toString())
-      .replace(/\[TEXT]/gi, text);
+  private fixZero = (number: number) => (number >= 10 ? `${number}` : `0${number}`);
 
-    if (typeof this.settings.template === 'object') {
-      if (typeof this.settings.template[text] === 'function') {
-        return replace((this.settings.template[text] as any)(event) ?? DEFAULT_TEMPLATE);
-      }
+  private fixNumber = (math: number) => Math.floor(Math.abs(math));
 
-      return replace(this.settings.template[text] as string ?? DEFAULT_TEMPLATE);
-    }
+  private setHTML(updateInfo: IUpdateEvent) {
+    this.elements.forEach((element) => {
+      values.forEach((value: string) => {
+        const block = element.querySelector(`[data-${value}]`);
+        const number = this.fixZero(updateInfo[value as keyof IValues]);
 
-    if (typeof this.settings.template === 'function') {
-      return replace(this.settings.template(event));
-    }
-
-    return replace(this.settings.template);
+        if (block && block.innerHTML !== number) {
+          block.innerHTML = number;
+        }
+      });
+    });
   }
 
   public destroy() {
@@ -176,12 +158,18 @@ class Timezz {
     }
 
     if (this.timeout) {
-      clearTimeout(this.timeout);
+      clearInterval(this.timeout);
     }
-    this.elements.forEach((element, index) => {
-      this.elements[index].innerHTML = '';
+
+    this.elements.forEach((element) => {
+      values.forEach((value: string) => {
+        const block = element.querySelector(`[data-${value}]`);
+
+        if (block) {
+          block.innerHTML = '<!-- -->';
+        }
+      });
     });
-    this.elements = [];
   }
 }
 
@@ -202,11 +190,9 @@ const timezz = (
       items = Array.from(elements as Array<Element>);
     } else if (elements instanceof HTMLElement) {
       items = [elements];
-    } else {
-      throw new Error();
     }
   } catch (e) {
-    throw new Error(`${TIMEZZ}: Elements not found. Check documentation for more info. https://github.com/BrooonS/timezz`);
+    //
   }
 
   if (Number.isNaN(new Date(userSettings.date).getTime())) {

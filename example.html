@@ -5,87 +5,18 @@
 body {
   font-family: Arial;
 }
-
-.timer,
-.timer2,
-.timer3 {
-  font-size: 60px;
-  text-align: center;
-  margin-top: 100px;
-  color: #555;
-}
-
-.timer i {
-  color: #bbb;
-  font-size: 40px;
-}
-
-.timer2 span {
-  font-weight: normal;
-  text-transform: uppercase;
-  color: #bbb;
-}
-
-.timer3 {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 500px;
-  margin: 100px auto 20px;
-}
-
-.timer3 div {
-  flex: 0 0 50%;
-  max-width: 50%;
-}
 </style>
 
-<div class="timer j-first-timer"></div>
-<div class="timer2 j-second-timer"></div>
-<div class="timer3 j-third-timer"></div>
-<div class="timer4 j-fourth-timer">
-  <div data-seconds>
-    <div data-number></div>
-  </div>
+<div class="timer">
+  <div data-days></div> days
+  <div data-hours></div> hours
+  <div data-minutes></div> minutes
+  <div data-seconds></div> seconds
 </div>
-<div class="j-timer"></div>
-<div class="j-timer"></div>
-<div class="j-timer"></div>
 
 <script src="dist/timezz.js"></script>
 <script>
-const timer = timezz('.j-first-timer', {
-  date: 'Dec 02, 2013 00:00:00',
-  canContinue: true,
-  template: {
-    seconds: (d) => `<div><span>[NUMBER]</span><i>second${d.days > 1 ? 's' : ''}</i></div>`,
-  },
+const timer = timezz(document.querySelector('.timer'), {
+  date: new Date('2040-05-27'),
 });
-
-console.log(timer);
-
-const timer2 = timezz('.j-second-timer', {
-  date: 'May 27, 1996',
-  canContinue: true,
-  template(e) {
-    return '<div>[number]</div>';
-  }
-});
-
-const timer3 = timezz('.j-third-timer', {
-  date: 'Jan 01, 2025',
-  template: '<div>[NUMBER]<span>[TEXT]</span></div>',
-  beforeDestroy() {
-    alert('destroyed');
-  },
-});
-
-console.log(timer3);
-
-const timer4 = timezz(document.querySelectorAll('.j-timer'), {
-  date: new Date(),
-});
-
-setTimeout(() => {
-  timer3.destroy();
-}, 10000);
 </script>

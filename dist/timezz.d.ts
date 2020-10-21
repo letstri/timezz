@@ -1,40 +1,35 @@
-interface IUpdateEvent {
+interface IValues {
     days: number;
     hours: number;
     minutes: number;
     seconds: number;
+}
+interface IUpdateEvent extends IValues {
     distance: number;
-}
-interface ITemplate {
-    days?: string | ((event: IUpdateEvent) => string);
-    hours?: string | ((event: IUpdateEvent) => string);
-    minutes?: string | ((event: IUpdateEvent) => string);
-    seconds?: string | ((event: IUpdateEvent) => string);
-}
-interface ISettings {
-    date: Date | string | number;
-    stop: boolean;
-    canContinue: boolean;
-    template: string | ITemplate | ((event: IUpdateEvent) => string);
 }
 interface IUserSettings {
     date: Date | string | number;
     stop?: boolean;
     canContinue?: boolean;
-    template?: string | ITemplate | ((event: IUpdateEvent) => string);
+    beforeCreate?: () => void;
+    beforeDestroy?: () => void;
+    update?: (event: IUpdateEvent) => void;
 }
 declare class Timezz {
     private timeout;
-    beforeCreate?: (settings: ISettings) => void;
+    private stop;
+    private canContinue;
+    date: Date | string | number;
+    beforeCreate?: () => void;
     beforeDestroy?: () => void;
     update?: (event: IUpdateEvent) => void;
     elements: Array<Element>;
-    settings: ISettings;
     constructor(elements: Array<Element>, userSettings: IUserSettings);
     private checkFields;
+    init(): void;
+    private fixZero;
     private fixNumber;
-    private initTimer;
-    private formatHTML;
+    private setHTML;
     destroy(): void;
 }
 declare const timezz: {
