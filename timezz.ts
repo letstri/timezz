@@ -36,13 +36,13 @@ class Timezz {
 
   public date!: Date | string | number;
 
-  beforeCreate?: () => void;
+  public elements!: Array<Element>;
 
-  beforeDestroy?: () => void;
+  private beforeCreate?: () => void;
 
-  update?: (event: IUpdateEvent) => void;
+  private beforeDestroy?: () => void;
 
-  elements!: Array<Element>;
+  private update?: (event: IUpdateEvent) => void;
 
   constructor(elements: Array<Element>, userSettings: IUserSettings) {
     this.elements = elements;
@@ -159,6 +159,7 @@ class Timezz {
 
     if (this.timeout) {
       clearInterval(this.timeout);
+      this.timeout = null;
     }
 
     this.elements.forEach((element) => {

@@ -161,6 +161,7 @@ var Timezz = /*#__PURE__*/function () {
 
       if (this.timeout) {
         clearInterval(this.timeout);
+        this.timeout = null;
       }
 
       this.elements.forEach(function (element) {

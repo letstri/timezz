@@ -20,10 +20,10 @@ declare class Timezz {
     private stop;
     private canContinue;
     date: Date | string | number;
-    beforeCreate?: () => void;
-    beforeDestroy?: () => void;
-    update?: (event: IUpdateEvent) => void;
     elements: Array<Element>;
+    private beforeCreate?;
+    private beforeDestroy?;
+    private update?;
     constructor(elements: Array<Element>, userSettings: IUserSettings);
     private checkFields;
     init(): void;
