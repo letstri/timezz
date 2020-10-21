@@ -5,11 +5,12 @@
   "main": "dist/timezz.min.js",
   "types": "dist/timezz.d.ts",
   "module": "dist/timezz.min.js",
-  "prepublish": "npm run build",
+  "prepublish": "npm run build && npm run test",
   "scripts": {
     "dev": "webpack --env development --watch",
     "build": "webpack --env production && webpack --env development",
-    "docs-server": "docsify serve ./docs"
+    "docs-server": "docsify serve ./docs",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,7 @@
   "devDependencies": {
     "@babel/core": "7.12.3",
     "@babel/preset-env": "7.12.1",
+    "@types/jest": "^26.0.14",
     "@typescript-eslint/eslint-plugin": "4.4.1",
     "@typescript-eslint/parser": "4.4.1",
     "babel-loader": "8.1.0",
@@ -50,6 +52,7 @@
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsx-a11y": "6.3.1",
     "eslint-plugin-react": "7.21.4",
+    "jest": "26.5.3",
     "react": "16.14.0",
     "ts-loader": "8.0.5",
     "typescript": "4.0.3",

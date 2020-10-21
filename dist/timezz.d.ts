@@ -24,21 +24,21 @@ interface IUserSettings {
     template?: string | ITemplate | ((event: IUpdateEvent) => string);
 }
 declare class Timezz {
-    elements: Array<Element>;
-    settings: ISettings;
-    timeout: any;
+    private timeout;
     beforeCreate?: (settings: ISettings) => void;
     beforeDestroy?: () => void;
     update?: (event: IUpdateEvent) => void;
-    constructor(elements: Element[] | undefined, userSettings: IUserSettings);
-    checkFields: (settings: IUserSettings) => void;
-    fixNumber: (math: number) => string;
-    initTimer(): void;
-    formatHTML(number: string | number, text: keyof ITemplate, event: IUpdateEvent): string;
+    elements: Array<Element>;
+    settings: ISettings;
+    constructor(elements: Array<Element>, userSettings: IUserSettings);
+    private checkFields;
+    private fixNumber;
+    private initTimer;
+    private formatHTML;
     destroy(): void;
 }
 declare const timezz: {
-    (selector: string, userSettings: IUserSettings): Timezz;
+    (elements: string | HTMLElement | Array<HTMLElement>, userSettings: IUserSettings): Timezz;
     prototype: Timezz;
 };
 export default timezz;

@@ -37,11 +37,7 @@ interface IUserSettings {
 }
 
 class Timezz {
-  elements!: Array<Element>;
-
-  settings!: ISettings;
-
-  timeout!: any;
+  private timeout!: any;
 
   beforeCreate?: (settings: ISettings) => void;
 
@@ -49,14 +45,17 @@ class Timezz {
 
   update?: (event: IUpdateEvent) => void;
 
-  constructor(elements: Array<Element> = [], userSettings: IUserSettings) {
+  elements!: Array<Element>;
+
+  settings!: ISettings;
+
+  constructor(elements: Array<Element>, userSettings: IUserSettings) {
     this.elements = elements;
     this.checkFields(userSettings);
     this.settings = {
       date: userSettings.date,
       stop: userSettings.stop || false,
       canContinue: userSettings.canContinue || false,
-      template: userSettings.template || DEFAULT_TEMPLATE,
     };
 
     if (typeof this.beforeCreate === 'function') {
@@ -66,11 +65,15 @@ class Timezz {
     this.initTimer();
   }
 
-  checkFields = (settings: IUserSettings) => {
+  private checkFields = (settings: IUserSettings) => {
     const warn = (field: keyof IUserSettings, types: Array<string>) => {
       if (settings[field] !== undefined && types.length) {
         // eslint-disable-next-line no-console
-        console.warn(`${TIMEZZ}: '${field}' should be ${types.length > 1 ? 'one of the types' : 'the type'}: ${types.join(', ')}.`);
+        console.warn(
+          `${TIMEZZ}:`,
+          `Parameter '${field}' should be ${types.length > 1 ? 'one of the types' : 'the type'}: ${types.join(', ')}.`,
+          this.elements,
+        );
       }
     };
 
@@ -104,13 +107,13 @@ class Timezz {
     }
   };
 
-  fixNumber = (math: number) => {
+  private fixNumber = (math: number) => {
     const fixZero = (number: number) => (number >= 10 ? `${number}` : `0${number}`);
 
     return fixZero(Math.floor(Math.abs(math)));
   };
 
-  initTimer() {
+  private initTimer() {
     const countDate = new Date(this.settings.date).getTime();
     const currentTime = new Date().getTime();
     const distance = countDate - currentTime;
@@ -129,10 +132,6 @@ class Timezz {
       distance: Math.abs(distance),
     };
 
-    if (typeof this.update === 'function') {
-      this.update(updateEvent);
-    }
-
     this.elements.forEach((element, index) => {
       this.elements[index].innerHTML = (
         this.formatHTML(canContinue ? countDays : 0, 'days', updateEvent)
@@ -142,13 +141,17 @@ class Timezz {
       );
     });
 
-    if (!this.settings.stop && canContinue) {
+    if (typeof this.update === 'function') {
+      this.update(updateEvent);
+    }
+
+    if (!this.timeout && !this.settings.stop && canContinue) {
       this.timeout = setTimeout(this.initTimer.bind(this), ONE_SECOND);
     }
   }
 
-  formatHTML(number: string | number, text: keyof ITemplate, event: IUpdateEvent) {
-    const replace = (string: string) => string
+  private formatHTML(number: string | number, text: keyof ITemplate, event: IUpdateEvent) {
+    const replace = (string: string) => String(string)
       .replace(/\[NUMBER]/gi, number.toString())
       .replace(/\[TEXT]/gi, text);
 
@@ -167,7 +170,7 @@ class Timezz {
     return replace(this.settings.template);
   }
 
-  destroy() {
+  public destroy() {
     if (typeof this.beforeDestroy === 'function') {
       this.beforeDestroy();
     }
@@ -182,18 +185,35 @@ class Timezz {
   }
 }
 
-const timezz = (selector: string, userSettings: IUserSettings): Timezz => {
-  const elements = Array.from(document.querySelectorAll(selector));
+const timezz = (
+  elements: string | HTMLElement | Array<HTMLElement>,
+  userSettings: IUserSettings,
+): Timezz => {
+  let items: Array<Element> = [];
+
+  // For Node.js env
+  try {
+    if (typeof elements === 'string') {
+      items = Array.from(document.querySelectorAll(elements));
+    } else if (
+      (Array.isArray(elements) || elements instanceof NodeList)
+      && Array.from(elements).every((element) => element instanceof HTMLElement)
+    ) {
+      items = Array.from(elements as Array<Element>);
+    } else if (elements instanceof HTMLElement) {
+      items = [elements];
+    } else {
+      throw new Error();
+    }
+  } catch (e) {
+    throw new Error(`${TIMEZZ}: Elements not found. Check documentation for more info. https://github.com/BrooonS/timezz`);
+  }
 
   if (Number.isNaN(new Date(userSettings.date).getTime())) {
     throw new Error(`${TIMEZZ}: Date isn't valid. Check documentation for more info. https://github.com/BrooonS/timezz`);
   }
 
-  if (elements.length === 0) {
-    throw new Error(`${TIMEZZ}: Selector elements not found. Check documentation for more info. https://github.com/BrooonS/timezz`);
-  }
-
-  return new Timezz(elements, userSettings);
+  return new Timezz(items, userSettings);
 };
 
 timezz.prototype = Timezz.prototype;

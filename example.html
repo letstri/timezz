@@ -42,6 +42,14 @@ body {
 <div class="timer j-first-timer"></div>
 <div class="timer2 j-second-timer"></div>
 <div class="timer3 j-third-timer"></div>
+<div class="timer4 j-fourth-timer">
+  <div data-seconds>
+    <div data-number></div>
+  </div>
+</div>
+<div class="j-timer"></div>
+<div class="j-timer"></div>
+<div class="j-timer"></div>
 
 <script src="dist/timezz.js"></script>
 <script>
@@ -58,7 +66,7 @@ console.log(timer);
 const timer2 = timezz('.j-second-timer', {
   date: 'May 27, 1996',
   canContinue: true,
-  template() {
+  template(e) {
     return '<div>[number]</div>';
   }
 });
@@ -71,7 +79,13 @@ const timer3 = timezz('.j-third-timer', {
   },
 });
 
+console.log(timer3);
+
+const timer4 = timezz(document.querySelectorAll('.j-timer'), {
+  date: new Date(),
+});
+
 setTimeout(() => {
-  // timer3.destroy();
+  timer3.destroy();
 }, 10000);
 </script>

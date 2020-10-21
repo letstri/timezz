@@ -44,9 +44,8 @@ var ONE_DAY = ONE_HOUR * 24;
 var DEFAULT_TEMPLATE = '<span>[NUMBER] <i>[TEXT]</i></span> ';
 
 var Timezz = /*#__PURE__*/function () {
-  function Timezz() {
-    var elements = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var userSettings = arguments.length > 1 ? arguments[1] : undefined;
+  function Timezz(elements, userSettings) {
+    var _this = this;
 
     _classCallCheck(this, Timezz);
 
@@ -54,7 +53,7 @@ var Timezz = /*#__PURE__*/function () {
       var warn = function warn(field, types) {
         if (settings[field] !== undefined && types.length) {
           // eslint-disable-next-line no-console
-          console.warn("".concat(TIMEZZ, ": '").concat(field, "' should be ").concat(types.length > 1 ? 'one of the types' : 'the type', ": ").concat(types.join(', '), "."));
+          console.warn("".concat(TIMEZZ, ":"), "Parameter '".concat(field, "' should be ").concat(types.length > 1 ? 'one of the types' : 'the type', ": ").concat(types.join(', '), "."), _this.elements);
         }
       };
 
@@ -88,8 +87,7 @@ var Timezz = /*#__PURE__*/function () {
     this.settings = {
       date: userSettings.date,
       stop: userSettings.stop || false,
-      canContinue: userSettings.canContinue || false,
-      template: userSettings.template || DEFAULT_TEMPLATE
+      canContinue: userSettings.canContinue || false
     };
 
     if (typeof this.beforeCreate === 'function') {
@@ -102,7 +100,7 @@ var Timezz = /*#__PURE__*/function () {
   _createClass(Timezz, [{
     key: "initTimer",
     value: function initTimer() {
-      var _this = this;
+      var _this2 = this;
 
       var countDate = new Date(this.settings.date).getTime();
       var currentTime = new Date().getTime();
@@ -119,16 +117,15 @@ var Timezz = /*#__PURE__*/function () {
         seconds: Number(countSeconds),
         distance: Math.abs(distance)
       };
+      this.elements.forEach(function (element, index) {
+        _this2.elements[index].innerHTML = _this2.formatHTML(canContinue ? countDays : 0, 'days', updateEvent) + _this2.formatHTML(canContinue ? countHours : 0, 'hours', updateEvent) + _this2.formatHTML(canContinue ? countMinutes : 0, 'minutes', updateEvent) + _this2.formatHTML(canContinue ? countSeconds : 0, 'seconds', updateEvent);
+      });
 
       if (typeof this.update === 'function') {
         this.update(updateEvent);
       }
 
-      this.elements.forEach(function (element, index) {
-        _this.elements[index].innerHTML = _this.formatHTML(canContinue ? countDays : 0, 'days', updateEvent) + _this.formatHTML(canContinue ? countHours : 0, 'hours', updateEvent) + _this.formatHTML(canContinue ? countMinutes : 0, 'minutes', updateEvent) + _this.formatHTML(canContinue ? countSeconds : 0, 'seconds', updateEvent);
-      });
-
-      if (!this.settings.stop && canContinue) {
+      if (!this.timeout && !this.settings.stop && canContinue) {
         this.timeout = setTimeout(this.initTimer.bind(this), ONE_SECOND);
       }
     }
@@ -136,7 +133,7 @@ var Timezz = /*#__PURE__*/function () {
     key: "formatHTML",
     value: function formatHTML(number, text, event) {
       var replace = function replace(string) {
-        return string.replace(/\[NUMBER]/gi, number.toString()).replace(/\[TEXT]/gi, text);
+        return String(string).replace(/\[NUMBER]/gi, number.toString()).replace(/\[TEXT]/gi, text);
       };
 
       if (_typeof(this.settings.template) === 'object') {
@@ -160,7 +157,7 @@ var Timezz = /*#__PURE__*/function () {
   }, {
     key: "destroy",
     value: function destroy() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (typeof this.beforeDestroy === 'function') {
         this.beforeDestroy();
@@ -171,7 +168,7 @@ var Timezz = /*#__PURE__*/function () {
       }
 
       this.elements.forEach(function (element, index) {
-        _this2.elements[index].innerHTML = '';
+        _this3.elements[index].innerHTML = '';
       });
       this.elements = [];
     }
@@ -180,18 +177,30 @@ var Timezz = /*#__PURE__*/function () {
   return Timezz;
 }();
 
-var timezz = function timezz(selector, userSettings) {
-  var elements = Array.from(document.querySelectorAll(selector));
+var timezz = function timezz(elements, userSettings) {
+  var items = []; // For Node.js env
+
+  try {
+    if (typeof elements === 'string') {
+      items = Array.from(document.querySelectorAll(elements));
+    } else if ((Array.isArray(elements) || elements instanceof NodeList) && Array.from(elements).every(function (element) {
+      return element instanceof HTMLElement;
+    })) {
+      items = Array.from(elements);
+    } else if (elements instanceof HTMLElement) {
+      items = [elements];
+    } else {
+      throw new Error();
+    }
+  } catch (e) {
+    throw new Error("".concat(TIMEZZ, ": Elements not found. Check documentation for more info. https://github.com/BrooonS/timezz"));
+  }
 
   if (Number.isNaN(new Date(userSettings.date).getTime())) {
     throw new Error("".concat(TIMEZZ, ": Date isn't valid. Check documentation for more info. https://github.com/BrooonS/timezz"));
   }
 
-  if (elements.length === 0) {
-    throw new Error("".concat(TIMEZZ, ": Selector elements not found. Check documentation for more info. https://github.com/BrooonS/timezz"));
-  }
-
-  return new Timezz(elements, userSettings);
+  return new Timezz(items, userSettings);
 };
 
 timezz.prototype = Timezz.prototype;
