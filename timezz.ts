@@ -7,6 +7,7 @@ interface IValues {
 
 interface IUpdateEvent extends IValues {
   distance: number;
+  elements: Array<Element>;
 }
 
 interface IUserSettings {
@@ -38,11 +39,9 @@ class Timezz {
 
   public elements!: Array<Element>;
 
-  private beforeCreate?: () => void;
+  beforeCreate?: () => void;
 
-  private beforeDestroy?: () => void;
-
-  private update?: (event: IUpdateEvent) => void;
+  update?: (event: IUpdateEvent) => void;
 
   constructor(elements: Array<Element>, userSettings: IUserSettings) {
     this.elements = elements;
@@ -52,7 +51,6 @@ class Timezz {
     this.stop = userSettings.stop || false;
     this.canContinue = userSettings.canContinue || false;
     this.beforeCreate = userSettings.beforeCreate;
-    this.beforeDestroy = userSettings.beforeDestroy;
     this.update = userSettings.update;
 
     if (typeof this.beforeCreate === 'function') {
@@ -120,6 +118,7 @@ class Timezz {
       minutes: countMinutes,
       seconds: countSeconds,
       distance: Math.abs(distance),
+      elements: this.elements,
     };
 
     if (canContinue && !this.stop) {
@@ -153,10 +152,6 @@ class Timezz {
   }
 
   public destroy() {
-    if (typeof this.beforeDestroy === 'function') {
-      this.beforeDestroy();
-    }
-
     if (this.timeout) {
       clearInterval(this.timeout);
       this.timeout = null;

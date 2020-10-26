@@ -7,3 +7,11 @@ test('init and get error', () => {
 test('init only with selector and get error', () => {
   expect(() => timezz('.nothing')).toThrow();
 });
+
+test('init and destroy', () => {
+  const timer = timezz([], { date: new Date });
+
+  expect(timer.elements).toEqual([]);
+
+  timer.destroy();
+});

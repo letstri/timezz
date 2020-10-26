@@ -1,161 +1,232 @@
 # TimezZ
-[![npm version](https://badge.fury.io/js/timezz.svg)](https://valerystrelets.github.io/timezz/)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5294d2df6b70499eb27b25a289ce59b1)](https://www.codacy.com/app/valerystrelets/timezz?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=valerystrelets/timezz&amp;utm_campaign=Badge_Grade)
+
+[![npm version](https://badge.fury.io/js/timezz.svg)](https://BrooonS.github.io/timezz/)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5294d2df6b70499eb27b25a289ce59b1)](https://www.codacy.com/app/BrooonS/timezz?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BrooonS/timezz&amp;utm_campaign=Badge_Grade)
 [![](https://data.jsdelivr.com/v1/package/npm/timezz/badge)](https://www.jsdelivr.com/package/npm/timezz)
 
-<a class="github-button" href="https://github.com/valerystrelets/timezz" data-icon="octicon-star" data-show-count="true" aria-label="Star valerystrelets/timezz on GitHub">Star</a>
-<a class="github-button" href="https://github.com/valerystrelets/timezz/subscription" data-icon="octicon-eye" data-show-count="true" aria-label="Watch valerystrelets/timezz on GitHub">Watch</a>
+> With this plugin you can easily make a stopwatch or timer.
 
-[Docs](https://valerystrelets.github.io/timezz/) | [Licence](https://github.com/valerystrelets/timezz/blob/master/LICENSE)
+## Features
 
-> With this plugin you can easily include the timer on your site, his works both ways.
+- Typescript support
+- Support all environments
+- Easy customization
+- Simple and lightweight
 
-## Example
+## Demo
 
 <iframe src="https://codesandbox.io/embed/w638mz6q68?autoresize=1&fontsize=14&hidenavigation=1&view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 ## Quick start
 
-Install with [npm](https://www.npmjs.com/package/timezz).
+### Install
 
-```sh
+We are support all platforms.
+
+#### npm
+
+For module bundlers such as Webpack or Browserify.
+
+```shell
 npm i timezz
 ```
 
-or download and install with `script`.
+#### Include with &lt;script&gt;
+
+Download and install with `script`.
 
 ```html
 <script src="timezz.min.js"></script>
 ```
 
-or cdn
+##### CDN
+
+Recommend for learning purposes, you can use the latest version:
 
 ```html
-<!-- Latest -->
 <script src="https://cdn.jsdelivr.net/npm/timezz/dist/timezz.min.js"></script>
-
-<!-- With version -->
-<script src="https://cdn.jsdelivr.net/npm/timezz@5.0.0/dist/timezz.min.js"></script>
 ```
 
-**Initialization**
+Recommend for production for avoiding unexpected breakage from newer versions:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/timezz@6.0.0/dist/timezz.min.js"></script>
+```
+
+For native ES Modules, there is also an ES Modules compatible build:
+
+```html
+<script type="module">
+  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@6.0.0/dist/timezz.min.js';
+</script>
+```
+
+---
+
+### HTML
+
+Here is a base HTML markup for your timer/stopwatch. Main part of HTML are `data` attributes for render numbers of `days`, `hours`, `minutes`, `seconds`.
+
+```html
+<div class="timer">
+  Days: <div data-days></div>
+  Hours: <div data-hours></div>
+  Minutes: <div data-minutes></div>
+  Seconds: <div data-seconds></div>
+</div>
+```
+
+---
+
+### Initialization
+
+#### ES6
+
+TimezZ as an ES6 module.
+
 ```js
-new TimezZ('.j-timer');
-```
+import timezz from 'timezz';
 
-**Example Styling**
-```css
-.timer {
-  font-size: 70px;
-}
-
-.timer span {
-  color: #555;
-}
-
-.timer i {
-  color: #bbb;
-  font-size: 40px;
-}
-```
-
-## Config
-
-```js
-new TimezZ('.j-timer', {
-  date: 'Dec 02, 2013 00:00:00',
-  isStopped: false,
-  canContinue: false,
-  template: '<span>NUMBER<i>LETTER</i></span> ',
-  text: {
-    days: 'd',
-    hours: 'h',
-    minutes: 'm',
-    seconds: 's',
-  },
-  beforeCreate() {},
-  beforeDestroy() {},
-  finished() {},
+timezz(document.querySelector('.timer'), {
+  date: new Date(),
 });
 ```
 
-### Params
+#### Node
 
-#### date
+TimezZ as a Node.js module
 
-The date to or from which need count.
+```js
+const timezz = require('timezz');
 
-- type: `string` or `Date`
-- default: `null`
-
-#### text
-
-How to name days, hours, minutes and seconds.
-
-- type: `object`
-- default:
-
-```JS
-{
-  days: 'd',
-  hours: 'h',
-  minutes: 'm',
-  seconds: 's',
-}
+timezz(document.querySelector('.timer'), {
+  date: new Date(),
+});
 ```
 
-#### isStopped
+#### Browser
+
+Exports a global variable called `timezz`. Use it like this
+
+```html
+<script>
+  timezz(document.querySelector('.timer'), {
+    date: new Date(),
+  });
+</script>
+```
+
+#### AMD
+
+TimezZ as an AMD module. Use with Require.js, System.js, and so on.
+
+```js
+requirejs(['timezz'], function(timezz) {
+  timezz(document.querySelector('.timer'), {
+    date: new Date(),
+  });
+});
+```
+
+---
+
+## Params
+
+Full config with filled params:
+
+```js
+timezz(document.querySelector('.timer'), {
+  date: new Date(),
+  stop: false,
+  canContinue: true,
+  beforeCreate() {},
+  beforeDestroy() {},
+  update(event) {},
+});
+```
+
+### date
+
+The date to set as first param to or from which need count.
+
+- type: `Date | string | number`
+- required `true`
+
+```js
+// Date instance
+new Date('1996-05-27 03:15');
+
+// String
+'1996-05-27 03:15'
+
+// Number
+833156100000
+```
+
+### stop
 
 The timer is stopped at start.
 
 - type: `boolean`
 - default: `false`
+- required `false`
 
-#### canContinue
+### canContinue
 
-When the timer finishes counting, whether to turn it off or continue counting.
+Can TimezZ continue after end of date point (for stopwatch).
 
 - type: `boolean`
-- default: `false`
+- default: `true`
+- required `false`
 
-#### template
 
-Template to display tags, `NUMBER` and `LETTER` will be replace in number and letter in counting.
+### beforeCreate
 
-- type: `string`
-- default: `<span>NUMBER<i>LETTER</i></span> `
-
-#### beforeCreate
-
-Callback which be completed before the timer will be created.
+Function will be executed before initialization.
 
 - type: `function`
-- default:
+- default: `undefined`
+- required `false`
+
+Can set after initialization.
 
 ```js
-function() {}
+const timer = timezz(document.querySelector('.timer'), {
+  date: new Date(),
+});
+
+timer.beforeCreate = function() {}
 ```
 
-#### beforeDestroy
+### update
 
-Callback which be completed before timer will be destroyed.
+Function will be executed on each second with event.
 
 - type: `function`
-- default:
+- default: `undefined`
+- required `false`
+
+Event object which be send on each second.
 
 ```js
-function() {}
+{
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  distance: number;
+  elements: Array<Element>;
+}
 ```
 
-#### finished
-
-Callback which be completed when the timer will be finished counting. Does not apply to `canContinue: true`.
-
-- type: `function`
-- default:
+Can set after initialization.
 
 ```js
-function() {}
+const timer = timezz(document.querySelector('.timer'), {
+  date: new Date(),
+});
+
+timer.update = function(event) {}
 ```
 
 ## API
@@ -163,22 +234,11 @@ function() {}
 ### destroy
 
 ```js
-const timer = new TimezZ('.j-timer', {
-  beforeDestroy() {
-    alert('destroyed');
-  },
+const timer = timezz('.j-timer', {
+  date: new Date(),
 });
 
 timer.destroy();
-```
-
-### Version
-
-```js
-const timer = new TimezZ('.j-timer');
-
-timer.version();
-// => 5.0.0
 ```
 
 &copy; Valery Strelets

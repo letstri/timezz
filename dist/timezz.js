@@ -94,7 +94,6 @@ var Timezz = /*#__PURE__*/function () {
     this.stop = userSettings.stop || false;
     this.canContinue = userSettings.canContinue || false;
     this.beforeCreate = userSettings.beforeCreate;
-    this.beforeDestroy = userSettings.beforeDestroy;
     this.update = userSettings.update;
 
     if (typeof this.beforeCreate === 'function') {
@@ -120,7 +119,8 @@ var Timezz = /*#__PURE__*/function () {
         hours: countHours,
         minutes: countMinutes,
         seconds: countSeconds,
-        distance: Math.abs(distance)
+        distance: Math.abs(distance),
+        elements: this.elements
       };
 
       if (canContinue && !this.stop) {
@@ -155,10 +155,6 @@ var Timezz = /*#__PURE__*/function () {
   }, {
     key: "destroy",
     value: function destroy() {
-      if (typeof this.beforeDestroy === 'function') {
-        this.beforeDestroy();
-      }
-
       if (this.timeout) {
         clearInterval(this.timeout);
         this.timeout = null;
