@@ -1,6 +1,6 @@
 # TimezZ
 
-[![npm version](https://badge.fury.io/js/timezz.svg)](https://BrooonS.github.io/timezz/)
+[![npm version](https://badge.fury.io/js/timezz.svg)](https://badge.fury.io/js/timezz)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5294d2df6b70499eb27b25a289ce59b1)](https://www.codacy.com/app/BrooonS/timezz?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BrooonS/timezz&amp;utm_campaign=Badge_Grade)
 [![](https://data.jsdelivr.com/v1/package/npm/timezz/badge)](https://www.jsdelivr.com/package/npm/timezz)
 
@@ -21,7 +21,7 @@
 
 ### Install
 
-We are support all platforms.
+We support all platforms.
 
 #### npm
 
@@ -41,13 +41,13 @@ Download and install with `script`.
 
 ##### CDN
 
-Recommend for learning purposes, you can use the latest version:
+Recommended for learning purposes, you can use the latest version:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/timezz/dist/timezz.min.js"></script>
 ```
 
-Recommend for production for avoiding unexpected breakage from newer versions:
+Recommended for production for avoiding unexpected breakage from newer versions:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/timezz@6.0.0/dist/timezz.min.js"></script>
@@ -141,9 +141,25 @@ timezz(document.querySelector('.timer'), {
 });
 ```
 
+### selector
+
+- type: `string | HTMLElement | Array<HTMLElement>,`
+- required `true`
+
+```js
+// String
+timezz('.timer');
+
+// HTMLElement
+timezz(document.querySelector('.timer'));
+
+// Array of HTMLElement
+timezz(document.querySelectorAll('.timer'));
+```
+
 ### date
 
-The date to set as first param to or from which need count.
+Date from and to which you want to count.
 
 - type: `Date | string | number`
 - required `true`
@@ -161,7 +177,7 @@ new Date('1996-05-27 03:15');
 
 ### stop
 
-The timer is stopped at start.
+Is the timer stopped?
 
 - type: `boolean`
 - default: `false`
@@ -169,7 +185,7 @@ The timer is stopped at start.
 
 ### canContinue
 
-Can TimezZ continue after end of date point (for stopwatch).
+Can TimezZ continue after end of date point (for stopwatch)?
 
 - type: `boolean`
 - default: `true`
@@ -230,9 +246,25 @@ timer.update = function(event) {}
 ### destroy
 
 ```js
-const timer = timezz('.j-timer', {
+const timer = timezz('.timer', {
   date: new Date(),
 });
 
 timer.destroy();
+```
+
+### init
+
+After destroy you can init instance again.
+
+```js
+const timer = timezz('.timer', {
+  date: new Date(),
+});
+
+timer.destroy();
+
+setTimeout(() => {
+  timer.init();
+}, 1000);
 ```
