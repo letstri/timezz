@@ -1,7 +1,7 @@
 {
   "name": "timezz",
   "version": "6.0.0",
-  "description": "TimezZ - with this plugin you can easily make a stopwatch or timer.",
+  "description": "TimezZ - with this plugin, you can easily make a stopwatch or timer on your site. Just init, style and enjoy.",
   "main": "dist/timezz.min.js",
   "types": "dist/timezz.d.ts",
   "module": "dist/timezz.min.js",
@@ -28,7 +28,8 @@
     "timer",
     "stopwatch",
     "repeat",
-    "typescript"
+    "typescript",
+    "ui"
   ],
   "author": "Valery Strelets",
   "license": "MIT",
