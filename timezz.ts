@@ -108,10 +108,10 @@ class Timezz {
     const distance = countDate - currentTime;
     const canContinue = this.canContinue || distance > 0;
 
-    const countDays = this.fixNumber(distance / ONE_DAY);
-    const countHours = this.fixNumber((distance % ONE_DAY) / ONE_HOUR);
-    const countMinutes = this.fixNumber((distance % ONE_HOUR) / ONE_MINUTE);
-    const countSeconds = this.fixNumber((distance % ONE_MINUTE) / ONE_SECOND);
+    const countDays = canContinue ? this.fixNumber(distance / ONE_DAY) : 0;
+    const countHours = canContinue ? this.fixNumber((distance % ONE_DAY) / ONE_HOUR) : 0;
+    const countMinutes = canContinue ? this.fixNumber((distance % ONE_HOUR) / ONE_MINUTE) : 0;
+    const countSeconds = canContinue ? this.fixNumber((distance % ONE_MINUTE) / ONE_SECOND) : 0;
 
     const info = {
       days: countDays,
