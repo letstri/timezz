@@ -1,10 +1,10 @@
 # TimezZ
 
-[![npm version](https://badge.fury.io/js/timezz.svg)](https://badge.fury.io/js/timezz)
+> With this plugin you can easily make a stopwatch or timer.
+
+[![npm version](https://badge.fury.io/js/timezz.svg)](https://www.npmjs.com/package/timezz)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5294d2df6b70499eb27b25a289ce59b1)](https://www.codacy.com/app/BrooonS/timezz?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BrooonS/timezz&amp;utm_campaign=Badge_Grade)
 [![](https://data.jsdelivr.com/v1/package/npm/timezz/badge)](https://www.jsdelivr.com/package/npm/timezz)
-
-> With this plugin you can easily make a stopwatch or timer.
 
 ## Features
 
