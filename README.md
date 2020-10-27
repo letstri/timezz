@@ -161,7 +161,7 @@ timezz(document.querySelector('.timer'), {
 
 ### selector
 
-- type: `string | HTMLElement | Array<HTMLElement>,`
+- type: `string | HTMLElement | Array<HTMLElement>`
 - required `true`
 
 ```js
@@ -203,7 +203,7 @@ Is the timer stopped?
 
 ### canContinue
 
-Can TimezZ continue after end of date point (for stopwatch)?
+Can TimezZ continue after end of date point?
 
 - type: `boolean`
 - default: `true`
