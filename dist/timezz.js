@@ -113,10 +113,10 @@ var Timezz = /*#__PURE__*/function () {
       var currentTime = new Date().getTime();
       var distance = countDate - currentTime;
       var canContinue = this.canContinue || distance > 0;
-      var countDays = this.fixNumber(distance / ONE_DAY);
-      var countHours = this.fixNumber(distance % ONE_DAY / ONE_HOUR);
-      var countMinutes = this.fixNumber(distance % ONE_HOUR / ONE_MINUTE);
-      var countSeconds = this.fixNumber(distance % ONE_MINUTE / ONE_SECOND);
+      var countDays = canContinue ? this.fixNumber(distance / ONE_DAY) : 0;
+      var countHours = canContinue ? this.fixNumber(distance % ONE_DAY / ONE_HOUR) : 0;
+      var countMinutes = canContinue ? this.fixNumber(distance % ONE_HOUR / ONE_MINUTE) : 0;
+      var countSeconds = canContinue ? this.fixNumber(distance % ONE_MINUTE / ONE_SECOND) : 0;
       var info = {
         days: countDays,
         hours: countHours,
