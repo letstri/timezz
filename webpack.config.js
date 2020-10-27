@@ -1,39 +1,29 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-module.exports = env => ({
-  entry: './timezz.js',
-  mode: env,
-  devtool: 'none',
+module.exports = ({ development }) => ({
+  entry: './timezz.ts',
+  devtool: false,
+  mode: development ? 'development' : 'production',
   output: {
-    filename: env === 'development' ? 'timezz.js' : 'timezz.min.js',
+    filename: development ? 'timezz.js' : 'timezz.min.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'TimezZ',
+    library: 'timezz',
     libraryExport: 'default',
     libraryTarget: 'umd',
     umdNamedDefine: true,
     globalObject: 'typeof self === \'undefined\' ? this : self',
   },
-  optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          keep_classnames: true,
-        },
-      }),
-    ],
-  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        use: ['babel-loader', 'ts-loader'],
       },
       {
-        test: /\.js$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: ['babel-loader', 'eslint-loader'],
+        loader: 'eslint-loader',
       },
     ],
   },

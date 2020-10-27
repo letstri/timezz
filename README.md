@@ -1,60 +1,288 @@
 # TimezZ
-[![npm version](https://badge.fury.io/js/timezz.svg)](https://brooons.github.io/timezz/)
+
+> With this plugin, you can easily make a stopwatch or timer on your site. Just init, style and enjoy.
+
+[![npm version](https://badge.fury.io/js/timezz.svg)](https://www.npmjs.com/package/timezz)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5294d2df6b70499eb27b25a289ce59b1)](https://www.codacy.com/app/BrooonS/timezz?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BrooonS/timezz&amp;utm_campaign=Badge_Grade)
 [![](https://data.jsdelivr.com/v1/package/npm/timezz/badge)](https://www.jsdelivr.com/package/npm/timezz)
 
-<a class="github-button" href="https://github.com/BrooonS/timezz" data-icon="octicon-star" data-show-count="true" aria-label="Star BrooonS/timezz on GitHub">Star</a>
-<a class="github-button" href="https://github.com/BrooonS/timezz/subscription" data-icon="octicon-eye" data-show-count="true" aria-label="Watch BrooonS/timezz on GitHub">Watch</a>
+## Features
 
-[Docs](https://brooons.github.io/timezz/) | [Licence](https://github.com/BrooonS/timezz/blob/master/LICENSE)
+- Typescript support
+- Support all environments
+- Easy customization
+- Simple and lightweight
 
-> With this plugin you can easily include the timer on your site, his works both ways.
+## Table of Contents
+
+- [Demo](#demo)
+- [Quick start](#quick-start)
+  - [Install](#install)
+  - [HTML](#html)
+  - [Initialization](#initialization)
+- [Params](#params)
+  - [selector](#selector)
+  - [date](#date)
+  - [stop](#stop)
+  - [canContinue](#cancontinue)
+  - [beforeCreate](#beforecreate)
+  - [update](#update)
+- [API](#api)
+  - [destroy](#destroy)
+  - [init](#init)
+
+## Demo
+
+[Demo](https://codesandbox.io/s/w638mz6q68)
 
 ## Quick start
 
-Install with [npm](https://www.npmjs.com/package/timezz).
+### Install
 
-```sh
+We support all platforms.
+
+#### npm
+
+For module bundlers such as Webpack or Browserify.
+
+```shell
 npm i timezz
 ```
 
-or download and install with `script`.
+#### Include with &lt;script&gt;
+
+Download and install with `script`.
 
 ```html
 <script src="timezz.min.js"></script>
 ```
 
-or cdn
+##### CDN
+
+Recommended for learning purposes, you can use the latest version:
 
 ```html
-<!-- Latest -->
 <script src="https://cdn.jsdelivr.net/npm/timezz/dist/timezz.min.js"></script>
-
-<!-- With version -->
-<script src="https://cdn.jsdelivr.net/npm/timezz@5.0.0/dist/timezz.min.js"></script>
 ```
 
-**Initialization**
+Recommended for production for avoiding unexpected breakage from newer versions:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/timezz@6.0.0/dist/timezz.min.js"></script>
+```
+
+For native ES Modules, there is also an ES Modules compatible build:
+
+```html
+<script type="module">
+  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@6.0.0/dist/timezz.min.js';
+</script>
+```
+
+### HTML
+
+Here is a base HTML markup for your timer/stopwatch. Main part of HTML are `data` attributes for render numbers of `days`, `hours`, `minutes`, `seconds`.
+
+```html
+<div class="timer">
+  Days: <div data-days></div>
+  Hours: <div data-hours></div>
+  Minutes: <div data-minutes></div>
+  Seconds: <div data-seconds></div>
+</div>
+```
+
+### Initialization
+
+#### ES6
+
+TimezZ as an ES6 module.
+
 ```js
-new TimezZ('.j-timer');
+import timezz from 'timezz';
+
+timezz(document.querySelector('.timer'), {
+  date: new Date(),
+});
 ```
 
-**Example Styling**
-```css
-.timer {
-  font-size: 70px;
-}
+#### Node
 
-.timer span {
-  color: #555;
-}
+TimezZ as a Node.js module
 
-.timer i {
-  color: #bbb;
-  font-size: 40px;
+```js
+const timezz = require('timezz');
+
+timezz(document.querySelector('.timer'), {
+  date: new Date(),
+});
+```
+
+#### Browser
+
+Exports a global variable called `timezz`. Use it like this
+
+```html
+<script>
+  timezz(document.querySelector('.timer'), {
+    date: new Date(),
+  });
+</script>
+```
+
+#### AMD
+
+TimezZ as an AMD module. Use with Require.js, System.js, and so on.
+
+```js
+requirejs(['timezz'], function(timezz) {
+  timezz(document.querySelector('.timer'), {
+    date: new Date(),
+  });
+});
+```
+
+---
+
+## Params
+
+Full config with filled params:
+
+```js
+timezz(document.querySelector('.timer'), {
+  date: new Date(),
+  stop: false,
+  canContinue: true,
+  beforeCreate() {},
+  beforeDestroy() {},
+  update(event) {},
+});
+```
+
+### selector
+
+- type: `string | HTMLElement | Array<HTMLElement>`
+- required `true`
+
+```js
+// String
+timezz('.timer');
+
+// HTMLElement
+timezz(document.querySelector('.timer'));
+
+// Array of HTMLElement
+timezz(document.querySelectorAll('.timer'));
+```
+
+### date
+
+Date from and to which you want to count.
+
+- type: `Date | string | number`
+- required `true`
+
+```js
+// Date instance
+new Date('1996-05-27 03:15');
+
+// String
+'1996-05-27 03:15'
+
+// Timestamp
+833156100000
+```
+
+### stop
+
+Is the timer stopped?
+
+- type: `boolean`
+- default: `false`
+- required `false`
+
+### canContinue
+
+Can TimezZ continue after end of date point?
+
+- type: `boolean`
+- default: `true`
+- required `false`
+
+
+### beforeCreate
+
+Function will be executed before initialization.
+
+- type: `function`
+- default: `undefined`
+- required `false`
+
+Can set after initialization.
+
+```js
+const timer = timezz(document.querySelector('.timer'), {
+  date: new Date(),
+});
+
+timer.beforeCreate = function() {}
+```
+
+### update
+
+Function will be executed on each second with event.
+
+- type: `function`
+- default: `undefined`
+- required `false`
+
+Event object which be send on each second.
+
+```js
+{
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  distance: number;
+  elements: Array<Element>;
 }
 ```
 
-Config and API you can find in our [documentation](https://brooons.github.io/timezz/).
+Can set after initialization.
 
-&copy; Valery Strelets
+```js
+const timer = timezz(document.querySelector('.timer'), {
+  date: new Date(),
+});
+
+timer.update = function(event) {}
+```
+
+## API
+
+### destroy
+
+```js
+const timer = timezz('.timer', {
+  date: new Date(),
+});
+
+timer.destroy();
+```
+
+### init
+
+After destroy you can init instance again.
+
+```js
+const timer = timezz('.timer', {
+  date: new Date(),
+});
+
+timer.destroy();
+
+setTimeout(() => {
+  timer.init();
+}, 1000);
+```
