@@ -61,8 +61,6 @@ For native ES Modules, there is also an ES Modules compatible build:
 </script>
 ```
 
----
-
 ### HTML
 
 Here is a base HTML markup for your timer/stopwatch. Main part of HTML are `data` attributes for render numbers of `days`, `hours`, `minutes`, `seconds`.
@@ -75,8 +73,6 @@ Here is a base HTML markup for your timer/stopwatch. Main part of HTML are `data
   Seconds: <div data-seconds></div>
 </div>
 ```
-
----
 
 ### Initialization
 

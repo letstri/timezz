@@ -26,9 +26,7 @@
     "plugin",
     "time",
     "timer",
-    "countdown",
-    "count",
-    "forward",
+    "stopwatch",
     "repeat",
     "typescript"
   ],
