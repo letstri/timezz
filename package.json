@@ -9,7 +9,6 @@
   "scripts": {
     "dev": "webpack --env development --watch",
     "build": "webpack --env production && webpack --env development",
-    "docs-server": "docsify serve ./docs",
     "test": "jest"
   },
   "repository": {
@@ -46,7 +45,6 @@
     "@typescript-eslint/eslint-plugin": "4.5.0",
     "@typescript-eslint/parser": "4.5.0",
     "babel-loader": "8.1.0",
-    "docsify-cli": "4.4.1",
     "eslint": "7.12.0",
     "eslint-config-airbnb-typescript": "12.0.0",
     "eslint-loader": "4.0.2",
