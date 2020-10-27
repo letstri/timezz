@@ -18,8 +18,8 @@ interface IUserSettings {
 }
 declare class Timezz {
     private timeout;
-    private stop;
-    private canContinue;
+    stop: boolean;
+    canContinue: boolean;
     date: Date | string | number;
     elements: Array<Element>;
     beforeCreate?: () => void;
