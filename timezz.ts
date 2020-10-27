@@ -20,6 +20,7 @@ interface IUserSettings {
 }
 
 const TIMEZZ = '[TimezZ]';
+const REPOSITORY = 'https://github.com/BrooonS/timezz';
 
 const ONE_SECOND = 1000;
 const ONE_MINUTE = ONE_SECOND * 60;
@@ -31,9 +32,9 @@ const values: Array<keyof IValues> = ['days', 'hours', 'minutes', 'seconds'];
 class Timezz {
   private timeout!: any;
 
-  private stop!: boolean;
+  public stop!: boolean;
 
-  private canContinue!: boolean;
+  public canContinue!: boolean;
 
   public date!: Date | string | number;
 
@@ -121,7 +122,7 @@ class Timezz {
       elements: this.elements,
     };
 
-    if (canContinue && !this.stop) {
+    if ((canContinue && !this.stop) || !this.timeout) {
       this.setHTML(info);
     }
 
@@ -175,6 +176,10 @@ const timezz = (
 ): Timezz => {
   let items: Array<Element> = [];
 
+  if (elements === undefined) {
+    throw new Error(`${TIMEZZ}: Elements isn't passed. Check documentation for more info. ${REPOSITORY}`);
+  }
+
   // For Node.js env
   try {
     if (typeof elements === 'string') {
@@ -192,7 +197,7 @@ const timezz = (
   }
 
   if (!userSettings || typeof userSettings !== 'object' || Number.isNaN(new Date(userSettings.date).getTime())) {
-    throw new Error(`${TIMEZZ}: Date isn't valid. Check documentation for more info. https://github.com/BrooonS/timezz`);
+    throw new Error(`${TIMEZZ}: Date isn't valid. Check documentation for more info. ${REPOSITORY}`);
   }
 
   return new Timezz(items, userSettings);
