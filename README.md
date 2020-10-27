@@ -100,7 +100,7 @@ TimezZ as an ES6 module.
 ```js
 import timezz from 'timezz';
 
-timezz(document.querySelector('.timer'), {
+timezz('.timer', {
   date: new Date(),
 });
 ```
@@ -112,7 +112,7 @@ TimezZ as a Node.js module
 ```js
 const timezz = require('timezz');
 
-timezz(document.querySelector('.timer'), {
+timezz('.timer', {
   date: new Date(),
 });
 ```
@@ -123,7 +123,7 @@ Exports a global variable called `timezz`. Use it like this
 
 ```html
 <script>
-  timezz(document.querySelector('.timer'), {
+  timezz('.timer', {
     date: new Date(),
   });
 </script>
@@ -135,7 +135,7 @@ TimezZ as an AMD module. Use with Require.js, System.js, and so on.
 
 ```js
 requirejs(['timezz'], function(timezz) {
-  timezz(document.querySelector('.timer'), {
+  timezz('.timer', {
     date: new Date(),
   });
 });
@@ -148,7 +148,7 @@ requirejs(['timezz'], function(timezz) {
 Full config with filled params:
 
 ```js
-timezz(document.querySelector('.timer'), {
+timezz('.timer', {
   date: new Date(),
   stop: false,
   canContinue: true,
@@ -200,14 +200,33 @@ Is the timer stopped?
 - default: `false`
 - required `false`
 
+Can update after initialization.
+
+```js
+const timer = timezz('.timer', {
+  date: new Date(),
+});
+
+timer.stop = true;
+```
+
 ### canContinue
 
 Can TimezZ continue after end of date point?
 
 - type: `boolean`
-- default: `true`
+- default: `false`
 - required `false`
 
+Can update after initialization.
+
+```js
+const timer = timezz('.timer', {
+  date: new Date(),
+});
+
+timer.canContinue = true;
+```
 
 ### beforeCreate
 
@@ -220,7 +239,7 @@ Function will be executed before initialization.
 Can set after initialization.
 
 ```js
-const timer = timezz(document.querySelector('.timer'), {
+const timer = timezz('.timer', {
   date: new Date(),
 });
 
@@ -251,7 +270,7 @@ Event object which be send on each second.
 Can set after initialization.
 
 ```js
-const timer = timezz(document.querySelector('.timer'), {
+const timer = timezz('.timer', {
   date: new Date(),
 });
 
