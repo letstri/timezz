@@ -191,7 +191,7 @@ const timezz = (
     //
   }
 
-  if (Number.isNaN(new Date(userSettings.date).getTime())) {
+  if (!userSettings || typeof userSettings !== 'object' || Number.isNaN(new Date(userSettings.date).getTime())) {
     throw new Error(`${TIMEZZ}: Date isn't valid. Check documentation for more info. https://github.com/BrooonS/timezz`);
   }
 
