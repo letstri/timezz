@@ -13,9 +13,27 @@
 - Easy customization
 - Simple and lightweight
 
+## Table of Contents
+
+- [Demo](#demo)
+- [Quick start](#quick-start)
+  - [Install](#install)
+  - [HTML](#html)
+  - [Initialization](#initialization)
+- [Params](#params)
+  - [selector](#selector)
+  - [date](#date)
+  - [stop](#stop)
+  - [canContinue](#cancontinue)
+  - [beforeCreate](#beforecreate)
+  - [update](#update)
+- [API](#api)
+  - [destroy](#destroy)
+  - [init](#init)
+
 ## Demo
 
-<iframe src="https://codesandbox.io/embed/w638mz6q68?autoresize=1&fontsize=14&hidenavigation=1&view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+[Demo](https://codesandbox.io/s/w638mz6q68)
 
 ## Quick start
 
