@@ -7,7 +7,6 @@ interface IValues {
 
 interface IUpdateEvent extends IValues {
   distance: number;
-  elements: Array<Element>;
 }
 
 interface IUserSettings {
@@ -32,19 +31,19 @@ const values: Array<keyof IValues> = ['days', 'hours', 'minutes', 'seconds'];
 class Timezz {
   private timeout!: any;
 
+  private elements!: string | Element | Array<Element>;
+
   public stop!: boolean;
 
   public canContinue!: boolean;
 
   public date!: Date | string | number;
 
-  public elements!: Array<Element>;
-
   beforeCreate?: () => void;
 
   update?: (event: IUpdateEvent) => void;
 
-  constructor(elements: Array<Element>, userSettings: IUserSettings) {
+  constructor(elements: string | Element | Array<Element>, userSettings: IUserSettings) {
     this.elements = elements;
     this.checkFields(userSettings);
 
@@ -64,11 +63,13 @@ class Timezz {
   private checkFields = (settings: IUserSettings) => {
     const warn = (field: keyof IUserSettings, types: Array<string>) => {
       if (settings[field] !== undefined && types.length) {
+        const elements = this.getElements();
+
         // eslint-disable-next-line no-console
         console.warn(
           `${TIMEZZ}:`,
           `Parameter '${field}' should be ${types.length > 1 ? 'one of the types' : 'the type'}: ${types.join(', ')}.`,
-          this.elements.length > 1 ? this.elements : this.elements[0],
+          elements.length > 1 ? elements : elements[0],
         );
       }
     };
@@ -119,7 +120,6 @@ class Timezz {
       minutes: countMinutes,
       seconds: countSeconds,
       distance: Math.abs(distance),
-      elements: this.elements,
     };
 
     if ((canContinue && !this.stop) || !this.timeout) {
@@ -140,7 +140,7 @@ class Timezz {
   private fixNumber = (math: number) => Math.floor(Math.abs(math));
 
   private setHTML(updateInfo: IUpdateEvent) {
-    this.elements.forEach((element) => {
+    this.getElements().forEach((element) => {
       values.forEach((value: string) => {
         const block = element.querySelector(`[data-${value}]`);
         const number = this.fixZero(updateInfo[value as keyof IValues]);
@@ -152,13 +152,35 @@ class Timezz {
     });
   }
 
+  private getElements() {
+    let elements: Array<Element> = [];
+
+    // For Node.js env
+    try {
+      if (typeof this.elements === 'string') {
+        elements = Array.from(document.querySelectorAll(this.elements));
+      } else if (
+        (Array.isArray(this.elements) || this.elements instanceof NodeList)
+        && Array.from(this.elements).every((element) => element instanceof HTMLElement)
+      ) {
+        elements = Array.from(this.elements as Array<Element>);
+      } else if (this.elements instanceof HTMLElement) {
+        elements = [this.elements];
+      }
+    } catch (e) {
+      //
+    }
+
+    return elements;
+  }
+
   public destroy() {
     if (this.timeout) {
       clearInterval(this.timeout);
       this.timeout = null;
     }
 
-    this.elements.forEach((element) => {
+    this.getElements().forEach((element) => {
       values.forEach((value: string) => {
         const block = element.querySelector(`[data-${value}]`);
 
@@ -174,33 +196,15 @@ const timezz = (
   elements: string | HTMLElement | Array<HTMLElement>,
   userSettings: IUserSettings,
 ): Timezz => {
-  let items: Array<Element> = [];
-
   if (elements === undefined) {
     throw new Error(`${TIMEZZ}: Elements isn't passed. Check documentation for more info. ${REPOSITORY}`);
-  }
-
-  // For Node.js env
-  try {
-    if (typeof elements === 'string') {
-      items = Array.from(document.querySelectorAll(elements));
-    } else if (
-      (Array.isArray(elements) || elements instanceof NodeList)
-      && Array.from(elements).every((element) => element instanceof HTMLElement)
-    ) {
-      items = Array.from(elements as Array<Element>);
-    } else if (elements instanceof HTMLElement) {
-      items = [elements];
-    }
-  } catch (e) {
-    //
   }
 
   if (!userSettings || typeof userSettings !== 'object' || Number.isNaN(new Date(userSettings.date).getTime())) {
     throw new Error(`${TIMEZZ}: Date isn't valid. Check documentation for more info. ${REPOSITORY}`);
   }
 
-  return new Timezz(items, userSettings);
+  return new Timezz(elements, userSettings);
 };
 
 timezz.prototype = Timezz.prototype;
