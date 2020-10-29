@@ -6,7 +6,6 @@ interface IValues {
 }
 interface IUpdateEvent extends IValues {
     distance: number;
-    elements: Array<Element>;
 }
 interface IUserSettings {
     date: Date | string | number;
@@ -21,15 +20,16 @@ declare class Timezz {
     stop: boolean;
     canContinue: boolean;
     date: Date | string | number;
-    elements: Array<Element>;
+    private elements;
     beforeCreate?: () => void;
     update?: (event: IUpdateEvent) => void;
-    constructor(elements: Array<Element>, userSettings: IUserSettings);
+    constructor(elements: string | Element | Array<Element>, userSettings: IUserSettings);
     private checkFields;
     init(): void;
     private fixZero;
     private fixNumber;
     private setHTML;
+    private getElements;
     destroy(): void;
 }
 declare const timezz: {

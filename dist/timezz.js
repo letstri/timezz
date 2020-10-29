@@ -53,8 +53,10 @@ var Timezz = /*#__PURE__*/function () {
     this.checkFields = function (settings) {
       var warn = function warn(field, types) {
         if (settings[field] !== undefined && types.length) {
-          // eslint-disable-next-line no-console
-          console.warn("".concat(TIMEZZ, ":"), "Parameter '".concat(field, "' should be ").concat(types.length > 1 ? 'one of the types' : 'the type', ": ").concat(types.join(', '), "."), _this.elements.length > 1 ? _this.elements : _this.elements[0]);
+          var _elements = _this.getElements(); // eslint-disable-next-line no-console
+
+
+          console.warn("".concat(TIMEZZ, ":"), "Parameter '".concat(field, "' should be ").concat(types.length > 1 ? 'one of the types' : 'the type', ": ").concat(types.join(', '), "."), _elements.length > 1 ? _elements : _elements[0]);
         }
       };
 
@@ -122,8 +124,7 @@ var Timezz = /*#__PURE__*/function () {
         hours: countHours,
         minutes: countMinutes,
         seconds: countSeconds,
-        distance: Math.abs(distance),
-        elements: this.elements
+        distance: Math.abs(distance)
       };
 
       if (canContinue && !this.stop || !this.timeout) {
@@ -143,7 +144,7 @@ var Timezz = /*#__PURE__*/function () {
     value: function setHTML(updateInfo) {
       var _this2 = this;
 
-      this.elements.forEach(function (element) {
+      this.getElements().forEach(function (element) {
         values.forEach(function (value) {
           var block = element.querySelector("[data-".concat(value, "]"));
 
@@ -156,6 +157,26 @@ var Timezz = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "getElements",
+    value: function getElements() {
+      var elements = []; // For Node.js env
+
+      try {
+        if (typeof this.elements === 'string') {
+          elements = Array.from(document.querySelectorAll(this.elements));
+        } else if ((Array.isArray(this.elements) || this.elements instanceof NodeList) && Array.from(this.elements).every(function (element) {
+          return element instanceof HTMLElement;
+        })) {
+          elements = Array.from(this.elements);
+        } else if (this.elements instanceof HTMLElement) {
+          elements = [this.elements];
+        }
+      } catch (e) {//
+      }
+
+      return elements;
+    }
+  }, {
     key: "destroy",
     value: function destroy() {
       if (this.timeout) {
@@ -163,7 +184,7 @@ var Timezz = /*#__PURE__*/function () {
         this.timeout = null;
       }
 
-      this.elements.forEach(function (element) {
+      this.getElements().forEach(function (element) {
         values.forEach(function (value) {
           var block = element.querySelector("[data-".concat(value, "]"));
 
@@ -179,31 +200,15 @@ var Timezz = /*#__PURE__*/function () {
 }();
 
 var timezz = function timezz(elements, userSettings) {
-  var items = [];
-
   if (elements === undefined) {
     throw new Error("".concat(TIMEZZ, ": Elements isn't passed. Check documentation for more info. ").concat(REPOSITORY));
-  } // For Node.js env
-
-
-  try {
-    if (typeof elements === 'string') {
-      items = Array.from(document.querySelectorAll(elements));
-    } else if ((Array.isArray(elements) || elements instanceof NodeList) && Array.from(elements).every(function (element) {
-      return element instanceof HTMLElement;
-    })) {
-      items = Array.from(elements);
-    } else if (elements instanceof HTMLElement) {
-      items = [elements];
-    }
-  } catch (e) {//
   }
 
   if (!userSettings || _typeof(userSettings) !== 'object' || Number.isNaN(new Date(userSettings.date).getTime())) {
     throw new Error("".concat(TIMEZZ, ": Date isn't valid. Check documentation for more info. ").concat(REPOSITORY));
   }
 
-  return new Timezz(items, userSettings);
+  return new Timezz(elements, userSettings);
 };
 
 timezz.prototype = Timezz.prototype;
