@@ -67,14 +67,14 @@ Recommended for learning purposes, you can use the latest version:
 Recommended for production for avoiding unexpected breakage from newer versions:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/timezz@6.0.0/dist/timezz.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/timezz@6.0.5/dist/timezz.min.js"></script>
 ```
 
 For native ES Modules, there is also an ES Modules compatible build:
 
 ```html
 <script type="module">
-  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@6.0.0/dist/timezz.min.js';
+  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@6.0.5/dist/timezz.min.js';
 </script>
 ```
 
@@ -159,6 +159,8 @@ timezz('.timer', {
 ```
 
 ### selector
+
+> Note: if your DOM elements will be updated, better to use a string selector.
 
 - type: `string | HTMLElement | Array<HTMLElement>`
 - required `true`
@@ -254,7 +256,7 @@ Function will be executed on each second with event.
 - default: `undefined`
 - required `false`
 
-Event object which be send on each second.
+Here is event object which be send on each second.
 
 ```js
 {
@@ -263,7 +265,6 @@ Event object which be send on each second.
   minutes: number;
   seconds: number;
   distance: number;
-  elements: Array<Element>;
 }
 ```
 
