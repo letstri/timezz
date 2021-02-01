@@ -9,9 +9,11 @@ test('init only with selector and get error', () => {
 });
 
 test('init and destroy', () => {
-  const timer = timezz([], { date: new Date });
+  const timer = timezz([], { date: new Date() });
 
   expect(timer.elements).toEqual([]);
 
   timer.destroy();
+
+  expect(timer.isDestroyed).toBe(true);
 });

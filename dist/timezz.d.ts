@@ -1,39 +1,46 @@
 interface IValues {
+    years: number;
     days: number;
     hours: number;
     minutes: number;
     seconds: number;
 }
-interface IUpdateEvent extends IValues {
+declare type UserDate = Date | string | number;
+export interface IUpdateEvent extends IValues {
     distance: number;
+    isTimeOver: boolean;
 }
-interface IUserSettings {
-    date: Date | string | number;
+interface ISettings {
+    date: UserDate;
     stop?: boolean;
     canContinue?: boolean;
+    withYears?: boolean;
     beforeCreate?: () => void;
     beforeDestroy?: () => void;
     update?: (event: IUpdateEvent) => void;
+    updateElements?: () => void;
 }
 declare class Timezz {
     private timeout;
+    elements: Array<Element>;
     stop: boolean;
     canContinue: boolean;
-    date: Date | string | number;
-    private elements;
+    date: UserDate;
+    withYears: boolean;
+    isDestroyed: boolean;
     beforeCreate?: () => void;
     update?: (event: IUpdateEvent) => void;
-    constructor(elements: string | Element | Array<Element>, userSettings: IUserSettings);
+    constructor(elements: string | Element | Array<Element>, userSettings: ISettings);
     private checkFields;
     init(): void;
     private fixZero;
     private fixNumber;
     private setHTML;
-    private getElements;
+    updateElements(elements?: string | Element | Array<Element>): void;
     destroy(): void;
 }
 declare const timezz: {
-    (elements: string | HTMLElement | Array<HTMLElement>, userSettings: IUserSettings): Timezz;
+    (elements: string | HTMLElement | Array<HTMLElement>, settings: ISettings): Timezz;
     prototype: Timezz;
 };
 export default timezz;
