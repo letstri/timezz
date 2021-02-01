@@ -19,11 +19,12 @@
   - [Install](#install)
   - [HTML](#html)
   - [Initialization](#initialization)
-- [Params](#params)
+- [Parameters](#parameters)
   - [selector](#selector)
   - [date](#date)
   - [stop](#stop)
   - [canContinue](#cancontinue)
+  - [withYears](#withyears)
   - [beforeCreate](#beforecreate)
   - [update](#update)
 - [API](#api)
@@ -80,10 +81,11 @@ For native ES Modules, there is also an ES Modules compatible build:
 
 ### HTML
 
-Here is a base HTML markup for your timer/stopwatch. Main part of HTML are `data` attributes for render numbers of `days`, `hours`, `minutes`, `seconds`.
+Here is a base HTML markup for your timer/stopwatch. Main part of HTML are `data` attributes for render numbers of `years`, `days`, `hours`, `minutes`, `seconds`.
 
 ```html
 <div class="timer">
+  Years: <div data-years></div> <!-- Works only with parameter `withYears: true` -->
   Days: <div data-days></div>
   Hours: <div data-hours></div>
   Minutes: <div data-minutes></div>
@@ -143,7 +145,7 @@ requirejs(['timezz'], function(timezz) {
 
 ---
 
-## Params
+## Parameters
 
 Full config with filled params:
 
@@ -152,6 +154,7 @@ timezz('.timer', {
   date: new Date(),
   stop: false,
   canContinue: true,
+  withYears: false,
   beforeCreate() {},
   beforeDestroy() {},
   update(event) {},
@@ -160,7 +163,7 @@ timezz('.timer', {
 
 ### selector
 
-> Note: if your DOM elements will be updated, better to use a string selector.
+> Note: if your DOM elements will be removed or replaced, need to call `updateElements` method.
 
 - type: `string | HTMLElement | Array<HTMLElement>`
 - required `true`
@@ -172,7 +175,7 @@ timezz('.timer');
 // HTMLElement
 timezz(document.querySelector('.timer'));
 
-// Array of HTMLElement
+// Array of HTMLElements
 timezz(document.querySelectorAll('.timer'));
 ```
 
@@ -230,9 +233,29 @@ const timer = timezz('.timer', {
 timer.canContinue = true;
 ```
 
+### withYears
+
+> Note: if the property is enabled, the days will be counted differently.
+
+Do you want to count the years?
+
+- type: `boolean`
+- default: `false`
+- required `false`
+
+Can update after initialization.
+
+```js
+const timer = timezz('.timer', {
+  date: new Date(),
+});
+
+timer.withYears = true;
+```
+
 ### beforeCreate
 
-Function will be executed before initialization.
+The function will be called before initialization.
 
 - type: `function`
 - default: `undefined`
@@ -248,9 +271,27 @@ const timer = timezz('.timer', {
 timer.beforeCreate = function() {}
 ```
 
+### beforeDestroy
+
+The function will be called before destroy.
+
+- type: `function`
+- default: `undefined`
+- required `false`
+
+Can set after initialization.
+
+```js
+const timer = timezz('.timer', {
+  date: new Date(),
+});
+
+timer.beforeDestroy = function() {}
+```
+
 ### update
 
-Function will be executed on each second with event.
+The function will be called on each second with an event.
 
 - type: `function`
 - default: `undefined`
@@ -265,6 +306,7 @@ Here is event object which be send on each second.
   minutes: number;
   seconds: number;
   distance: number;
+  isTimeOver: boolean;
 }
 ```
 
@@ -304,4 +346,23 @@ timer.destroy();
 setTimeout(() => {
   timer.init();
 }, 1000);
+```
+
+### updateElements
+
+If your elements were removed or replaced, you can update elements in your timezz.
+
+```js
+const timer = timezz('.timer', {
+  date: new Date(),
+});
+
+// String
+timer.updateElements('.timer');
+
+// HTMLElement
+timer.updateElements(document.querySelector('.timer'));
+
+// Array of HTMLElements
+timer.updateElements(document.querySelectorAll('.timer'));
 ```

@@ -1,11 +1,12 @@
 const path = require('path');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = ({ development }) => ({
   entry: './timezz.ts',
-  devtool: false,
+  devtool: development ? 'inline-source-map' : false,
   mode: development ? 'development' : 'production',
   output: {
-    filename: development ? 'timezz.js' : 'timezz.min.js',
+    filename: 'timezz.js',
     path: path.resolve(__dirname, 'dist'),
     library: 'timezz',
     libraryExport: 'default',
@@ -16,15 +17,11 @@ module.exports = ({ development }) => ({
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
         use: ['babel-loader', 'ts-loader'],
       },
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-      },
     ],
   },
+  plugins: [new ESLintPlugin({ extensions: ['ts'] })],
 });
