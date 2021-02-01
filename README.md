@@ -374,13 +374,13 @@ timer.updateElements(document.querySelectorAll('.timer'));
 
 ### IUpdateEvent
 
-```
+```ts
 import { IUpdateEvent } from 'timezz';
 ```
 
 The interface will be sent on each call of the `update` method.
 
-```
+```ts
 interface IUpdateEvent {
   years: number;
   days: number;
