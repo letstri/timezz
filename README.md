@@ -30,6 +30,9 @@
 - [API](#api)
   - [destroy](#destroy)
   - [init](#init)
+  - [updateElements](#updateelements)
+- [Interfaces](#interfaces)
+  - [IUpdateEvent](#iupdateevent)
 
 ## Demo
 
@@ -68,14 +71,14 @@ Recommended for learning purposes, you can use the latest version:
 Recommended for production for avoiding unexpected breakage from newer versions:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/timezz@6.0.5/dist/timezz.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/timezz@6.1.0/dist/timezz.min.js"></script>
 ```
 
 For native ES Modules, there is also an ES Modules compatible build:
 
 ```html
 <script type="module">
-  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@6.0.5/dist/timezz.min.js';
+  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@6.1.0/dist/timezz.min.js';
 </script>
 ```
 
@@ -365,4 +368,26 @@ timer.updateElements(document.querySelector('.timer'));
 
 // Array of HTMLElements
 timer.updateElements(document.querySelectorAll('.timer'));
+```
+
+## Interfaces
+
+### IUpdateEvent
+
+```
+import { IUpdateEvent } from 'timezz';
+```
+
+The interface will be sent on each call of the `update` method.
+
+```
+interface IUpdateEvent {
+  years: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  distance: number;
+  isTimeOver: boolean;
+}
 ```
