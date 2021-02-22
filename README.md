@@ -372,6 +372,24 @@ timer.updateElements(document.querySelectorAll('.timer'));
 
 ## Interfaces
 
+### Timezz
+
+```ts
+import timezz, { Timezz } from 'timezz';
+```
+
+The interface can be declared as a type of instance.
+
+```ts
+const plugins: {
+  timezz: Timezz,
+} = {
+  timezz: null,
+};
+
+plugins.timezz = timezz('.timer', { date: new Date('1996-05-25 03:15') });
+```
+
 ### IUpdateEvent
 
 ```ts
@@ -390,4 +408,17 @@ interface IUpdateEvent {
   distance: number;
   isTimeOver: boolean;
 }
+
+const data: {
+  info: IUpdateEvent,
+} = {
+  info: null,
+};
+
+const timer = timezz('.timer', {
+  date: new Date('1996-05-25 03:15'),
+  update(event) {
+    data.info = event;
+  },
+});
 ```

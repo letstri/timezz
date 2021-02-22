@@ -6,7 +6,7 @@ interface IValues {
   seconds: number;
 }
 
-type UserDate = Date | string | number;
+type DateType = Date | string | number;
 
 export interface IUpdateEvent extends IValues {
   distance: number;
@@ -14,7 +14,7 @@ export interface IUpdateEvent extends IValues {
 }
 
 interface ISettings {
-  date: UserDate;
+  date: DateType;
   stop?: boolean;
   canContinue?: boolean;
   withYears?: boolean,
@@ -33,33 +33,35 @@ const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
 const ONE_YEAR = ONE_DAY * 365;
 
+const REGEX_PARSE = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/;
+
 const values: Array<keyof IValues> = ['years', 'days', 'hours', 'minutes', 'seconds'];
 
-class Timezz {
+export class Timezz {
   private timeout!: any;
 
-  public elements: Array<Element> = [];
+  elements: Array<Element> = [];
 
-  public stop!: boolean;
+  stop!: boolean;
 
-  public canContinue!: boolean;
+  canContinue!: boolean;
 
-  public date!: UserDate;
+  date!: DateType;
 
-  public withYears!: boolean;
+  withYears!: boolean;
 
-  public isDestroyed = false;
+  isDestroyed = false;
 
-  public beforeCreate?: () => void;
+  beforeCreate?: () => void;
 
-  public update?: (event: IUpdateEvent) => void;
+  update?: (event: IUpdateEvent) => void;
 
   constructor(elements: string | Element | Array<Element>, userSettings: ISettings) {
     this.updateElements(elements);
 
     this.checkFields(userSettings);
 
-    this.date = userSettings.date;
+    this.date = this.parseDate(userSettings.date);
     this.stop = userSettings.stop || false;
     this.canContinue = userSettings.canContinue || false;
     this.withYears = userSettings.withYears || false;
@@ -73,6 +75,26 @@ class Timezz {
     this.init();
   }
 
+  private parseDate = (date: DateType) => {
+    /**
+     * The parser was taken from dayjs
+     */
+    if (date instanceof Date) return new Date(date);
+    if (typeof date === 'string' && !/Z$/i.test(date)) {
+      const d: any = date.match(REGEX_PARSE);
+
+      if (d) {
+        const m = d[2] - 1 || 0;
+        const ms = (d[7] || '0').substring(0, 3);
+
+        return new Date(d[1], m, d[3]
+          || 1, d[4] || 0, d[5] || 0, d[6] || 0, ms);
+      }
+    }
+
+    return new Date(date);
+  };
+
   private checkFields = (settings: ISettings) => {
     const warn = (field: keyof ISettings, types: Array<string>) => {
       if (settings[field] !== undefined && types.length) {
@@ -84,14 +106,6 @@ class Timezz {
         );
       }
     };
-
-    if (
-      !(settings.date instanceof Date)
-      && typeof settings.date !== 'string'
-      && typeof settings.date !== 'number'
-    ) {
-      warn('date', ['Date', 'string', 'number']);
-    }
 
     if (typeof settings.stop !== 'boolean') {
       warn('stop', ['boolean']);
@@ -114,7 +128,7 @@ class Timezz {
     }
   };
 
-  public init() {
+  public init(): void {
     this.isDestroyed = false;
 
     const countDate = new Date(this.date).getTime();
@@ -170,7 +184,11 @@ class Timezz {
     });
   }
 
-  public updateElements(elements: string | Element | Array<Element> = []) {
+  public updateElements(elements: string | Element | Array<Element>): void {
+    if (!elements) {
+      return;
+    }
+
     // For Node.js env
     try {
       if (typeof elements === 'string') {
@@ -188,7 +206,7 @@ class Timezz {
     }
   }
 
-  public destroy() {
+  public destroy(): void {
     if (this.timeout) {
       clearInterval(this.timeout);
       this.timeout = null;
@@ -216,8 +234,16 @@ const timezz = (
     throw new Error(`${TIMEZZ}: Elements aren't passed. Check documentation for more info. ${REPOSITORY}`);
   }
 
-  if (!settings || typeof settings !== 'object' || Number.isNaN(new Date(settings.date).getTime())) {
-    throw new Error(`${TIMEZZ}: Date isn't valid or invalid. Check documentation for more info. ${REPOSITORY}`);
+  if (
+    !settings
+    || typeof settings !== 'object'
+    || (
+      typeof settings.date !== 'string'
+      && typeof settings.date !== 'number'
+      && !((settings.date as Date) instanceof Date)
+    )
+  ) {
+    throw new Error(`${TIMEZZ}: Date is invalid. Check documentation for more info. ${REPOSITORY}`);
   }
 
   return new Timezz(elements, settings);

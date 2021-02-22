@@ -9,6 +9,9 @@
   "plugins": [
     "@typescript-eslint"
   ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "rules": {
     "linebreak-style": 0,
     "@typescript-eslint/dot-notation": "off",
