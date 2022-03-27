@@ -2,25 +2,15 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "airbnb-typescript"
+    "plugin:@typescript-eslint/recommended"
   ],
   "plugins": [
     "@typescript-eslint"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
-  },
-  "rules": {
-    "linebreak-style": 0,
-    "@typescript-eslint/dot-notation": "off",
-    "@typescript-eslint/no-implied-eval": "off",
-    "@typescript-eslint/no-throw-literal": "off",
-    "@typescript-eslint/no-explicit-any": "off"
-  },
-  "globals": {
-    "window": true,
-    "document": true
   }
 }

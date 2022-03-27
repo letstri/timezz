@@ -23,16 +23,16 @@
   - [selector](#selector)
   - [date](#date)
   - [stop](#stop)
-  - [canContinue](#cancontinue)
-  - [withYears](#withyears)
+  - [stopOnZero](#stoponzero)
   - [beforeCreate](#beforecreate)
+  - [beforeUpdate](#beforeupdate)
   - [update](#update)
 - [API](#api)
   - [destroy](#destroy)
   - [init](#init)
   - [updateElements](#updateelements)
 - [Interfaces](#interfaces)
-  - [IUpdateEvent](#iupdateevent)
+  - [UpdateEvent](#updateevent)
 
 ## Demo
 
@@ -71,24 +71,26 @@ Recommended for learning purposes, you can use the latest version:
 Recommended for production for avoiding unexpected breakage from newer versions:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/timezz@6.1.0/dist/timezz.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/timezz@7.0.0/dist/timezz.min.js"></script>
 ```
 
 For native ES Modules, there is also an ES Modules compatible build:
 
 ```html
 <script type="module">
-  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@6.1.0/dist/timezz.min.js';
+  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@7.0.0/dist/timezz.min.js';
 </script>
 ```
 
 ### HTML
 
-Here is a base HTML markup for your timer/stopwatch. Main part of HTML are `data` attributes for render numbers of `years`, `days`, `hours`, `minutes`, `seconds`.
+Here is a base HTML markup for your timer/stopwatch. Main part of HTML are `data` attributes for render numbers of `years`, `days`, `hours`, `minutes`, `seconds`. Every `data` attribute isn't mandatory, TimezZ will recalculate time to smaller numbers.
+
+For example: if we don't have years, a timer will add these years to days, if we don't have days, a timer will add these days to hours, and so on.
 
 ```html
 <div class="timer">
-  Years: <div data-years></div> <!-- Works only with parameter `withYears: true` -->
+  Years: <div data-years></div>
   Days: <div data-days></div>
   Hours: <div data-hours></div>
   Minutes: <div data-minutes></div>
@@ -105,7 +107,7 @@ TimezZ as an ES6 module.
 ```js
 import timezz from 'timezz';
 
-timezz('.timer', {
+timezz(document.querySelector('.timer'), {
   date: new Date(),
 });
 ```
@@ -155,11 +157,11 @@ Full config with filled params:
 ```js
 timezz('.timer', {
   date: new Date(),
-  stop: false,
-  canContinue: true,
-  withYears: false,
+  pause: false,
+  stopOnZero: true,
   beforeCreate() {},
   beforeDestroy() {},
+  beforeUpdate(event) {},
   update(event) {},
 });
 ```
@@ -188,6 +190,7 @@ Date from and to which you want to count.
 
 - type: `Date | string | number`
 - required `true`
+- preferred `Date`
 
 ```js
 // Date instance
@@ -200,9 +203,9 @@ new Date('1996-05-27 03:15');
 833156100000
 ```
 
-### stop
+### pause
 
-Is the timer stopped?
+Is the timer on pause?
 
 - type: `boolean`
 - default: `false`
@@ -215,32 +218,12 @@ const timer = timezz('.timer', {
   date: new Date(),
 });
 
-timer.stop = true;
+timer.pause = true;
 ```
 
-### canContinue
+### stopOnZero
 
-Can TimezZ continue after end of date point?
-
-- type: `boolean`
-- default: `false`
-- required `false`
-
-Can update after initialization.
-
-```js
-const timer = timezz('.timer', {
-  date: new Date(),
-});
-
-timer.canContinue = true;
-```
-
-### withYears
-
-> Note: if the property is enabled, the days will be counted differently.
-
-Do you want to count the years?
+Can TimezZ continue after end of date point? Only for date in future.
 
 - type: `boolean`
 - default: `false`
@@ -253,7 +236,7 @@ const timer = timezz('.timer', {
   date: new Date(),
 });
 
-timer.withYears = true;
+timer.stopOnZero = true;
 ```
 
 ### beforeCreate
@@ -271,7 +254,7 @@ const timer = timezz('.timer', {
   date: new Date(),
 });
 
-timer.beforeCreate = function() {}
+timer.beforeCreate = () => {};
 ```
 
 ### beforeDestroy
@@ -289,8 +272,16 @@ const timer = timezz('.timer', {
   date: new Date(),
 });
 
-timer.beforeDestroy = function() {}
+timer.beforeDestroy = () => {};
 ```
+
+### beforeUpdate
+
+The function will be called on before each second with an event.
+
+- type: `function`
+- default: `undefined`
+- required `false`
 
 ### update
 
@@ -320,7 +311,7 @@ const timer = timezz('.timer', {
   date: new Date(),
 });
 
-timer.update = function(event) {}
+timer.update = (event) => {};
 ```
 
 ## API
@@ -390,16 +381,16 @@ const plugins: {
 plugins.timezz = timezz('.timer', { date: new Date('1996-05-25 03:15') });
 ```
 
-### IUpdateEvent
+### UpdateEvent
 
 ```ts
-import { IUpdateEvent } from 'timezz';
+import { UpdateEvent } from 'timezz';
 ```
 
 The interface will be sent on each call of the `update` method.
 
 ```ts
-interface IUpdateEvent {
+interface UpdateEvent {
   years: number;
   days: number;
   hours: number;
@@ -410,7 +401,7 @@ interface IUpdateEvent {
 }
 
 const data: {
-  info: IUpdateEvent,
+  info: UpdateEvent,
 } = {
   info: null,
 };

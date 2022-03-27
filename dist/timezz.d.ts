@@ -1,4 +1,4 @@
-interface IValues {
+interface PartNames {
     years: number;
     days: number;
     hours: number;
@@ -6,42 +6,66 @@ interface IValues {
     seconds: number;
 }
 declare type DateType = Date | string | number;
-export interface IUpdateEvent extends IValues {
+export interface UpdateEvent {
+    years: number | null;
+    days: number | null;
+    hours: number | null;
+    minutes: number | null;
+    seconds: number | null;
     distance: number;
     isTimeOver: boolean;
 }
-interface ISettings {
+interface Settings {
+    /**
+     * Date from and to which you want to count.
+     */
     date: DateType;
-    stop?: boolean;
-    canContinue?: boolean;
-    withYears?: boolean;
+    /**
+     * Is the timer on pause?
+     */
+    pause?: boolean;
+    /**
+     * Can TimezZ continue after end of date point? Only for date in future.
+     */
+    stopOnZero?: boolean;
+    /**
+     * The function will be called before initialization.
+     */
     beforeCreate?: () => void;
+    /**
+     * The function will be called before destroy.
+     */
     beforeDestroy?: () => void;
-    update?: (event: IUpdateEvent) => void;
-    updateElements?: () => void;
+    /**
+     * The function will be called on before each second with an event.
+     */
+    beforeUpdate?: () => void;
+    /**
+     * The function will be called on each second with an event.
+     */
+    update?: (event: UpdateEvent) => void;
 }
 export declare class Timezz {
-    private timeout;
-    elements: Array<Element>;
-    stop: boolean;
-    canContinue: boolean;
     date: DateType;
-    withYears: boolean;
+    element: Element;
+    pause: boolean;
+    stopOnZero: boolean;
     isDestroyed: boolean;
+    HTMLParts: Record<keyof PartNames, Element | null>;
     beforeCreate?: () => void;
-    update?: (event: IUpdateEvent) => void;
-    constructor(elements: string | Element | Array<Element>, userSettings: ISettings);
-    private parseDate;
+    beforeUpdate?: () => void;
+    update?: (event: UpdateEvent) => void;
+    private timeout;
+    constructor(element: Element, userSettings: Settings);
     private checkFields;
     init(): void;
-    private fixZero;
-    private fixNumber;
+    private calculate;
+    private updateHTMLParts;
     private setHTML;
-    updateElements(elements: string | Element | Array<Element>): void;
     destroy(): void;
 }
 declare const timezz: {
-    (elements: string | HTMLElement | Array<HTMLElement>, settings: ISettings): Timezz;
+    (element: HTMLElement | Element, settings: Settings): Timezz;
     prototype: Timezz;
 };
 export default timezz;
