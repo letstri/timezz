@@ -154,45 +154,35 @@ requirejs(['timezz'], function(timezz) {
 
 Full config with filled params:
 
-```js
-timezz('.timer', {
+```ts
+timezz(document.querySelector('.timer'), {
   date: new Date(),
   pause: false,
   stopOnZero: true,
   beforeCreate() {},
   beforeDestroy() {},
-  beforeUpdate(event) {},
+  beforeUpdate() {},
   update(event) {},
 });
 ```
 
-### selector
+### element
 
-> Note: if your DOM elements will be removed or replaced, need to call `updateElements` method.
-
-- type: `string | HTMLElement | Array<HTMLElement>`
+- type: `HTMLElement`
 - required `true`
 
-```js
-// String
-timezz('.timer');
-
-// HTMLElement
-timezz(document.querySelector('.timer'));
-
-// Array of HTMLElements
-timezz(document.querySelectorAll('.timer'));
+```ts
+timezz(document.querySelector('.timer'), { date: new Date() });
 ```
 
 ### date
 
-Date from and to which you want to count.
+Date from and to which you want to count. Preferred `Date`.
 
 - type: `Date | string | number`
 - required `true`
-- preferred `Date`
 
-```js
+```ts
 // Date instance
 new Date('1996-05-27 03:15');
 
@@ -213,8 +203,8 @@ Is the timer on pause?
 
 Can update after initialization.
 
-```js
-const timer = timezz('.timer', {
+```ts
+const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
 });
 
@@ -231,8 +221,8 @@ Can TimezZ continue after end of date point? Only for date in future.
 
 Can update after initialization.
 
-```js
-const timer = timezz('.timer', {
+```ts
+const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
 });
 
@@ -249,8 +239,8 @@ The function will be called before initialization.
 
 Can set after initialization.
 
-```js
-const timer = timezz('.timer', {
+```ts
+const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
 });
 
@@ -267,8 +257,8 @@ The function will be called before destroy.
 
 Can set after initialization.
 
-```js
-const timer = timezz('.timer', {
+```ts
+const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
 });
 
@@ -283,6 +273,16 @@ The function will be called on before each second with an event.
 - default: `undefined`
 - required `false`
 
+Can set after initialization.
+
+```ts
+const timer = timezz(document.querySelector('.timer'), {
+  date: new Date(),
+});
+
+timer.beforeUpdate = () => {};
+```
+
 ### update
 
 The function will be called on each second with an event.
@@ -291,35 +291,22 @@ The function will be called on each second with an event.
 - default: `undefined`
 - required `false`
 
-Here is event object which be send on each second.
-
-```js
-{
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  distance: number;
-  isTimeOver: boolean;
-}
-```
-
 Can set after initialization.
 
-```js
-const timer = timezz('.timer', {
+```ts
+const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
 });
 
-timer.update = (event) => {};
+timer.update = (event: UpdateEvent) => {};
 ```
 
 ## API
 
 ### destroy
 
-```js
-const timer = timezz('.timer', {
+```ts
+const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
 });
 
@@ -330,8 +317,8 @@ timer.destroy();
 
 After destroy you can init instance again.
 
-```js
-const timer = timezz('.timer', {
+```ts
+const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
 });
 
@@ -340,25 +327,6 @@ timer.destroy();
 setTimeout(() => {
   timer.init();
 }, 1000);
-```
-
-### updateElements
-
-If your elements were removed or replaced, you can update elements in your timezz.
-
-```js
-const timer = timezz('.timer', {
-  date: new Date(),
-});
-
-// String
-timer.updateElements('.timer');
-
-// HTMLElement
-timer.updateElements(document.querySelector('.timer'));
-
-// Array of HTMLElements
-timer.updateElements(document.querySelectorAll('.timer'));
 ```
 
 ## Interfaces
@@ -378,36 +346,25 @@ const plugins: {
   timezz: null,
 };
 
-plugins.timezz = timezz('.timer', { date: new Date('1996-05-25 03:15') });
+plugins.timezz = timezz(document.querySelector('.timer'), { date: new Date('1996-05-25 03:15') });
 ```
 
 ### UpdateEvent
 
-```ts
-import { UpdateEvent } from 'timezz';
-```
-
 The interface will be sent on each call of the `update` method.
 
 ```ts
-interface UpdateEvent {
-  years: number;
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  distance: number;
-  isTimeOver: boolean;
-}
+import type { UpdateEvent } from 'timezz';
 
 const data: {
-  info: UpdateEvent,
+  info: UpdateEvent | null,
 } = {
   info: null,
 };
 
-const timer = timezz('.timer', {
+const timer = timezz(document.querySelector('.timer'), {
   date: new Date('1996-05-25 03:15'),
+
   update(event) {
     data.info = event;
   },

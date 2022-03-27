@@ -197,13 +197,13 @@ export class Timezz {
     const distance = countDate - currentTime;
     const needToStopOnZero = this.stopOnZero ? distance < 0 : false;
 
-    const count = this.calculate(distance);
+    const count = needToStopOnZero
+      ? partNames
+        .reduce((acc, name) => ({ ...acc, [name]: 0 }), {} as Record<keyof PartNames, number>)
+      : this.calculate(distance);
 
     const info: UpdateEvent = {
-      ...(needToStopOnZero
-        ? partNames
-          .reduce((acc, name) => ({ ...acc, [name]: 0 }), {} as Record<keyof PartNames, number>)
-        : count),
+      ...count,
       distance: Math.abs(distance),
       isTimeOver: distance <= 0,
     };
