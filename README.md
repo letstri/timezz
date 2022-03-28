@@ -163,7 +163,6 @@ timezz(document.querySelector('.timer'), {
   pause: false,
   stopOnZero: true,
   beforeCreate() {},
-  beforeDestroy() {},
   beforeUpdate() {},
   update(event) {},
 });
