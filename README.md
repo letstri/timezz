@@ -86,7 +86,10 @@ For native ES Modules, there is also an ES Modules compatible build:
 
 Here is a base HTML markup for your timer/stopwatch. Main part of HTML are `data` attributes for render numbers of `years`, `days`, `hours`, `minutes`, `seconds`. Every `data` attribute isn't mandatory, TimezZ will recalculate time to smaller numbers.
 
-For example: if we don't have years, a timer will add these years to days, if we don't have days, a timer will add these days to hours, and so on.
+For example:
+ - if you don't have years, a timer will add these years to days
+ - if you don't have days, a timer will add these days to hours
+ - and so on
 
 ```html
 <div class="timer">
