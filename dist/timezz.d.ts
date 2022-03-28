@@ -1,10 +1,3 @@
-interface PartNames {
-    years: number;
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-}
 declare type DateType = Date | string | number;
 export interface UpdateEvent {
     years: number | null;
@@ -46,15 +39,15 @@ interface Settings {
     update?: (event: UpdateEvent) => void;
 }
 export declare class Timezz {
-    date: DateType;
     element: Element;
+    date: DateType;
     pause: boolean;
     stopOnZero: boolean;
     isDestroyed: boolean;
-    HTMLParts: Record<keyof PartNames, Element | null>;
     beforeCreate?: () => void;
     beforeUpdate?: () => void;
     update?: (event: UpdateEvent) => void;
+    private HTMLParts;
     private timeout;
     constructor(element: Element, userSettings: Settings);
     private checkFields;

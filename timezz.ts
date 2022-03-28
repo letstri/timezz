@@ -108,9 +108,9 @@ const parseDate = (date: DateType) => {
 };
 
 export class Timezz {
-  date!: DateType;
-
   element!: Element;
+
+  date!: DateType;
 
   pause = false;
 
@@ -118,16 +118,16 @@ export class Timezz {
 
   isDestroyed = false;
 
-  HTMLParts: Record<keyof PartNames, Element | null> = partNames.reduce((acc, part) => ({
-    ...acc,
-    [part]: null,
-  }), {} as Record<keyof PartNames, null>);
-
   beforeCreate?: () => void;
 
   beforeUpdate?: () => void;
 
   update?: (event: UpdateEvent) => void;
+
+  private HTMLParts: Record<keyof PartNames, Element | null> = partNames.reduce((acc, part) => ({
+    ...acc,
+    [part]: null,
+  }), {} as Record<keyof PartNames, null>);
 
   private timeout: NodeJS.Timer | null = null;
 
