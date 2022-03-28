@@ -20,37 +20,52 @@ export interface UpdateEvent {
 
 interface Settings {
   /**
-   * Date from and to which you want to count.
+   * Date from and to which you want to count. Preferred `Date`.
+   *
+   * @type {Date | string | number}
    */
   date: DateType;
 
   /**
-   * Is the timer on pause?
+   * Is the timer can updating every second?
+   *
+   * @type {boolean}
    */
   pause?: boolean;
 
   /**
-   * Can TimezZ continue after end of date point? Only for date in future.
+   *
+   *
+   *
+   * @type {boolean}
    */
   stopOnZero?: boolean;
 
   /**
-   * The function will be called before initialization.
+   * The function will be called before instance initialization.
+   *
+   * @type {Function}
    */
   beforeCreate?: () => void;
 
   /**
    * The function will be called before destroy.
+   *
+   * @type {Function}
    */
   beforeDestroy?: () => void;
 
   /**
    * The function will be called on before each second with an event.
+   *
+   * @type {Function}
    */
   beforeUpdate?: () => void;
 
   /**
    * The function will be called on each second with an event.
+   *
+   * @type {Function}
    */
   update?: (event: UpdateEvent) => void;
 }
