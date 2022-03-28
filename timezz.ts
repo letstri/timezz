@@ -48,13 +48,6 @@ interface Settings {
   beforeCreate?: () => void;
 
   /**
-   * The function will be called before destroy.
-   *
-   * @type {Function}
-   */
-  beforeDestroy?: () => void;
-
-  /**
    * The function will be called on before each second with an event.
    *
    * @type {Function}
@@ -186,10 +179,6 @@ export class Timezz {
 
     if (typeof settings.beforeCreate !== 'function') {
       warn('beforeCreate', ['function']);
-    }
-
-    if (typeof settings.beforeDestroy !== 'function') {
-      warn('beforeDestroy', ['function']);
     }
 
     if (typeof settings.beforeUpdate !== 'function') {

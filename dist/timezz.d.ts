@@ -34,12 +34,6 @@ interface Settings {
      */
     beforeCreate?: () => void;
     /**
-     * The function will be called before destroy.
-     *
-     * @type {Function}
-     */
-    beforeDestroy?: () => void;
-    /**
      * The function will be called on before each second with an event.
      *
      * @type {Function}
