@@ -34,8 +34,7 @@ interface Settings {
   pause?: boolean;
 
   /**
-   *
-   *
+   * Should the timer continue after end of date point? Only for date in future.
    *
    * @type {boolean}
    */

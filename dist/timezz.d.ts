@@ -22,13 +22,13 @@ interface Settings {
      */
     pause?: boolean;
     /**
-     * Can TimezZ continue after end of date point? Only for date in future.
+     * Should the timer continue after end of date point? Only for date in future.
      *
      * @type {boolean}
      */
     stopOnZero?: boolean;
     /**
-     * The function will be called before initialization.
+     * The function will be called before instance initialization.
      *
      * @type {Function}
      */
@@ -49,7 +49,6 @@ interface Settings {
      * The function will be called on each second with an event.
      *
      * @type {Function}
-     * @argument {UpdateEvent}
      */
     update?: (event: UpdateEvent) => void;
 }

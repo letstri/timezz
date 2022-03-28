@@ -20,9 +20,9 @@
   - [HTML](#html)
   - [Initialization](#initialization)
 - [Parameters](#parameters)
-  - [selector](#selector)
+  - [element](#element)
   - [date](#date)
-  - [stop](#stop)
+  - [pause](#pause)
   - [stopOnZero](#stoponzero)
   - [beforeCreate](#beforecreate)
   - [beforeUpdate](#beforeupdate)
@@ -30,8 +30,8 @@
 - [API](#api)
   - [destroy](#destroy)
   - [init](#init)
-  - [updateElements](#updateelements)
 - [Interfaces](#interfaces)
+  - [TimezZ](#timezz-1)
   - [UpdateEvent](#updateevent)
 
 ## Demo
@@ -247,24 +247,6 @@ const timer = timezz(document.querySelector('.timer'), {
 timer.beforeCreate = () => {};
 ```
 
-### beforeDestroy
-
-The function will be called before destroy.
-
-- type: `function`
-- default: `undefined`
-- required `false`
-
-Can set after initialization.
-
-```ts
-const timer = timezz(document.querySelector('.timer'), {
-  date: new Date(),
-});
-
-timer.beforeDestroy = () => {};
-```
-
 ### beforeUpdate
 
 The function will be called on before each second with an event.
@@ -361,7 +343,7 @@ const data: {
 };
 
 const timer = timezz(document.querySelector('.timer'), {
-  date: new Date('1996-05-25 03:15'),
+  date: new Date('1996-05-27 03:15'),
 
   update(event) {
     data.info = event;
