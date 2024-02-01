@@ -13,6 +13,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepare": "husky install",
     "prepublishOnly": "npm run build && npm run test",
     "dev": "vite",
     "test": "vitest run",
