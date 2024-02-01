@@ -1,65 +1,49 @@
 {
   "name": "timezz",
-  "version": "7.0.0",
-  "description": "TimezZ - with this plugin, you can easily make a stopwatch or timer on your site. Just init, style and enjoy.",
-  "main": "dist/timezz.js",
+  "version": "8.0.0",
+  "type": "module",
+  "description": "With this plugin, you can easily make a stopwatch or timer on your site. Just init, style and enjoy.",
+  "main": "dist/timezz.cjs",
   "types": "dist/timezz.d.ts",
   "module": "dist/timezz.js",
-  "prepublish": "npm run build && npm run test",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "dev": "webpack --env development --watch",
-    "build": "webpack --env production",
-    "test": "jest --env=jsdom"
+    "prepublishOnly": "npm run build && npm run test",
+    "dev": "vite",
+    "test": "vitest run",
+    "build": "vite build && tsc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BrooonS/timezz.git"
   },
   "keywords": [
-    "webpack",
-    "js",
-    "javascript",
-    "library",
-    "es6",
-    "commonjs",
     "timezz",
     "plugin",
     "time",
     "timer",
     "stopwatch",
-    "repeat",
-    "typescript",
-    "ui"
+    "repeat"
   ],
-  "author": "Valery Strelets",
-  "license": "ISC",
+  "author": "Valerii Strilets <valerii.strilets@gmail.com>",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/BrooonS/timezz/issues"
+    "url": "https://github.com/letstri/timezz/issues"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run build && npm run test"
-    }
-  },
-  "homepage": "https://github.com/BrooonS/timezz#readme",
+  "homepage": "https://github.com/letstri/timezz#readme",
   "devDependencies": {
-    "@babel/core": "7.17.8",
-    "@babel/preset-env": "7.16.11",
-    "@types/jest": "27.4.1",
-    "@typescript-eslint/eslint-plugin": "5.15.0",
-    "@typescript-eslint/parser": "5.15.0",
-    "babel-loader": "8.2.3",
-    "eslint": "8.11.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-config-airbnb-typescript": "16.1.3",
-    "eslint-plugin-import": "2.25.4",
-    "eslint-plugin-jsx-a11y": "6.5.1",
-    "eslint-webpack-plugin": "3.1.1",
-    "husky": "7.0.4",
-    "jest": "27.5.1",
-    "ts-loader": "9.2.8",
-    "typescript": "4.6.2",
-    "webpack": "5.70.0",
-    "webpack-cli": "4.9.2"
+    "@commitlint/cli": "^18.6.0",
+    "@commitlint/config-conventional": "^18.6.0",
+    "@vitest/browser": "^1.2.2",
+    "husky": "^9.0.10",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vitest": "^1.2.2",
+    "webdriverio": "^8.29.3"
   }
 }

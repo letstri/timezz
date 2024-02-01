@@ -1,4 +1,4 @@
-declare type DateType = Date | string | number;
+type DateType = Date | string | number;
 export interface UpdateEvent {
     years: number | null;
     days: number | null;
@@ -65,8 +65,8 @@ export declare class Timezz {
     private setHTML;
     destroy(): void;
 }
-declare const timezz: {
+export declare const timezz: {
     (element: HTMLElement | Element, settings: Settings): Timezz;
     prototype: Timezz;
 };
-export default timezz;
+export {};

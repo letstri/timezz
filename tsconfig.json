@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "lib": ["ESNext", "dom"],
+    "target": "ES2021",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
     "declaration": true,
-    "outDir": "dist",
+    "emitDeclarationOnly": true,
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "esModuleInterop": true
+    "skipLibCheck": true,
+    "outDir": "./dist"
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "test"
-  ]
+  "include": ["./timezz.ts"],
+  "exclude": ["node_modules", "dist"]
 }

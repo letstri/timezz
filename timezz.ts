@@ -74,7 +74,8 @@ const ONE_HOUR = ONE_MINUTE * MINUTES_IN_HOUR;
 const ONE_DAY = ONE_HOUR * HOURS_IN_DAY;
 const ONE_YEAR = ONE_DAY * DAYS_IN_YEAR;
 
-const REGEX_PARSE = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/;
+const REGEX_PARSE =
+  /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/;
 
 const partNames: Array<keyof PartNames> = ['years', 'days', 'hours', 'minutes', 'seconds'];
 
@@ -100,8 +101,7 @@ const parseDate = (date: DateType) => {
       const m = d[2] - 1 || 0;
       const ms = (d[7] || '0').substring(0, 3);
 
-      return new Date(d[1], m, d[3]
-        || 1, d[4] || 0, d[5] || 0, d[6] || 0, ms);
+      return new Date(d[1], m, d[3] || 1, d[4] || 0, d[5] || 0, d[6] || 0, ms);
     }
   }
 
@@ -131,12 +131,15 @@ export class Timezz {
 
   update?: (event: UpdateEvent) => void;
 
-  private HTMLParts: Record<keyof PartNames, Element | null> = partNames.reduce((acc, part) => ({
-    ...acc,
-    [part]: null,
-  }), {} as Record<keyof PartNames, null>);
+  private HTMLParts: Record<keyof PartNames, Element | null> = partNames.reduce(
+    (acc, part) => ({
+      ...acc,
+      [part]: null,
+    }),
+    {} as Record<keyof PartNames, null>,
+  );
 
-  private timeout: NodeJS.Timer | null = null;
+  private timeout: ReturnType<typeof setInterval> | null = null;
 
   constructor(element: Element, userSettings: Settings) {
     this.element = element;
@@ -163,7 +166,9 @@ export class Timezz {
         // eslint-disable-next-line no-console
         console.warn(
           `${TIMEZZ}:`,
-          `Parameter '${field}' should be ${types.length > 1 ? 'one of the types' : 'the type'}: ${types.join(', ')}.`,
+          `Parameter '${field}' should be ${
+            types.length > 1 ? 'one of the types' : 'the type'
+          }: ${types.join(', ')}.`,
           this.element,
         );
       }
@@ -201,8 +206,10 @@ export class Timezz {
     const needToStopOnZero = this.stopOnZero ? distance < 0 : false;
 
     const count = needToStopOnZero
-      ? partNames
-        .reduce((acc, name) => ({ ...acc, [name]: 0 }), {} as Record<keyof PartNames, number>)
+      ? partNames.reduce(
+          (acc, name) => ({ ...acc, [name]: 0 }),
+          {} as Record<keyof PartNames, number>,
+        )
       : this.calculate(distance);
 
     const info: UpdateEvent = {
@@ -250,40 +257,41 @@ export class Timezz {
     if (this.HTMLParts.minutes) {
       count.minutes = minutes;
     } else {
-      count.seconds = (count.days || seconds) + (minutes * SECONDS_IN_MINUTE);
+      count.seconds = (count.days || seconds) + minutes * SECONDS_IN_MINUTE;
     }
 
     if (this.HTMLParts.hours) {
       count.hours = hours;
     } else if (this.HTMLParts.minutes) {
-      count.minutes = (count.minutes || minutes) + (hours * MINUTES_IN_HOUR);
+      count.minutes = (count.minutes || minutes) + hours * MINUTES_IN_HOUR;
     } else if (this.HTMLParts.seconds) {
-      count.seconds = (count.seconds || seconds) + (hours * MINUTES_IN_HOUR * SECONDS_IN_MINUTE);
+      count.seconds = (count.seconds || seconds) + hours * MINUTES_IN_HOUR * SECONDS_IN_MINUTE;
     }
 
     if (this.HTMLParts.days) {
       count.days = days;
     } else if (this.HTMLParts.hours) {
-      count.hours = (count.hours || hours) + (days * HOURS_IN_DAY);
+      count.hours = (count.hours || hours) + days * HOURS_IN_DAY;
     } else if (this.HTMLParts.minutes) {
-      count.minutes = (count.minutes || minutes) + (days * HOURS_IN_DAY * MINUTES_IN_HOUR);
+      count.minutes = (count.minutes || minutes) + days * HOURS_IN_DAY * MINUTES_IN_HOUR;
     } else if (this.HTMLParts.seconds) {
-      count.seconds = (count.seconds || seconds)
-        + (days * HOURS_IN_DAY * MINUTES_IN_HOUR * SECONDS_IN_MINUTE);
+      count.seconds =
+        (count.seconds || seconds) + days * HOURS_IN_DAY * MINUTES_IN_HOUR * SECONDS_IN_MINUTE;
     }
 
     if (this.HTMLParts.years) {
       count.years = years;
     } else if (this.HTMLParts.days) {
-      count.days = (count.days || days) + (years * DAYS_IN_YEAR);
+      count.days = (count.days || days) + years * DAYS_IN_YEAR;
     } else if (this.HTMLParts.hours) {
-      count.hours = (count.hours || hours) + (years * DAYS_IN_YEAR * HOURS_IN_DAY);
+      count.hours = (count.hours || hours) + years * DAYS_IN_YEAR * HOURS_IN_DAY;
     } else if (this.HTMLParts.minutes) {
-      count.minutes = (count.minutes || minutes)
-        + (years * DAYS_IN_YEAR * HOURS_IN_DAY * MINUTES_IN_HOUR);
+      count.minutes =
+        (count.minutes || minutes) + years * DAYS_IN_YEAR * HOURS_IN_DAY * MINUTES_IN_HOUR;
     } else if (this.HTMLParts.seconds) {
-      count.seconds = (count.seconds || seconds)
-        + (years * DAYS_IN_YEAR * HOURS_IN_DAY * MINUTES_IN_HOUR * SECONDS_IN_MINUTE);
+      count.seconds =
+        (count.seconds || seconds) +
+        years * DAYS_IN_YEAR * HOURS_IN_DAY * MINUTES_IN_HOUR * SECONDS_IN_MINUTE;
     }
 
     return count;
@@ -302,7 +310,9 @@ export class Timezz {
   private setHTML(updateInfo: UpdateEvent) {
     partNames.forEach((part) => {
       if (!this.element) {
-        throw new Error(`${TIMEZZ}: Element isn't passed. Check documentation for more info. ${REPOSITORY}`);
+        throw new Error(
+          `${TIMEZZ}: Element isn't passed. Check documentation for more info. ${REPOSITORY}`,
+        );
       }
 
       const partNumber = updateInfo[part];
@@ -342,22 +352,19 @@ export class Timezz {
   }
 }
 
-const timezz = (
-  element: HTMLElement | Element,
-  settings: Settings,
-) => {
+export const timezz = (element: HTMLElement | Element, settings: Settings) => {
   if (!element || !(element instanceof Element) || !(element instanceof HTMLElement)) {
-    throw new Error(`${TIMEZZ}: Element isn't passed. Check documentation for more info. ${REPOSITORY}`);
+    throw new Error(
+      `${TIMEZZ}: Element isn't passed. Check documentation for more info. ${REPOSITORY}`,
+    );
   }
 
   if (
-    !settings
-    || typeof settings !== 'object'
-    || (
-      typeof settings.date !== 'string'
-      && typeof settings.date !== 'number'
-      && !((settings.date as Date) instanceof Date)
-    )
+    !settings ||
+    typeof settings !== 'object' ||
+    (typeof settings.date !== 'string' &&
+      typeof settings.date !== 'number' &&
+      !((settings.date as Date) instanceof Date))
   ) {
     throw new Error(`${TIMEZZ}: Date is invalid. Check documentation for more info. ${REPOSITORY}`);
   }
@@ -366,5 +373,3 @@ const timezz = (
 };
 
 timezz.prototype = Timezz.prototype;
-
-export default timezz;

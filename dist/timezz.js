@@ -1,1 +1,97 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define("timezz",[],t):"object"==typeof exports?exports.timezz=t():e.timezz=t()}("undefined"==typeof self?this:self,(function(){return function(){"use strict";var e={};return function(){var t=e;function n(e){return n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},n(e)}function o(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);t&&(o=o.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),n.push.apply(n,o)}return n}function r(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{};t%2?o(Object(n),!0).forEach((function(t){s(e,t,n[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):o(Object(n)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(n,t))}))}return e}function i(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}function s(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}var a=60,c=24,u=365,f=36e5,h=864e5,d=31536e6,l=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,p=["years","days","hours","minutes","seconds"],y=function(e){return Math.floor(Math.abs(e))},m="[TimezZ]",b="https://github.com/BrooonS/timezz",v=function(){function e(t,n){var o=this;!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),s(this,"element",void 0),s(this,"date",void 0),s(this,"pause",!1),s(this,"stopOnZero",!0),s(this,"isDestroyed",!1),s(this,"beforeCreate",void 0),s(this,"beforeUpdate",void 0),s(this,"update",void 0),s(this,"HTMLParts",p.reduce((function(e,t){return r(r({},e),{},s({},t,null))}),{})),s(this,"timeout",null),s(this,"checkFields",(function(e){var t=function(t,n){void 0!==e[t]&&n.length&&console.warn("".concat(m,":"),"Parameter '".concat(t,"' should be ").concat(n.length>1?"one of the types":"the type",": ").concat(n.join(", "),"."),o.element)};"boolean"!=typeof e.pause&&t("pause",["boolean"]),"boolean"!=typeof e.stopOnZero&&t("stopOnZero",["boolean"]),"function"!=typeof e.beforeCreate&&t("beforeCreate",["function"]),"function"!=typeof e.beforeUpdate&&t("beforeUpdate",["function"]),"function"!=typeof e.update&&t("update",["function"])})),this.element=t,this.checkFields(n),this.date=function(e){if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var t=e.match(l);if(t){var n=t[2]-1||0,o=(t[7]||"0").substring(0,3);return new Date(t[1],n,t[3]||1,t[4]||0,t[5]||0,t[6]||0,o)}}if("Invalid Date"===new Date(e).toString())throw new Error("".concat(m,": Date is invalid. Check documentation for more info. ").concat(b));return new Date(e)}(n.date),this.pause=n.pause||!1,this.stopOnZero="boolean"!=typeof n.stopOnZero||n.stopOnZero,this.beforeCreate=n.beforeCreate,this.beforeUpdate=n.beforeUpdate,this.update=n.update,"function"==typeof this.beforeCreate&&this.beforeCreate(),this.init()}var t,n;return t=e,(n=[{key:"init",value:function(){this.isDestroyed=!1,this.updateHTMLParts();var e=new Date(this.date).getTime()-(new Date).getTime(),t=!!this.stopOnZero&&e<0,n=t?p.reduce((function(e,t){return r(r({},e),{},s({},t,0))}),{}):this.calculate(e),o=r(r({},n),{},{distance:Math.abs(e),isTimeOver:e<=0});"function"==typeof this.beforeUpdate&&this.beforeUpdate(),(t||this.pause)&&this.timeout||this.setHTML(o),"function"==typeof this.update&&this.update(o),this.timeout||(this.timeout=setInterval(this.init.bind(this),1e3))}},{key:"calculate",value:function(e){var t={years:null,days:null,hours:null,minutes:null,seconds:null},n=y(e%6e4/1e3),o=y(e%f/6e4),r=y(e%h/f),i=y(e%d/h),s=y(e/d);return this.HTMLParts.seconds&&(t.seconds=n),this.HTMLParts.minutes?t.minutes=o:t.seconds=(t.days||n)+60*o,this.HTMLParts.hours?t.hours=r:this.HTMLParts.minutes?t.minutes=(t.minutes||o)+r*a:this.HTMLParts.seconds&&(t.seconds=(t.seconds||n)+r*a*60),this.HTMLParts.days?t.days=i:this.HTMLParts.hours?t.hours=(t.hours||r)+i*c:this.HTMLParts.minutes?t.minutes=(t.minutes||o)+i*c*a:this.HTMLParts.seconds&&(t.seconds=(t.seconds||n)+i*c*a*60),this.HTMLParts.years?t.years=s:this.HTMLParts.days?t.days=(t.days||i)+s*u:this.HTMLParts.hours?t.hours=(t.hours||r)+s*u*c:this.HTMLParts.minutes?t.minutes=(t.minutes||o)+s*u*c*a:this.HTMLParts.seconds&&(t.seconds=(t.seconds||n)+s*u*c*a*60),t}},{key:"updateHTMLParts",value:function(){var e=this;p.forEach((function(t){var n=e.element.querySelector("[data-".concat(t,"]"));n&&(e.HTMLParts[t]=n)}))}},{key:"setHTML",value:function(e){var t=this;p.forEach((function(n){if(!t.element)throw new Error("".concat(m,": Element isn't passed. Check documentation for more info. ").concat(b));var o=e[n];if(null!==o){var r=t.element.querySelector("[data-".concat(n,"]")),i=function(e){return e>=10?"".concat(e):"0".concat(e)}(o);r&&r.innerHTML!==i&&(r.innerHTML=i)}}))}},{key:"destroy",value:function(){var e=this;this.timeout&&(clearInterval(this.timeout),this.timeout=null),p.forEach((function(t){if(e.element){var n=e.element.querySelector("[data-".concat(t,"]"));n&&(n.innerHTML="")}})),this.isDestroyed=!0}}])&&i(t.prototype,n),Object.defineProperty(t,"prototype",{writable:!1}),e}(),P=function(e,t){if(!(e&&e instanceof Element&&e instanceof HTMLElement))throw new Error("".concat(m,": Element isn't passed. Check documentation for more info. ").concat(b));if(!t||"object"!==n(t)||"string"!=typeof t.date&&"number"!=typeof t.date&&!(t.date instanceof Date))throw new Error("".concat(m,": Date is invalid. Check documentation for more info. ").concat(b));return new v(e,t)};P.prototype=v.prototype,t.default=P}(),e.default}()}));
+const E = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/, c = ["years", "days", "hours", "minutes", "seconds"], l = (n) => n >= 10 ? `${n}` : `0${n}`, f = (n) => Math.floor(Math.abs(n)), h = "[TimezZ]", u = "https://github.com/BrooonS/timezz", d = (n) => {
+  if (n instanceof Date)
+    return new Date(n);
+  if (typeof n == "string" && !/Z$/i.test(n)) {
+    const e = n.match(E);
+    if (e) {
+      const s = e[2] - 1 || 0, o = (e[7] || "0").substring(0, 3);
+      return new Date(e[1], s, e[3] || 1, e[4] || 0, e[5] || 0, e[6] || 0, o);
+    }
+  }
+  if (new Date(n).toString() === "Invalid Date")
+    throw new Error(`${h}: Date is invalid. Check documentation for more info. ${u}`);
+  return new Date(n);
+};
+class N {
+  constructor(t, e) {
+    this.pause = !1, this.stopOnZero = !0, this.isDestroyed = !1, this.HTMLParts = c.reduce(
+      (s, o) => ({
+        ...s,
+        [o]: null
+      }),
+      {}
+    ), this.timeout = null, this.checkFields = (s) => {
+      const o = (i, r) => {
+        s[i] !== void 0 && r.length && console.warn(
+          `${h}:`,
+          `Parameter '${i}' should be ${r.length > 1 ? "one of the types" : "the type"}: ${r.join(", ")}.`,
+          this.element
+        );
+      };
+      typeof s.pause != "boolean" && o("pause", ["boolean"]), typeof s.stopOnZero != "boolean" && o("stopOnZero", ["boolean"]), typeof s.beforeCreate != "function" && o("beforeCreate", ["function"]), typeof s.beforeUpdate != "function" && o("beforeUpdate", ["function"]), typeof s.update != "function" && o("update", ["function"]);
+    }, this.element = t, this.checkFields(e), this.date = d(e.date), this.pause = e.pause || !1, this.stopOnZero = typeof e.stopOnZero == "boolean" ? e.stopOnZero : !0, this.beforeCreate = e.beforeCreate, this.beforeUpdate = e.beforeUpdate, this.update = e.update, typeof this.beforeCreate == "function" && this.beforeCreate(), this.init();
+  }
+  init() {
+    this.isDestroyed = !1, this.updateHTMLParts();
+    const t = new Date(this.date).getTime(), e = (/* @__PURE__ */ new Date()).getTime(), s = t - e, o = this.stopOnZero ? s < 0 : !1, r = {
+      ...o ? c.reduce(
+        (a, _) => ({ ...a, [_]: 0 }),
+        {}
+      ) : this.calculate(s),
+      distance: Math.abs(s),
+      isTimeOver: s <= 0
+    };
+    typeof this.beforeUpdate == "function" && this.beforeUpdate(), (!o && !this.pause || !this.timeout) && this.setHTML(r), typeof this.update == "function" && this.update(r), this.timeout || (this.timeout = setInterval(this.init.bind(this), 1e3));
+  }
+  calculate(t) {
+    const e = {
+      years: null,
+      days: null,
+      hours: null,
+      minutes: null,
+      seconds: null
+    }, s = f(t % 6e4 / 1e3), o = f(t % 36e5 / 6e4), i = f(t % 864e5 / 36e5), r = f(t % 31536e6 / 864e5), a = f(t / 31536e6);
+    return this.HTMLParts.seconds && (e.seconds = s), this.HTMLParts.minutes ? e.minutes = o : e.seconds = (e.days || s) + o * 60, this.HTMLParts.hours ? e.hours = i : this.HTMLParts.minutes ? e.minutes = (e.minutes || o) + i * 60 : this.HTMLParts.seconds && (e.seconds = (e.seconds || s) + i * 60 * 60), this.HTMLParts.days ? e.days = r : this.HTMLParts.hours ? e.hours = (e.hours || i) + r * 24 : this.HTMLParts.minutes ? e.minutes = (e.minutes || o) + r * 24 * 60 : this.HTMLParts.seconds && (e.seconds = (e.seconds || s) + r * 24 * 60 * 60), this.HTMLParts.years ? e.years = a : this.HTMLParts.days ? e.days = (e.days || r) + a * 365 : this.HTMLParts.hours ? e.hours = (e.hours || i) + a * 365 * 24 : this.HTMLParts.minutes ? e.minutes = (e.minutes || o) + a * 365 * 24 * 60 : this.HTMLParts.seconds && (e.seconds = (e.seconds || s) + a * 365 * 24 * 60 * 60), e;
+  }
+  updateHTMLParts() {
+    c.forEach((t) => {
+      const e = this.element.querySelector(`[data-${t}]`);
+      e && (this.HTMLParts[t] = e);
+    });
+  }
+  setHTML(t) {
+    c.forEach((e) => {
+      if (!this.element)
+        throw new Error(
+          `${h}: Element isn't passed. Check documentation for more info. ${u}`
+        );
+      const s = t[e];
+      if (s === null)
+        return;
+      const o = this.element.querySelector(`[data-${e}]`), i = l(s);
+      o && o.innerHTML !== i && (o.innerHTML = i);
+    });
+  }
+  destroy() {
+    this.timeout && (clearInterval(this.timeout), this.timeout = null), c.forEach((t) => {
+      if (!this.element)
+        return;
+      const e = this.element.querySelector(`[data-${t}]`);
+      e && (e.innerHTML = "");
+    }), this.isDestroyed = !0;
+  }
+}
+const O = (n, t) => {
+  if (!n || !(n instanceof Element) || !(n instanceof HTMLElement))
+    throw new Error(
+      `${h}: Element isn't passed. Check documentation for more info. ${u}`
+    );
+  if (!t || typeof t != "object" || typeof t.date != "string" && typeof t.date != "number" && !(t.date instanceof Date))
+    throw new Error(`${h}: Date is invalid. Check documentation for more info. ${u}`);
+  return new N(n, t);
+};
+O.prototype = N.prototype;
+export {
+  N as Timezz,
+  O as timezz
+};
