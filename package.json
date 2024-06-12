@@ -1,6 +1,6 @@
 {
   "name": "timezz",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "type": "module",
   "description": "With this plugin, you can easily make a stopwatch or timer on your site. Just init, style and enjoy.",
   "main": "dist/timezz.cjs",
