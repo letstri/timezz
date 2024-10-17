@@ -1,27 +1,18 @@
 {
   "name": "timezz",
-  "version": "8.0.1",
   "type": "module",
+  "version": "9.0.0",
+  "packageManager": "pnpm@9.12.2",
   "description": "With this plugin, you can easily make a stopwatch or timer on your site. Just init, style and enjoy.",
-  "main": "dist/timezz.cjs",
-  "types": "dist/timezz.d.ts",
-  "module": "dist/timezz.js",
-  "files": [
-    "dist"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "prepare": "husky install",
-    "prepublishOnly": "npm run build && npm run test",
-    "dev": "vite",
-    "test": "vitest run",
-    "build": "vite build && tsc"
-  },
+  "author": "Valerii Strilets <valerii.strilets@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/letstri/timezz#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BrooonS/timezz.git"
+    "url": "git+https://github.com/letstri/timezz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/letstri/timezz/issues"
   },
   "keywords": [
     "timezz",
@@ -31,20 +22,41 @@
     "stopwatch",
     "repeat"
   ],
-  "author": "Valerii Strilets <valerii.strilets@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/letstri/timezz/issues"
+  "exports": {
+    ".": {
+      "types": "./dist/native/index.d.ts",
+      "import": "./dist/native/index.mjs"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.mjs"
+    },
+    "./vue": {
+      "types": "./dist/vue/index.d.ts",
+      "import": "./dist/vue/index.mjs"
+    }
   },
-  "homepage": "https://github.com/letstri/timezz#readme",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublishOnly": "npm run lint && npm run test && npm run build",
+    "build": "unbuild",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
+    "test": "vitest run"
+  },
   "devDependencies": {
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
-    "@vitest/browser": "^1.6.0",
-    "husky": "^9.0.11",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.13",
-    "vitest": "^1.6.0",
-    "webdriverio": "^8.38.2"
+    "@antfu/eslint-config": "^3.8.0",
+    "@types/react": "^18.3.11",
+    "happy-dom": "^15.7.4",
+    "react": "^18.3.1",
+    "typescript": "^5.6.3",
+    "unbuild": "^2.0.0",
+    "vitest": "^2.1.3",
+    "vue": "^3.5.12"
   }
 }

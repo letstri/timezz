@@ -1,5 +1,5 @@
 type DateType = Date | string | number;
-export interface UpdateEvent {
+interface UpdateEvent {
     years: number | null;
     days: number | null;
     hours: number | null;
@@ -46,7 +46,7 @@ interface Settings {
      */
     update?: (event: UpdateEvent) => void;
 }
-export declare class Timezz {
+declare class Timezz {
     element: Element;
     date: DateType;
     pause: boolean;
@@ -56,7 +56,7 @@ export declare class Timezz {
     beforeUpdate?: () => void;
     update?: (event: UpdateEvent) => void;
     private HTMLParts;
-    private timeout;
+    private interval;
     constructor(element: Element, userSettings: Settings);
     private checkFields;
     init(): void;
@@ -65,8 +65,9 @@ export declare class Timezz {
     private setHTML;
     destroy(): void;
 }
-export declare const timezz: {
-    (element: HTMLElement | Element, settings: Settings): Timezz;
-    prototype: Timezz;
-};
-export {};
+declare function timezz(element: HTMLElement | Element, settings: Settings): Timezz;
+declare namespace timezz {
+    var prototype: Timezz;
+}
+
+export { type Settings, Timezz, type UpdateEvent, timezz };

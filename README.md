@@ -65,20 +65,14 @@ Download and install with `script`.
 Recommended for learning purposes, you can use the latest version:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/timezz/dist/timezz.min.js"></script>
-```
-
-Recommended for production for avoiding unexpected breakage from newer versions:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/timezz@7.0.0/dist/timezz.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/timezz@9.0.0/+esm"></script>
 ```
 
 For native ES Modules, there is also an ES Modules compatible build:
 
 ```html
 <script type="module">
-  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@7.0.0/dist/timezz.min.js';
+  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@9.0.0/+esm';
 </script>
 ```
 
@@ -108,11 +102,11 @@ For example:
 TimezZ as an ES6 module.
 
 ```js
-import timezz from 'timezz';
+import timezz from 'timezz'
 
 timezz(document.querySelector('.timer'), {
   date: new Date(),
-});
+})
 ```
 
 #### Node
@@ -120,11 +114,11 @@ timezz(document.querySelector('.timer'), {
 TimezZ as a Node.js module
 
 ```js
-const timezz = require('timezz');
+const timezz = require('timezz')
 
 timezz(document.querySelector('.timer'), {
   date: new Date(),
-});
+})
 ```
 
 #### Browser
@@ -144,11 +138,11 @@ Exports a global variable called `timezz`. Use it like this
 TimezZ as an AMD module. Use with Require.js, System.js, and so on.
 
 ```js
-requirejs(['timezz'], function(timezz) {
+requirejs(['timezz'], (timezz) => {
   timezz(document.querySelector('.timer'), {
     date: new Date(),
-  });
-});
+  })
+})
 ```
 
 ---
@@ -165,7 +159,7 @@ timezz(document.querySelector('.timer'), {
   beforeCreate() {},
   beforeUpdate() {},
   update(event) {},
-});
+})
 ```
 
 ### element
@@ -174,7 +168,7 @@ timezz(document.querySelector('.timer'), {
 - required `true`
 
 ```ts
-timezz(document.querySelector('.timer'), { date: new Date() });
+timezz(document.querySelector('.timer'), { date: new Date() })
 ```
 
 ### date
@@ -186,7 +180,7 @@ Date from and to which you want to count. Preferred `Date`.
 
 ```ts
 // Date instance
-new Date('1996-05-27 03:15');
+new Date('1996-05-27 03:15')
 
 // String
 '1996-05-27 03:15'
@@ -208,9 +202,9 @@ Can update after initialization.
 ```ts
 const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
-});
+})
 
-timer.pause = true;
+timer.pause = true
 ```
 
 ### stopOnZero
@@ -226,9 +220,9 @@ Can update after initialization.
 ```ts
 const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
-});
+})
 
-timer.stopOnZero = false;
+timer.stopOnZero = false
 ```
 
 ### beforeCreate
@@ -244,9 +238,9 @@ Can set after initialization.
 ```ts
 const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
-});
+})
 
-timer.beforeCreate = () => {};
+timer.beforeCreate = () => {}
 ```
 
 ### beforeUpdate
@@ -262,9 +256,9 @@ Can set after initialization.
 ```ts
 const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
-});
+})
 
-timer.beforeUpdate = () => {};
+timer.beforeUpdate = () => {}
 ```
 
 ### update
@@ -280,9 +274,9 @@ Can set after initialization.
 ```ts
 const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
-});
+})
 
-timer.update = (event) => {};
+timer.update = (event) => {}
 ```
 
 ## API
@@ -292,9 +286,9 @@ timer.update = (event) => {};
 ```ts
 const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
-});
+})
 
-timer.destroy();
+timer.destroy()
 ```
 
 ### init
@@ -304,13 +298,13 @@ After destroy you can init instance again.
 ```ts
 const timer = timezz(document.querySelector('.timer'), {
   date: new Date(),
-});
+})
 
-timer.destroy();
+timer.destroy()
 
 setTimeout(() => {
-  timer.init();
-}, 1000);
+  timer.init()
+}, 1000)
 ```
 
 ## Interfaces
@@ -320,15 +314,15 @@ setTimeout(() => {
 The interface can be declared as a type of instance.
 
 ```ts
-import timezz, { Timezz } from 'timezz';
+import timezz, { Timezz } from 'timezz'
 
 const plugins: {
-  timezz: Timezz,
+  timezz: Timezz
 } = {
   timezz: null,
-};
+}
 
-plugins.timezz = timezz(document.querySelector('.timer'), { date: new Date('1996-05-27 03:15') });
+plugins.timezz = timezz(document.querySelector('.timer'), { date: new Date('1996-05-27 03:15') })
 ```
 
 ### UpdateEvent
@@ -336,19 +330,19 @@ plugins.timezz = timezz(document.querySelector('.timer'), { date: new Date('1996
 The interface will be sent on each call of the `update` method.
 
 ```ts
-import { UpdateEvent } from 'timezz';
+import { UpdateEvent } from 'timezz'
 
 const data: {
-  info: UpdateEvent | null,
+  info: UpdateEvent | null
 } = {
   info: null,
-};
+}
 
 const timer = timezz(document.querySelector('.timer'), {
   date: new Date('1996-05-27 03:15'),
 
   update(event) {
-    data.info = event;
+    data.info = event
   },
-});
+})
 ```
