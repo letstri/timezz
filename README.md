@@ -26,17 +26,11 @@ npm i timezz
 
 #### CDN
 
-Recommended for learning purposes, you can use the latest version:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/timezz@9.0.1/+esm"></script>
-```
-
 For native ES Modules, there is also an ES Modules compatible build:
 
 ```html
 <script type="module">
-  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@9.0.1/+esm';
+  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@9.0.2/+esm';
 </script>
 ```
 

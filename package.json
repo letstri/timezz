@@ -1,7 +1,7 @@
 {
   "name": "timezz",
   "type": "module",
-  "version": "9.0.1",
+  "version": "9.0.2",
   "packageManager": "pnpm@9.12.2",
   "description": "With this plugin, you can easily make a stopwatch or timer on your site. Just init, style and enjoy.",
   "author": "Valerii Strilets <valerii.strilets@gmail.com>",
