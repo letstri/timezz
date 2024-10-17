@@ -12,28 +12,6 @@
 - Easy customization
 - Simple and lightweight
 
-## Table of Contents
-
-- [Demo](#demo)
-- [Quick start](#quick-start)
-  - [Install](#install)
-  - [HTML](#html)
-  - [Initialization](#initialization)
-- [Parameters](#parameters)
-  - [element](#element)
-  - [date](#date)
-  - [pause](#pause)
-  - [stopOnZero](#stoponzero)
-  - [beforeCreate](#beforecreate)
-  - [beforeUpdate](#beforeupdate)
-  - [update](#update)
-- [API](#api)
-  - [destroy](#destroy)
-  - [init](#init)
-- [Interfaces](#interfaces)
-  - [TimezZ](#timezz-1)
-  - [UpdateEvent](#updateevent)
-
 ## Demo
 
 [Demo](https://codesandbox.io/s/nervous-flower-v1fkb)
@@ -42,37 +20,23 @@
 
 ### Install
 
-We support all platforms.
-
-#### npm
-
-For module bundlers such as Webpack or Browserify.
-
 ```shell
 npm i timezz
 ```
 
-#### Include with &lt;script&gt;
-
-Download and install with `script`.
-
-```html
-<script src="timezz.min.js"></script>
-```
-
-##### CDN
+#### CDN
 
 Recommended for learning purposes, you can use the latest version:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/timezz@9.0.0/+esm"></script>
+<script src="https://cdn.jsdelivr.net/npm/timezz@9.0.1/+esm"></script>
 ```
 
 For native ES Modules, there is also an ES Modules compatible build:
 
 ```html
 <script type="module">
-  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@9.0.0/+esm';
+  import timezz from 'https://cdn.jsdelivr.net/npm/timezz@9.0.1/+esm';
 </script>
 ```
 
@@ -106,42 +70,6 @@ import timezz from 'timezz'
 
 timezz(document.querySelector('.timer'), {
   date: new Date(),
-})
-```
-
-#### Node
-
-TimezZ as a Node.js module
-
-```js
-const timezz = require('timezz')
-
-timezz(document.querySelector('.timer'), {
-  date: new Date(),
-})
-```
-
-#### Browser
-
-Exports a global variable called `timezz`. Use it like this
-
-```html
-<script>
-  timezz(document.querySelector('.timer'), {
-    date: new Date(),
-  });
-</script>
-```
-
-#### AMD
-
-TimezZ as an AMD module. Use with Require.js, System.js, and so on.
-
-```js
-requirejs(['timezz'], (timezz) => {
-  timezz(document.querySelector('.timer'), {
-    date: new Date(),
-  })
 })
 ```
 
@@ -345,4 +273,90 @@ const timer = timezz(document.querySelector('.timer'), {
     data.info = event
   },
 })
+```
+
+## React
+
+```tsx
+import type { UpdateEvent } from 'timezz'
+import { Timezz } from 'timezz/react'
+
+export default function App() {
+  function onUpdate(event: UpdateEvent) {
+    console.log(event)
+  }
+
+  return (
+    <Timezz
+      date={new Date('2026-01-01')}
+      pause={false}
+      stopOnZero={true}
+      onUpdate={onUpdate}
+    >
+      <div>
+        Years:
+        <div data-years></div>
+      </div>
+      <div>
+        Days:
+        <div data-days></div>
+      </div>
+      <div>
+        Hours:
+        <div data-hours></div>
+      </div>
+      <div>
+        Minutes:
+        <div data-minutes></div>
+      </div>
+      <div>
+        Seconds:
+        <div data-seconds></div>
+      </div>
+    </Timezz>
+  )
+}
+```
+
+## Vue
+
+```vue
+<script setup lang="ts">
+import type { UpdateEvent } from 'timezz'
+import { Timezz } from 'timezz/vue'
+
+function onUpdate(event: UpdateEvent) {
+  console.log(event)
+}
+</script>
+
+<template>
+  <Timezz
+    :date="new Date('2026-01-01')"
+    :pause="false"
+    :stop-on-zero="true"
+    @update="onUpdate"
+  >
+    <div>
+      Years:
+      <div data-years />
+    </div>
+    <div>
+      Days:
+      <div data-days />
+    </div>
+    <div>
+      Hours:
+      <div data-hours />
+    </div>
+    <div>
+      Minutes:
+      <div data-minutes />
+    </div>
+    <div>
+      Seconds:
+      <div data-seconds />
+    </div>
+  </Timezz>
+</template>
 ```
