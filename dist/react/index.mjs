@@ -5,6 +5,7 @@ const Timezz = ({
   date,
   pause,
   stopOnZero,
+  withYears,
   onUpdate,
   children,
   ...props
@@ -16,6 +17,7 @@ const Timezz = ({
       date,
       pause,
       stopOnZero,
+      withYears,
       update: onUpdate
     });
     return () => {

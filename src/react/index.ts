@@ -5,6 +5,7 @@ interface TimezzProps extends HTMLAttributes<HTMLDivElement> {
   date: Settings['date']
   pause: Settings['pause']
   stopOnZero: Settings['stopOnZero']
+  withYears: Settings['withYears']
   onUpdate: Settings['update']
 }
 
@@ -12,6 +13,7 @@ export const Timezz: FC<TimezzProps> = ({
   date,
   pause,
   stopOnZero,
+  withYears,
   onUpdate,
   children,
   ...props
@@ -24,6 +26,7 @@ export const Timezz: FC<TimezzProps> = ({
       date,
       pause,
       stopOnZero,
+      withYears,
       update: onUpdate,
     })
 

@@ -44,6 +44,13 @@ export interface Settings {
   stopOnZero?: boolean
 
   /**
+   * Should the timer display years?
+   *
+   * @type {boolean}
+   */
+  withYears?: boolean
+
+  /**
    * The function will be called before instance initialization.
    *
    * @type {Function}
@@ -123,6 +130,8 @@ export class Timezz {
 
   stopOnZero = true
 
+  withYears = false
+
   isDestroyed = false
 
   beforeCreate?: () => void
@@ -149,6 +158,7 @@ export class Timezz {
     this.date = parseDate(userSettings.date)
     this.pause = userSettings.pause || false
     this.stopOnZero = typeof userSettings.stopOnZero === 'boolean' ? userSettings.stopOnZero : true
+    this.withYears = typeof userSettings.withYears === 'boolean' ? userSettings.withYears : false
     this.beforeCreate = userSettings.beforeCreate
     this.beforeUpdate = userSettings.beforeUpdate
     this.update = userSettings.update
@@ -179,6 +189,10 @@ export class Timezz {
 
     if (typeof settings.stopOnZero !== 'boolean') {
       warn('stopOnZero', ['boolean'])
+    }
+
+    if (typeof settings.withYears !== 'boolean') {
+      warn('withYears', ['boolean'])
     }
 
     if (typeof settings.beforeCreate !== 'function') {
@@ -246,8 +260,8 @@ export class Timezz {
     const seconds = fixNumber((distance % ONE_MINUTE) / ONE_SECOND)
     const minutes = fixNumber((distance % ONE_HOUR) / ONE_MINUTE)
     const hours = fixNumber((distance % ONE_DAY) / ONE_HOUR)
-    const days = fixNumber((distance % ONE_YEAR) / ONE_DAY)
-    const years = fixNumber(distance / ONE_YEAR)
+    const days = this.withYears ? fixNumber((distance % ONE_YEAR) / ONE_DAY) : fixNumber(distance / ONE_DAY)
+    const years = this.withYears ? fixNumber(distance / ONE_YEAR) : 0
 
     if (this.HTMLParts.seconds) {
       count.seconds = seconds

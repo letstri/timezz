@@ -94,4 +94,18 @@ describe('options test', () => {
 
     expect(timerElement!.querySelector('[data-seconds]')!.innerHTML).toBe('00')
   })
+
+  it('show years', () => {
+    document.body.innerHTML = `<div>
+      <div class="j-timer">
+        <span data-years></span>
+      </div>
+    </div>`
+
+    const timerElement = document.querySelector('.j-timer')
+
+    timezz(timerElement!, { date: new Date(Date.now() + (86400 * 1000 * 365)), withYears: true, pause: true })
+
+    expect(timerElement!.querySelector('[data-years]')!.innerHTML).toBe('01')
+  })
 })

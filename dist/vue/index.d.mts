@@ -13,6 +13,10 @@ declare const Timezz: vue.DefineComponent<vue.ExtractPropTypes<{
         type: BooleanConstructor;
         default: boolean;
     };
+    withYears: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }>, () => vue.VNode<vue.RendererNode, vue.RendererElement, {
     [key: string]: any;
 }>, {}, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, "update"[], "update", vue.PublicProps, Readonly<vue.ExtractPropTypes<{
@@ -28,11 +32,16 @@ declare const Timezz: vue.DefineComponent<vue.ExtractPropTypes<{
         type: BooleanConstructor;
         default: boolean;
     };
+    withYears: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }>> & Readonly<{
     onUpdate?: ((...args: any[]) => any) | undefined;
 }>, {
     pause: boolean;
     stopOnZero: boolean;
+    withYears: boolean;
 }, {}, {}, {}, string, vue.ComponentProvideOptions, true, {}, any>;
 
 export { Timezz };

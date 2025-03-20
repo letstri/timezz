@@ -15,6 +15,10 @@ const Timezz = defineComponent({
     stopOnZero: {
       type: Boolean,
       default: false
+    },
+    withYears: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ["update"],
@@ -27,6 +31,7 @@ const Timezz = defineComponent({
           date: props.date,
           pause: props.pause,
           stopOnZero: props.stopOnZero,
+          withYears: props.withYears,
           update: (event) => {
             emit("update", event);
           }

@@ -44,6 +44,7 @@ class Timezz {
     __publicField(this, "date");
     __publicField(this, "pause", false);
     __publicField(this, "stopOnZero", true);
+    __publicField(this, "withYears", false);
     __publicField(this, "isDestroyed", false);
     __publicField(this, "beforeCreate");
     __publicField(this, "beforeUpdate");
@@ -72,6 +73,9 @@ class Timezz {
       if (typeof settings.stopOnZero !== "boolean") {
         warn("stopOnZero", ["boolean"]);
       }
+      if (typeof settings.withYears !== "boolean") {
+        warn("withYears", ["boolean"]);
+      }
       if (typeof settings.beforeCreate !== "function") {
         warn("beforeCreate", ["function"]);
       }
@@ -87,6 +91,7 @@ class Timezz {
     this.date = parseDate(userSettings.date);
     this.pause = userSettings.pause || false;
     this.stopOnZero = typeof userSettings.stopOnZero === "boolean" ? userSettings.stopOnZero : true;
+    this.withYears = typeof userSettings.withYears === "boolean" ? userSettings.withYears : false;
     this.beforeCreate = userSettings.beforeCreate;
     this.beforeUpdate = userSettings.beforeUpdate;
     this.update = userSettings.update;
@@ -135,8 +140,8 @@ class Timezz {
     const seconds = fixNumber(distance % ONE_MINUTE / ONE_SECOND);
     const minutes = fixNumber(distance % ONE_HOUR / ONE_MINUTE);
     const hours = fixNumber(distance % ONE_DAY / ONE_HOUR);
-    const days = fixNumber(distance % ONE_YEAR / ONE_DAY);
-    const years = fixNumber(distance / ONE_YEAR);
+    const days = this.withYears ? fixNumber(distance % ONE_YEAR / ONE_DAY) : fixNumber(distance / ONE_DAY);
+    const years = this.withYears ? fixNumber(distance / ONE_YEAR) : 0;
     if (this.HTMLParts.seconds) {
       count.seconds = seconds;
     }

@@ -28,6 +28,12 @@ interface Settings {
      */
     stopOnZero?: boolean;
     /**
+     * Should the timer display years?
+     *
+     * @type {boolean}
+     */
+    withYears?: boolean;
+    /**
      * The function will be called before instance initialization.
      *
      * @type {Function}
@@ -51,6 +57,7 @@ declare class Timezz {
     date: DateType;
     pause: boolean;
     stopOnZero: boolean;
+    withYears: boolean;
     isDestroyed: boolean;
     beforeCreate?: () => void;
     beforeUpdate?: () => void;
@@ -70,4 +77,5 @@ declare namespace timezz {
     var prototype: Timezz;
 }
 
-export { type Settings, Timezz, type UpdateEvent, timezz };
+export { Timezz, timezz };
+export type { Settings, UpdateEvent };
